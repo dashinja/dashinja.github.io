@@ -238,7 +238,38 @@ textarea {
 /*=====================================*/
 
 img.portImg {
-  float: none;
+  float: left;
+  margin: 1em 2em;
+  border-style: ridge;
+  border-color: #BD9258;
+  border-width: 10px;
+  box-shadow: 6px 5px 30px #956628;
   /* width: "277";
   height: "182"; */
+}
+
+.crayon {;
+  background: #663C03;
+  float: left;
+}
+
+/* .crayon-title {
+  font-weight: 800;
+  text-align: left;
+  float: none;
+} */
+
+.simpleServer {
+  background: #956628;
+  padding: 20px;
+  padding-bottom: 60px;
+  padding-top: 60px;
+}
+
+.PortRow1 {
+  /* place holder */
+}
+
+.endPortRow {
+  clear: left
 }
