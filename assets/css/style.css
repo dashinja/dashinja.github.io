@@ -4,7 +4,6 @@
 
 * {
   box-sizing: border-box;
-  
 }
 
 body {
@@ -31,7 +30,6 @@ body html {
   position: relative;
 }
 
-
 /*=====================================*/
 /*==========Header and Nav-Bar=========*/
 /*=====================================*/
@@ -49,26 +47,23 @@ header {
 .bigName {
   position: relative;
   background-color: #000000;
-  color: #BD9258;
+  color: #bd9258;
   float: left;
   height: 99.1%;
   margin: 0 0 0 6em;
   padding: 0.6em 0.8em 0.1em 0.48em;
   font-family: 'PT Sans', sans-serif;
-
-
 }
 .bigName:hover {
   position: relative;
   background-color: #111111;
-  color: #ECCEA6;
+  color: #eccea6;
   float: left;
   height: 99.1%;
   margin: 0 0 0 6em;
   padding: 0.6em 0.8em 0.1em 0.5em;
   font-family: 'Nunito', sans-serif;
   font-weight: 800;
-
 }
 
 .nav {
@@ -83,17 +78,16 @@ header {
   margin-right: 12.5%;
 }
 
-
 /*=====================================*/
 /*=========Global Link Handling========*/
 /*=====================================*/
 
 a:default {
-  color: #956628
+  color: #956628;
 }
 
 a:visited {
-  color: #663C03;
+  color: #663c03;
 }
 
 a:hover {
@@ -101,10 +95,8 @@ a:hover {
 }
 
 a:focus {
-  color: #ECCEA6
+  color: #eccea6;
 }
-
-
 
 /*=====================================*/
 /*==========About Me Section===========*/
@@ -128,7 +120,7 @@ section.aboutMe {
 }
 
 h1.bigNameInvert {
-  color: #BD9258;
+  color: #bd9258;
   font-family: 'Nunito', sans-serif;
   margin: 0em 1em 1em 0.6em;
   padding-top: 1em;
@@ -141,7 +133,7 @@ h1.bigNameInvert#uniqueInvert {
 
 hr {
   width: 97.75%;
-  color: #BD9258;
+  color: #bd9258;
   border-style: solid;
 }
 
@@ -149,7 +141,7 @@ img {
   float: left;
   margin: 1em 2em 1em 1.25em;
   width: 20%;
-  opacity: .9;
+  opacity: 0.9;
 }
 
 article {
@@ -160,13 +152,12 @@ article {
 
 p {
   font-size: 20px;
-  color: #BD9258;
+  color: #bd9258;
 }
 
 li {
-  color: #ECCEA6;
+  color: #eccea6;
 }
-
 
 /*=====================================*/
 /*===========Footer Section============*/
@@ -174,27 +165,24 @@ li {
 
 .bigFooter {
   position: absolute;
-  bottom: 0;  
+  bottom: 0;
   width: 100%;
   height: 2em;
   background-color: #666666;
-
 }
 
 #bottomStrip {
   position: relative;
   bottom: 0;
   /* bottom: 20px; */
-  background-color: #663C03;
+  background-color: #663c03;
   height: 0.35em;
 }
-
 
 #footerCopy {
   text-align: center;
   color: #956628;
 }
-
 
 /*=====================================*/
 /*==========Contact via Forms==========*/
@@ -207,31 +195,29 @@ section.form {
 
 label {
   margin: 0.25em auto;
-  color: #ECCEA6;
+  color: #eccea6;
 }
 input {
   margin: 0.85em auto;
   line-height: 1.5em;
   background: #191919;
-  color: #ECCEA6
+  color: #eccea6;
 }
 
 button {
-  background: #663C03;
+  background: #663c03;
   padding: 0.45em 1.2em;
   font-size: 1em;
-  color: #BD9258;
+  color: #bd9258;
   border-radius: 7px;
   border-color: #956628;
-  border-width: 2px
+  border-width: 2px;
 }
 
 textarea {
   margin-bottom: 1em;
   background: #191919;
-
 }
-
 
 /*=====================================*/
 /*=======Portfolio Page Specifics======*/
@@ -241,15 +227,15 @@ img.portImg {
   float: left;
   margin: 1em 2em;
   border-style: ridge;
-  border-color: #BD9258;
+  border-color: #bd9258;
   border-width: 10px;
   box-shadow: 6px 5px 30px #956628;
   /* width: "277";
   height: "182"; */
 }
 
-.crayon {;
-  background: #663C03;
+.crayon {
+  background: #663c03;
   float: left;
 }
 
@@ -270,6 +256,6 @@ img.portImg {
   /* place holder */
 }
 
-.endPortRow {
-  clear: left
+.endPortRowClear {
+  clear: left;
 }
