@@ -83,7 +83,7 @@ header {
 /*=====================================*/
 
 a {
-  color: #956628
+  color: #956628;
 }
 
 a:default {
@@ -254,10 +254,6 @@ img.portImg {
   padding: 20px;
   padding-bottom: 60px;
   padding-top: 60px;
-}
-
-.PortRow1 {
-  /* place holder */
 }
 
 .endPortRowClear {
