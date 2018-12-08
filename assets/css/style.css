@@ -1,0 +1,244 @@
+/*=====================================*/
+/*==========General Stylings=========*/
+/*=====================================*/
+
+* {
+  box-sizing: border-box;
+  
+}
+
+body {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  margin: 0;
+  color: #777777;
+  font-family: 'Nunito', sans-serif;
+  background-color: #191919;
+  max-width: 100%;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+body html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.stretcher {
+  min-height: 100%;
+  position: relative;
+}
+
+
+/*=====================================*/
+/*==========Header and Nav-Bar=========*/
+/*=====================================*/
+
+header {
+  background-color: #000000;
+  height: 5.2em;
+  max-width: 100%;
+  margin: 0px;
+  border-bottom-style: solid;
+  border-color: #956628;
+  border-bottom-width: 2px;
+}
+
+.bigName {
+  position: relative;
+  background-color: #000000;
+  color: #BD9258;
+  float: left;
+  height: 99.1%;
+  margin: 0 0 0 6em;
+  padding: 0.6em 0.8em 0.1em 0.48em;
+  font-family: 'PT Sans', sans-serif;
+
+
+}
+.bigName:hover {
+  position: relative;
+  background-color: #111111;
+  color: #ECCEA6;
+  float: left;
+  height: 99.1%;
+  margin: 0 0 0 6em;
+  padding: 0.6em 0.8em 0.1em 0.5em;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+
+}
+
+.nav {
+  margin: 1.5em 0.8em 1em 1em;
+  float: left;
+  font-size: 1.15em;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+.nav-spacer {
+  float: right;
+  margin-right: 12.5%;
+}
+
+
+/*=====================================*/
+/*=========Global Link Handling========*/
+/*=====================================*/
+
+a:default {
+  color: #956628
+}
+
+a:visited {
+  color: #663C03;
+}
+
+a:hover {
+  color: #956628;
+}
+
+a:focus {
+  color: #ECCEA6
+}
+
+
+
+/*=====================================*/
+/*==========About Me Section===========*/
+/*=====================================*/
+
+#bigContainer {
+  min-height: 100%;
+  position: relative;
+}
+
+.main-body {
+  background-color: #050606;
+  max-width: 100%;
+  height: 100%;
+  margin: 2em 12em 6rem 12em;
+  overflow: auto;
+}
+
+section.aboutMe {
+  padding-bottom: 1em;
+}
+
+h1.bigNameInvert {
+  color: #BD9258;
+  font-family: 'Nunito', sans-serif;
+  margin: 0em 1em 1em 0.6em;
+  padding-top: 1em;
+  font-size: 2em;
+}
+
+h1.bigNameInvert#uniqueInvert {
+  height: 100%;
+}
+
+hr {
+  width: 97.75%;
+  color: #BD9258;
+  border-style: solid;
+}
+
+img {
+  float: left;
+  margin: 1em 2em 1em 1.25em;
+  width: 20%;
+  opacity: .9;
+}
+
+article {
+  margin-left: 1.25em;
+  margin-right: 2em;
+  font-size: 1.1em;
+}
+
+p {
+  font-size: 20px;
+  color: #BD9258;
+}
+
+li {
+  color: #ECCEA6;
+}
+
+
+/*=====================================*/
+/*===========Footer Section============*/
+/*=====================================*/
+
+.bigFooter {
+  position: absolute;
+  bottom: 0;  
+  width: 100%;
+  height: 2em;
+  background-color: #666666;
+
+}
+
+#bottomStrip {
+  position: relative;
+  bottom: 0;
+  /* bottom: 20px; */
+  background-color: #663C03;
+  height: 0.35em;
+}
+
+
+#footerCopy {
+  text-align: center;
+  color: #956628;
+}
+
+
+/*=====================================*/
+/*==========Contact via Forms==========*/
+/*=====================================*/
+
+section.form {
+  margin-left: 1em;
+  font-size: 1.2em;
+}
+
+label {
+  margin: 0.25em auto;
+  color: #ECCEA6;
+}
+input {
+  margin: 0.85em auto;
+  line-height: 1.5em;
+  background: #191919;
+  color: #ECCEA6
+}
+
+button {
+  background: #663C03;
+  padding: 0.45em 1.2em;
+  font-size: 1em;
+  color: #BD9258;
+  border-radius: 7px;
+  border-color: #956628;
+  border-width: 2px
+}
+
+textarea {
+  margin-bottom: 1em;
+  background: #191919;
+
+}
+
+
+/*=====================================*/
+/*=======Portfolio Page Specifics======*/
+/*=====================================*/
+
+img.portImg {
+  float: none;
+  /* width: "277";
+  height: "182"; */
+}
