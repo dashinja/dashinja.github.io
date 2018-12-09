@@ -218,6 +218,11 @@ button {
   border-width: 2px;
 }
 
+button:hover {
+  background: #956628;
+  color: #eccea6;
+}
+
 textarea {
   margin-bottom: 1em;
   background: #191919;
