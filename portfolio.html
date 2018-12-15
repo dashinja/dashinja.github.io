@@ -4,89 +4,303 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Basic Portfolio</title>
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Nunito:400,800i|PT+Sans"
-      rel="stylesheet"
-    />
     <link
       rel="stylesheet"
-      href="http://paletton.com/#uid=10I0u0kAdaD88crmOe5RH9t+-4Q"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
     />
+
+    <title>Portfolio - Byron Miller</title>
   </head>
-  <body>
-    <header class="nav-bar-container">
-      <div class="spacer"></div>
-      <h1 class="bigName">Byron Miller</h1>
-      <div class="nav-spacer">
-        <div class="nav"><a href="./index.html">About</a></div>
-        <div class="nav"><a href="./portfolio.html">Portfolio</a></div>
-        <div class="nav"><a href="./contact.html">Contact</a></div>
+
+  <!-- -------Nav Bar------- -->
+
+  <div class="container px-0 w-100 navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom">
+      <a
+        class="navbar-brand pl-md-3 h1"
+        href="https://github.com/dashinja"
+        target="_blank"
+      >
+        <h1 class="display-3">Byron Miller</h1>
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div
+        class="collapse navbar-collapse justify-content-end mr-2"
+        id="navbarNavAltMarkup"
+      >
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" href="./index.html">
+            <h3>About Me</h3>
+          </a>
+          <a class="nav-item nav-link active" href="./portfolio.html">
+            <h3>Portfolio</h3>
+            <span class="sr-only">(current)</span>
+          </a>
+          <a class="nav-item nav-link" href="./contact.html">
+            <h3>Contact</h3>
+          </a>
+        </div>
       </div>
-    </header>
+    </nav>
+  </div>
 
-    <main class="main-body">
-      <section class="aboutme">
-        <h1 class="bigNameInvert" id="uniqueInvert">Portfolio</h1>
-        <hr />
-
-        <!-- Notes Node Server Application Link -->
-        <a
-          href="https://dashinja.github.io/notes-node/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            src="assets/images/crayon_alt.png"
-            alt="Hammer Time Project"
-            width="277"
-            class="portImg crayon"
-          />
-        </a>
-
-        <!-- Simple Server Learning Application Link -->
-        <a href="https://dashinja.github.io/simpleserver/" target="_blank">
-          <img
-            src="assets/images/server_alt.png"
-            alt="NodeJS in a Pinch of Time"
-            width="277"
-            class="portImg simpleServer"
-          />
-        </a>
-
-        <div class="endPortRowClear"></div>
-
-        <img
-          src="assets/images/5606893810_3ecf9d946e_b.jpg"
-          alt="Clever Cinder Block"
-          width="277"
-          height="182"
-          class="portImg"
-        />
-        <img
-          src="https://picsum.photos/277/182"
-          width="277"
-          alt="Neat Randomizer npm module"
-          class="portImg"
-        />
-        <div class="endPortRowClear"></div>
-        <img
-          src="https://picsum.photos/278/183"
-          alt="Great Outdoors Library: Automatic Coding"
-          class="portImg"
-        />
-        <img
-          src="https://picsum.photos/277/183"
-          alt="Some other place holder yet chosen. Six is better than five!"
-          class="portImg"
-        />
+  <!-- ----------_Body------------ -->
+  <body class="bg-success text-light">
+    <div class="container bg-secondary rounded mx-auto my-2 px-5 pt-3 pb-4">
+      <section class="row">
+        <!-- Header -->
+        <header class="font-weight-bold">
+          <h3 class="display-4">Portfolio</h3>
+        </header>
       </section>
-    </main>
 
-    <footer>
-      <div id="bottomStrip"></div>
-      <p id="footerCopy">Copyright ©</p>
+      <div class="container rounded pt-2 pb-2 bg-dark">
+        <!-- Row 1 -->
+        <section
+          class="d-flex flex-row align-items-start justify-content-around py-4 flex-wrap flex-md-nowrap"
+          style="height: 100%; width: 100%"
+        >
+          <!-- Notes Node -->
+          <div class="card bg-dark text-white rounded border border-success">
+            <a
+              href="https://dashinja.github.io/notes-node/"
+              target="_blank"
+              class="text-white"
+            >
+              <img
+                class="card-img"
+                style="height: 200px; width: 200px;"
+                src="assets/images/crayon_alt.png"
+                alt="Card image"
+              />
+              <div
+                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
+              >
+                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
+                  <h5 class="card-title w-100 m-0 p-0 col rounded">
+                    Notes Node
+                  </h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <!-- Basic Portfolio -->
+          <div class="card bg-dark text-white rounded border border-success">
+            <a
+              href="https://dashinja.github.io/Basic-Portfolio/"
+              target="_blank"
+              class="text-white"
+            >
+              <img
+                class="card-img"
+                style="height: 200px; width: 200px;"
+                src="assets/images/2000px-Placeholder_book.svg.png"
+                alt="Card image"
+              />
+              <div
+                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
+              >
+                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
+                  <h5 class="card-title w-100 m-0 p-0 col rounded">
+                    Basic Portfolio
+                  </h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <!-- Bootstrap Portfolio -->
+          <div class="card bg-dark text-white rounded border border-success">
+            <a
+              href="https://dashinja.github.io/bootstrap-portfolio/"
+              target="_blank"
+              class="text-white"
+            >
+              <img
+                class="card-img"
+                style="height: 200px; width: 200px;"
+                src="assets/images/478px-Placeholder.svg.png"
+                alt="Card image"
+              />
+              <div
+                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
+              >
+                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
+                  <h5 class="card-title w-100 m-0 p-0 col rounded">
+                    Bootstrap Portfolio
+                  </h5>
+                </div>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- Row 2 -->
+        <section
+          class="d-flex flex-row align-items-start justify-content-around py-4 flex-wrap flex-md-nowrap"
+          style="height: 100%; width: 100%"
+        >
+          <!-- Responsive Port -->
+          <div class="card bg-dark text-white rounded border border-success">
+            <a
+              href="https://dashinja.github.io/responsive-portfolio/"
+              target="_blank"
+              class="text-white"
+            >
+              <img
+                class="card-img"
+                style="height: 200px; width: 200px;"
+                src="assets/images/5606893810_3ecf9d946e_b.jpg"
+                alt="Card image"
+              />
+              <div
+                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
+              >
+                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
+                  <h5 class="card-title w-100 m-0 p-0 col rounded">
+                    Responsive Port
+                  </h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <!-- Word Guess Game -->
+          <div class="card bg-dark text-white rounded border border-success">
+            <a
+              href="https://dashinja.github.io/wordguessgame/"
+              target="_blank"
+              class="text-white"
+            >
+              <img
+                class="card-img"
+                style="height: 200px; width: 200px;"
+                src="assets/images/478px-Placeholder.svg.png"
+                alt="Card image"
+              />
+              <div
+                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
+              >
+                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
+                  <h5 class="card-title w-100 m-0 p-0 col rounded">
+                    Word Guess Game
+                  </h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <!-- TBD -->
+          <div class="card bg-dark text-white rounded border border-success">
+            <a href="#" target="_blank" class="text-white">
+              <img
+                class="card-img"
+                style="height: 200px; width: 200px;"
+                src="assets/images/hammered.jpg"
+                alt="Card image"
+              />
+              <div
+                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
+              >
+                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
+                  <h5 class="card-title w-100 m-0 p-0 col rounded">TBD</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- Row 3 -->
+        <section
+          class="d-flex flex-row align-items-start justify-content-around py-4 flex-wrap flex-md-nowrap"
+          style="height: 100%; width: 100%"
+        >
+          <!-- TBD -->
+          <div class="card bg-dark text-white rounded border border-success">
+            <a href="#" target="_blank" class="text-white">
+              <img
+                class="card-img"
+                style="height: 200px; width: 200px;"
+                src="assets/images/hammered.jpg"
+                alt="Card image"
+              />
+              <div
+                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
+              >
+                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
+                  <h5 class="card-title w-100 m-0 p-0 col rounded">TBD</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <!-- TBD -->
+          <div class="card bg-dark text-white rounded border border-success">
+            <a href="#" target="_blank" class="text-white">
+              <img
+                class="card-img"
+                style="height: 200px; width: 200px;"
+                src="assets/images/hammered.jpg"
+                alt="Card image"
+              />
+              <div
+                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
+              >
+                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
+                  <h5 class="card-title w-100 m-0 p-0 col rounded">TBD</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <!-- TBD -->
+          <div class="card bg-dark text-white rounded border border-success">
+            <a href="#" target="_blank" class="text-white">
+              <img
+                class="card-img"
+                style="height: 200px; width: 200px;"
+                src="assets/images/hammered.jpg"
+                alt="Card image"
+              />
+              <div
+                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
+              >
+                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
+                  <h5 class="card-title w-100 m-0 p-0 col rounded">TBD</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <footer class="row bg-dark mx-auto w-100 sticky-bottom">
+      <div class="card-footer bg-dark col-12 text-center text-muted">
+        Copyright ©
+      </div>
     </footer>
   </body>
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"
+  ></script>
 </html>

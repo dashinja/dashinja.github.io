@@ -4,101 +4,166 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Basic Portfolio</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,800i|PT+Sans" rel="stylesheet">
-  </head>
-  <div id="bigContainer">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
 
-    <body>
-      <div id="stretcher">
-        <header class="nav-bar-container">
-          <div class="spacer"></div>
-          <h1 class="bigName">Byron Miller</h1>
-          <div class="nav-spacer">
-            <div class="nav">
-              <a href="./index.html">About</a>
-            </div>
-            <div class="nav">
-              <a href="./portfolio.html">Portfolio</a>
-            </div>
-            <div class="nav">
-              <a href="./contact.html">Contact</a> 
-            </div>
+    <title>About - Byron Miller</title>
+  </head>
+
+  <body class="bg-success text-light">
+    <!-- -------Nav Bar------- -->
+    <div class="container w-100 navbar-expand-lg px-0">
+      <!--
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom">
+      -->
+      <nav
+        class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom mx-md-auto"
+      >
+        <a
+          class="navbar-brand pl-md-3 h1"
+          href="https://github.com/dashinja"
+          target="_blank"
+        >
+          <h1 class="display-3">Byron Miller</h1>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-end mr-2"
+          id="navbarNavAltMarkup"
+        >
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="./index.html">
+              <h3>About Me</h3>
+              <span class="sr-only">(current)</span>
+            </a>
+            <a class="nav-item nav-link" href="./portfolio.html">
+              <h3>Portfolio</h3>
+            </a>
+            <a class="nav-item nav-link" href="./contact.html">
+              <h3>Contact</h3>
+            </a>
           </div>
-        </header>
-      </div>
-  
-      <main class="main-body">
-        <section class="aboutMe">
-          <h1 class="bigNameInvert">About Me</h1>
-          <hr />
-          <img src="assets/images/squaremeup.png" alt="Byron's Headshot" />
-        <article>
-          <p>"Mr. ?" ... Byron. James Byron.</p>
-          <p>Not often is a man viewed to have the demeanor
-              and suspected skill of a famed spy, nor the mysterious
-              clout and efficiency of a ninja.
-          </p>
-  
-          <p>These titles and more adorn the name of Byron Miller,
-              who is otherwise described as cordial though self-kept,
-              smooth spoken though tight-lipped, abudantly kind while
-              reserved, and though in high demand - present when needed.
-          </p>
-  
-          <p>I graduated from Davidson College in 2009, having majored
-              in the Art and Science of being Myself. I also left with
-              a piece of paper reading 'Spanish Literature', that is,
-              if you could read the Latin.
-          </p>
-  
-          <p>I enjoy the world of technology and currently employ those
-              skills in the proud and magical world of stagecraft, functioning
-              as the Theatrical Master Electrician in the illustrious Duke Family
-              Performance Hall (DFPH) of my Alma Mater. The experiences in show business
-              are myriad and unique. I have learned much in and continue to contribute
-              to the ever evolving Entertainment industry.
-          </p>
-  
-          <p>When I'm not commanding the Lighting Department in preparation for Stephen
-              Curry's return visit to Davidson (You gotta look good when all those TV
-              cameras stare you down), programming away on the baby (ETC Ion Lighting Control Desk),
-              nor exercising hard earned language skills with some of our Spanish speaking
-              staff at our diverse institution... 
-          </p>
-          <p>
-              I enjoy
+        </div>
+      </nav>
+    </div>
+
+    <!-- -------Portfolio Area---------- -->
+    <div
+      class="container bg-secondary rounded my-2 mx-md-auto my-md-4 px-md-5 py-md-3 w-100"
+    >
+      <section class="row"><header class="font-weight-bold"></header></section>
+
+      <!-- -Divider- -->
+      <div class="row"><hr class=" border border-light w-100" /></div>
+
+      <!-- --Main Area-- -->
+      <div class="row">
+        <section class="m-md-auto">
+          <img
+            src="assets/images/squaremeup.png"
+            alt="Byron's Headshot"
+            class="img-fluid float-left mr-4 mb-3 rounded w-25"
+          />
+          <article class="ml-2 float-none justify-conten p-2">
+            <p class="lead">"Mr. ?" ... Byron. James Byron.</p>
+            <p class="lead justify-content">
+              Not often is a man viewed to have the demeanor and suspected skill
+              of a famed spy, nor the mysterious clout and efficiency of a
+              ninja.
+            </p>
+
+            <p>
+              These titles and more adorn the name of Byron Miller, who is
+              otherwise described as cordial though self-kept, smooth spoken
+              though tight-lipped, abudantly kind while reserved, and though in
+              high demand - present when needed.
+            </p>
+
+            <p>
+              I graduated from Davidson College in 2009, having majored in the
+              Art and Science of being Myself. I also left with a piece of paper
+              reading 'Spanish Literature', that is, if you could read the
+              Latin.
+            </p>
+
+            <p>
+              I enjoy the world of technology and currently employ those skills
+              in the proud and magical world of stagecraft, functioning as the
+              Theatrical Master Electrician in the illustrious Duke Family
+              Performance Hall (DFPH) of my Alma Mater. The experiences in show
+              business are myriad and unique. I have learned much in and
+              continue to contribute to the ever evolving Entertainment
+              industry.
+            </p>
+
+            <p>
+              When I'm not commanding the Lighting Department in preparation for
+              Stephen Curry's return visit to Davidson (You gotta look good when
+              all those TV cameras stare you down), programming away on the baby
+              (ETC Ion Lighting Control Desk), nor exercising hard earned
+              language skills with some of our Spanish speaking staff at our
+              diverse institution...
+            </p>
+            <p>I enjoy</p>
             <ul>
-                <li>Learning</li>
-                <li>Thinking</li>
-                <li>Reading</li>
-                <li>Conversation</li>
-                <li>Eating</li>
-                <li>Sleeping</li>
+              <li>Learning</li>
+              <li>Thinking</li>
+              <li>Reading</li>
+              <li>Conversation</li>
+              <li>Eating</li>
+              <li>Sleeping</li>
             </ul>
-          </p>
-  
-          <p>In as much as that list is generic and boring, it is every bit true
-              that while Bond appears in the middle of action, the instigator of
-              menacing intrigue, and even some fictional success as a low-key ladies' man -
-              all this and more comes from his ability to enjoy the simple things
-              in life. </br>
-  
-              I have learned that one must be present to enjoy the present,
-              the people of the present, the opportunities present...
-              for truly, there is no time but the present.
-          </p>
-        </article>
+            <p></p>
+
+            <p>
+              In as much as that list is generic and boring, it is every bit
+              true that while Bond appears in the middle of action, the
+              instigator of menacing intrigue, and even some fictional success
+              as a low-key ladies' man - all this and more comes from his
+              ability to enjoy the simple things in life. <br />
+
+              I have learned that one must be present to enjoy the present, the
+              people of the present, the opportunities present... for truly,
+              there is no time but the present.
+            </p>
+          </article>
         </section>
-      </main>
-  
-      <footer id="bigFooter">
-        <div id="bottomStrip"></div>
-        <p id=footerCopy>
-          Copyright ©
-        </p> 
-      </footer>
-    </body>
-  </div>
+      </div>
+    </div>
+    <footer class="row mx-auto w-100 sticky-bottom">
+      <div class="card-header bg-dark col text-center text-muted">
+        Copyright ©
+      </div>
+    </footer>
+  </body>
+
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"
+  ></script>
 </html>
