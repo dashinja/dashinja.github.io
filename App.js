@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ProjectCard from './components/portfolio/ProjectCard';
+import ProjectCard from './ProjectCard';
 
 function App(props) {
   return <ProjectCard />;
