@@ -11,7 +11,7 @@ function ProjectCard(props) {
         <img
           className="card-img"
           style={{height: 200, width: 200}}
-          src="../../assets/images/recipeciprocity.png"
+          src="./assets/images/recipeciprocity.png"
           alt="Recipeciprocity Hero Image"
         />
         <div className="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end">
