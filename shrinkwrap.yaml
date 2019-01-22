@@ -4,7 +4,10 @@ dependencies:
 devDependencies:
   '@babel/cli': 7.2.3
   '@babel/core': 7.2.2
+  '@babel/plugin-syntax-jsx': 7.2.0
   '@babel/preset-env': 7.2.3
+  '@babel/preset-react': 7.0.0
+  babel-preset-react: 6.24.1
 packages:
   /@babel/cli/7.2.3:
     dependencies:
@@ -75,6 +78,13 @@ packages:
     dev: true
     resolution:
       integrity: sha512-qNSR4jrmJ8M1VMM9tibvyRAHXQs2PmaksQF7c1CGJNipfe3D8p+wgNwgso/P2A2r2mdgBWAXljNWR0QRZAMW8w==
+  /@babel/helper-builder-react-jsx/7.0.0:
+    dependencies:
+      '@babel/types': 7.2.2
+      esutils: 2.0.2
+    dev: true
+    resolution:
+      integrity: sha512-ebJ2JM6NAKW0fQEqN8hOLxK84RbRz9OkUhGS/Xd5u56ejMfVbayJ4+LykERZCOUM6faa6Fp3SZNX3fcT16MKHw==
   /@babel/helper-call-delegate/7.1.0:
     dependencies:
       '@babel/helper-hoist-variables': 7.0.0
@@ -286,6 +296,14 @@ packages:
       '@babel/core': ^7.0.0-0
     resolution:
       integrity: sha512-5UGYnMSLRE1dqqZwug+1LISpA403HzlSfsg6P9VXU6TBjcSHeNlw4DxDx7LgpF+iKZoOG/+uzqoRHTdcUpiZNg==
+  /@babel/plugin-syntax-jsx/7.2.0:
+    dependencies:
+      '@babel/helper-plugin-utils': 7.0.0
+    dev: true
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    resolution:
+      integrity: sha512-VyN4QANJkRW6lDBmENzRszvZf3/4AXaj9YR7GwrWeeN9tEBPuXbmDYVU9bYBN0D70zCWVwUy0HWq2553VCb6Hw==
   /@babel/plugin-syntax-object-rest-spread/7.2.0:
     dependencies:
       '@babel/helper-plugin-utils': 7.0.0
@@ -486,6 +504,42 @@ packages:
       '@babel/core': ^7.0.0-0
     resolution:
       integrity: sha512-kB9+hhUidIgUoBQ0MsxMewhzr8i60nMa2KgeJKQWYrqQpqcBYtnpR+JgkadZVZoaEZ/eKu9mclFaVwhRpLNSzA==
+  /@babel/plugin-transform-react-display-name/7.2.0:
+    dependencies:
+      '@babel/helper-plugin-utils': 7.0.0
+    dev: true
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    resolution:
+      integrity: sha512-Htf/tPa5haZvRMiNSQSFifK12gtr/8vwfr+A9y69uF0QcU77AVu4K7MiHEkTxF7lQoHOL0F9ErqgfNEAKgXj7A==
+  /@babel/plugin-transform-react-jsx-self/7.2.0:
+    dependencies:
+      '@babel/helper-plugin-utils': 7.0.0
+      '@babel/plugin-syntax-jsx': 7.2.0
+    dev: true
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    resolution:
+      integrity: sha512-v6S5L/myicZEy+jr6ielB0OR8h+EH/1QFx/YJ7c7Ua+7lqsjj/vW6fD5FR9hB/6y7mGbfT4vAURn3xqBxsUcdg==
+  /@babel/plugin-transform-react-jsx-source/7.2.0:
+    dependencies:
+      '@babel/helper-plugin-utils': 7.0.0
+      '@babel/plugin-syntax-jsx': 7.2.0
+    dev: true
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    resolution:
+      integrity: sha512-A32OkKTp4i5U6aE88GwwcuV4HAprUgHcTq0sSafLxjr6AW0QahrCRCjxogkbbcdtpbXkuTOlgpjophCxb6sh5g==
+  /@babel/plugin-transform-react-jsx/7.2.0:
+    dependencies:
+      '@babel/helper-builder-react-jsx': 7.0.0
+      '@babel/helper-plugin-utils': 7.0.0
+      '@babel/plugin-syntax-jsx': 7.2.0
+    dev: true
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    resolution:
+      integrity: sha512-h/fZRel5wAfCqcKgq3OhbmYaReo7KkoJBpt8XnvpS7wqaNMqtw5xhxutzcm35iMUWucfAdT/nvGTsWln0JTg2Q==
   /@babel/plugin-transform-regenerator/7.0.0:
     dependencies:
       regenerator-transform: 0.13.3
@@ -594,6 +648,18 @@ packages:
       '@babel/core': ^7.0.0-0
     resolution:
       integrity: sha512-AuHzW7a9rbv5WXmvGaPX7wADxFkZIqKlbBh1dmZUQp4iwiPpkE/Qnrji6SC4UQCQzvWY/cpHET29eUhXS9cLPw==
+  /@babel/preset-react/7.0.0:
+    dependencies:
+      '@babel/helper-plugin-utils': 7.0.0
+      '@babel/plugin-transform-react-display-name': 7.2.0
+      '@babel/plugin-transform-react-jsx': 7.2.0
+      '@babel/plugin-transform-react-jsx-self': 7.2.0
+      '@babel/plugin-transform-react-jsx-source': 7.2.0
+    dev: true
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    resolution:
+      integrity: sha512-oayxyPS4Zj+hF6Et11BwuBkmpgT/zMxyuZgFrMeZID6Hdh3dGlk4sHCAhdBCpuCKW2ppBfl2uCCetlrUIJRY3w==
   /@babel/template/7.2.2:
     dependencies:
       '@babel/code-frame': 7.0.0
@@ -688,6 +754,90 @@ packages:
     optional: true
     resolution:
       integrity: sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
+  /babel-helper-builder-react-jsx/6.26.0:
+    dependencies:
+      babel-runtime: 6.26.0
+      babel-types: 6.26.0
+      esutils: 2.0.2
+    dev: true
+    resolution:
+      integrity: sha1-Of+DE7dci2Xc7/HzHTg+D/KkCKA=
+  /babel-plugin-syntax-flow/6.18.0:
+    dev: true
+    resolution:
+      integrity: sha1-TDqyCiryaqIM0lmVw5jE63AxDI0=
+  /babel-plugin-syntax-jsx/6.18.0:
+    dev: true
+    resolution:
+      integrity: sha1-CvMqmm4Tyno/1QaeYtew9Y0NiUY=
+  /babel-plugin-transform-flow-strip-types/6.22.0:
+    dependencies:
+      babel-plugin-syntax-flow: 6.18.0
+      babel-runtime: 6.26.0
+    dev: true
+    resolution:
+      integrity: sha1-hMtnKTXUNxT9wyvOhFaNh0Qc988=
+  /babel-plugin-transform-react-display-name/6.25.0:
+    dependencies:
+      babel-runtime: 6.26.0
+    dev: true
+    resolution:
+      integrity: sha1-Z+K/Hx6ck6sI25Z5LgU5K/LMKNE=
+  /babel-plugin-transform-react-jsx-self/6.22.0:
+    dependencies:
+      babel-plugin-syntax-jsx: 6.18.0
+      babel-runtime: 6.26.0
+    dev: true
+    resolution:
+      integrity: sha1-322AqdomEqEh5t3XVYvL7PBuY24=
+  /babel-plugin-transform-react-jsx-source/6.22.0:
+    dependencies:
+      babel-plugin-syntax-jsx: 6.18.0
+      babel-runtime: 6.26.0
+    dev: true
+    resolution:
+      integrity: sha1-ZqwSFT9c0tF7PBkmj0vwGX9E7NY=
+  /babel-plugin-transform-react-jsx/6.24.1:
+    dependencies:
+      babel-helper-builder-react-jsx: 6.26.0
+      babel-plugin-syntax-jsx: 6.18.0
+      babel-runtime: 6.26.0
+    dev: true
+    resolution:
+      integrity: sha1-hAoCjn30YN/DotKfDA2R9jduZqM=
+  /babel-preset-flow/6.23.0:
+    dependencies:
+      babel-plugin-transform-flow-strip-types: 6.22.0
+    dev: true
+    resolution:
+      integrity: sha1-5xIYiHCFrpoktb5Baa/7WZgWxJ0=
+  /babel-preset-react/6.24.1:
+    dependencies:
+      babel-plugin-syntax-jsx: 6.18.0
+      babel-plugin-transform-react-display-name: 6.25.0
+      babel-plugin-transform-react-jsx: 6.24.1
+      babel-plugin-transform-react-jsx-self: 6.22.0
+      babel-plugin-transform-react-jsx-source: 6.22.0
+      babel-preset-flow: 6.23.0
+    dev: true
+    resolution:
+      integrity: sha1-umnfrqRfw+xjm2pOzqbhdwLJE4A=
+  /babel-runtime/6.26.0:
+    dependencies:
+      core-js: 2.6.2
+      regenerator-runtime: 0.11.1
+    dev: true
+    resolution:
+      integrity: sha1-llxwWGaOgrVde/4E/yM3vItWR/4=
+  /babel-types/6.26.0:
+    dependencies:
+      babel-runtime: 6.26.0
+      esutils: 2.0.2
+      lodash: 4.17.11
+      to-fast-properties: 1.0.3
+    dev: true
+    resolution:
+      integrity: sha1-o7Bz+Uq0nrb6Vc1lInozQ4BjJJc=
   /balanced-match/1.0.0:
     dev: true
     resolution:
@@ -857,6 +1007,10 @@ packages:
     optional: true
     resolution:
       integrity: sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
+  /core-js/2.6.2:
+    dev: true
+    resolution:
+      integrity: sha512-NdBPF/RVwPW6jr0NCILuyN9RiqLo2b1mddWHkUL+VnvcB7dzlnBJ1bXYntjpTGOgkZiiLWj2JxmOr7eGE3qK6g==
   /core-util-is/1.0.2:
     dev: true
     optional: true
@@ -1634,6 +1788,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-1G6jJVDWrt0rK99kBjvEtziZNCICAuvIPkSiUFIQxVP06RCVpq3dmDo2oi6ABpYaDYaTRr67BEhL8r1wgEZZKg==
+  /regenerator-runtime/0.11.1:
+    dev: true
+    resolution:
+      integrity: sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
   /regenerator-transform/0.13.3:
     dependencies:
       private: 0.1.8
@@ -1856,6 +2014,12 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==
+  /to-fast-properties/1.0.3:
+    dev: true
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-uDVx+k2MJbguIxsG46MFXeTKGkc=
   /to-fast-properties/2.0.0:
     dev: true
     engines:
@@ -1982,6 +2146,9 @@ shrinkwrapVersion: 3
 specifiers:
   '@babel/cli': ^7.2.3
   '@babel/core': ^7.2.2
+  '@babel/plugin-syntax-jsx': ^7.2.0
   '@babel/preset-env': ^7.2.3
+  '@babel/preset-react': ^7.0.0
+  babel-preset-react: ^6.24.1
   react: ^16.7.0
   react-dom: ^16.7.0

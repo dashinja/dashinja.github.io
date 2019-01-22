@@ -10,8 +10,8 @@ function ProjectCard(props) {
       >
         <img
           className="card-img"
-          style={{height: 200, width: 200}}
-          src="./assets/images/recipeciprocity.png"
+          style={{ height: 200, width: 200 }}
+          src="http://via.placeholder.com/200/200"
           alt="Recipeciprocity Hero Image"
         />
         <div className="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end">
