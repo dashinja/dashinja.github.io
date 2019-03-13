@@ -10,47 +10,67 @@
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
 
     <title>Portfolio - Byron Miller</title>
   </head>
 
   <!-- -------Nav Bar------- -->
 
-  <div class="container px-0 w-100 navbar-expand-lg">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom">
-      <a
-        class="navbar-brand pl-md-3 h1"
-        href="https://github.com/dashinja"
-        target="_blank"
-      >
-        <h1 class="display-3">Byron Miller</h1>
+  <div class="container w-100 navbar-expand-lg px-0">
+    <!--
+              <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom">
+            -->
+    <nav
+      class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom mx-md-auto">
+      <a class="navbar-brand pl-md-3 h1 mx-auto"
+        href="https://github.com/dashinja" target="_blank">
+        <h1 class="display-3 sm-text-center">Byron Miller</h1>
       </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+      <button class="navbar-toggler" type="button" data-toggle="collapse"
+        data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+        aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div
-        class="collapse navbar-collapse justify-content-end mr-2"
-        id="navbarNavAltMarkup"
-      >
-        <div class="navbar-nav">
-          <a class="nav-item nav-link" href="./index.html">
-            <h3>About Me</h3>
-          </a>
-          <a class="nav-item nav-link active" href="./portfolio.html">
-            <h3>Portfolio</h3>
-            <span class="sr-only">(current)</span>
-          </a>
-          <a class="nav-item nav-link" href="./contact.html">
-            <h3>Contact</h3>
-          </a>
+      <div class="collapse navbar-collapse justify-content-end mr-2"
+        id="navbarNavAltMarkup">
+        <div class="navbar-nav mr-0">
+          <!--Social Media Icons-->
+          <ul class="list-inline text-center mx-sm-auto mt-2 mr-lg-4">
+            <li class="list-inline-item">
+              <a href="https://www.linkedin.com/in/millerbyron/" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fab fa-linkedin fa-stack-2x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+  
+            <li class="list-inline-item">
+              <a href="https://github.com/dashinja" target="_blank">
+                <span class="fa-stack fa-lg">
+                  <i class="fab fa-github fa-stack-2x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <!--Internal Navigation-->
+          <div class="navbar-nav mx-auto mt-1">
+            <a class="nav-item nav-link active" href="./index.html">
+              <h3>About Me</h3>
+              <span class="sr-only">(current)</span>
+            </a>
+            <a class="nav-item nav-link" href="./portfolio.html">
+              <h3>Portfolio</h3>
+            </a>
+            <a class="nav-item nav-link" href="./contact.html">
+              <h3>Contact</h3>
+            </a>
+          </div>
         </div>
       </div>
     </nav>
