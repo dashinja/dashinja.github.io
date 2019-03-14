@@ -1,5 +1,35 @@
 body {
-  background-image: url('../images/lets_connect_fencing.jpg') !important;
+  background-color: black;
+}
+
+body#contact-page {
+  background-image: url('../images/lets_connect_fencing_crop_sm.jpg') !important;
   background-size: 100%;
   background-position: top;
 }
+
+body#index-page {
+  background-image: url('../images/together_edit_sm.jpg') !important;
+  background-size: 100%;
+  background-position: top;
+}
+
+body#index-page>div.bg-secondary {
+  background-blend-mode: darken;
+}
+
+#portfolio-page-background {
+  background-image: url("../images/DCSO_arrangement_sm.jpg");
+  background-size: 90%;
+  background-position: center;
+}
+
+#portfolio-page {
+  background-image: url('../images/ideas_are_bright_sm.jpg') !important;
+  background-size: 80%;
+  background-position: center;  
+}
+
+
+
+

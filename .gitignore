@@ -64,4 +64,4 @@ typings/
 .vscode
 
 # assets
-./assets/images/edits
+assets/images/edits/
