@@ -20,13 +20,13 @@ body#index-page>div.bg-secondary {
 
 #portfolio-page-background {
   background-image: url("../images/DCSO_arrangement_sm.jpg");
-  background-size: 90%;
+  background-size: 100%;
   background-position: center;
 }
 
 #portfolio-page {
   background-image: url('../images/ideas_are_bright_sm.jpg') !important;
-  background-size: 80%;
+  background-size: 100%;
   background-position: center;  
 }
 
