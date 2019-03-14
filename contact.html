@@ -16,6 +16,8 @@
       integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="./assets/css/index.css">
+        <link rel="stylesheet" href="./assets/css/contact.css">
 
     <title>Contact - Byron Miller</title>
   </head>
@@ -95,14 +97,19 @@
 
   <body class="bg-success text-light">
     <!-- Form Section -->
-    <section class="container bg-secondary mx-auto mt-2 mb-5 my-md-4 rounded">
+    <section class="container mx-auto mt-2 mb-5 my-md-4 rounded">
       <div class="row">
         <div
-          class="bg-dark col-10 offset-1 col-md-6 offset-md-3 rounded py-5 my-3"
+          class="col-10 offset-1 col-md-6 offset-md-3 rounded py-5 my-3 bg-dark" id="form-container"
         >
           <form class="col-12 offset-0 col-md-10 offset-md-1">
             <div class="form-group">
-              <label for="name-input">Name</label>
+              <label id="contact-form" for="name-input">
+              <span class="labelStyle">
+                Name
+
+              </span>
+              </label>
               <input
                 type="text"
                 class="form-control"
@@ -112,7 +119,11 @@
             </div>
 
             <div class="form-group">
-              <label for="email-input">Email</label>
+              <label id="contact-form" for="email-input">
+              <span class="labelStyle">
+                Email
+              </span>  
+              </label>
               <input
                 type="email"
                 class="form-control"
@@ -123,7 +134,11 @@
             </div>
 
             <div class="form-group">
-              <label for="msg-input">Message</label>
+              <label id="contact-form" for="msg-input" class="btn btn-dark">
+                <span class="">
+                  Message
+                </span>
+              </label>
               <textarea
                 class="form-control"
                 name="message"
