@@ -65,3 +65,6 @@ typings/
 
 # assets
 assets/images/edits/
+
+# unnecessary docs
+docs/
