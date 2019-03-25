@@ -16,8 +16,8 @@
       integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./assets/css/index.css">
-        <link rel="stylesheet" href="./assets/css/contact.css">
+    <link rel="stylesheet" href="./assets/css/index.css" />
+    <link rel="stylesheet" href="./assets/css/contact.css" />
 
     <title>Contact - Byron Miller</title>
   </head>
@@ -26,16 +26,12 @@
 
   <div class="container w-100 navbar-expand-lg px-0">
     <!--
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom">
-          -->
+                    <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom">
+                  -->
     <nav
       class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom mx-md-auto"
     >
-      <a
-        class="navbar-brand pl-md-3 h1 mx-auto"
-        href="https://github.com/dashinja"
-        target="_blank"
-      >
+      <a class="navbar-brand pl-md-3 h1 mx-auto" href="./index.html">
         <h1 class="display-3 sm-text-center">Byron Miller</h1>
       </a>
       <button
@@ -62,9 +58,7 @@
                 target="_blank"
               >
                 <span class="fa-stack fa-lg">
-                  <i
-                    class="fab fa-linkedin fa-stack-2x fa-inverse"
-                  ></i>
+                  <i class="fab fa-linkedin fa-stack-2x fa-inverse"></i>
                 </span>
               </a>
             </li>
@@ -79,15 +73,20 @@
           </ul>
           <!--Internal Navigation-->
           <div class="navbar-nav mx-auto mt-1">
-            <a class="nav-item nav-link" href="./index.html">
+            <a class="nav-item nav-link active" href="./index.html">
               <h3>About Me</h3>
               <span class="sr-only">(current)</span>
             </a>
             <a class="nav-item nav-link" href="./portfolio.html">
               <h3>Portfolio</h3>
             </a>
-            <a class="nav-item nav-link active" href="./contact.html">
-              <h3>Contact</h3>
+            <a
+              class="nav-item nav-link"
+              target="_blank"
+              href="./assets/documents/Byron_Miller_Resume_port_proj_2019_03_12.doc"
+              download
+            >
+              <h3>Resume</h3>
             </a>
           </div>
         </div>
@@ -95,24 +94,25 @@
     </nav>
   </div>
 
-  <body id="contact-page"class="text-light">
+  <body id="contact-page" class="text-light">
     <!-- Form Section -->
     <section class="container mx-auto mt-2 mb-5 my-md-4 rounded">
       <div class="row">
         <div
-          class="col-10 offset-1 col-md-6 offset-md-3 rounded pb-5 pt-4 my-3 bg-dark" id="form-container"
+          class="col-10 offset-1 col-md-6 offset-md-3 rounded pb-5 pt-4 my-3 bg-dark"
+          id="form-container"
         >
-        <div id="form-text" class="text-center mb-3 font-weight-bold">
-          <h1>
-           Let's Connect
-          </h1>
-        </div>
+          <div id="form-text" class="text-center mb-3 font-weight-bold">
+            <h1>
+              Let's Connect
+            </h1>
+          </div>
           <form class="col-12 offset-0 col-md-10 offset-md-1">
             <div class="form-group">
               <label id="contact-form" for="name-input">
-              <span class="labelStyle">
-                Name
-              </span>
+                <span class="labelStyle">
+                  Name
+                </span>
               </label>
               <input
                 type="text"
@@ -124,9 +124,9 @@
 
             <div class="form-group">
               <label id="contact-form" for="email-input">
-              <span class="labelStyle">
-                Email
-              </span>  
+                <span class="labelStyle">
+                  Email
+                </span>
               </label>
               <input
                 type="email"
