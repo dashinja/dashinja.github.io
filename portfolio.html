@@ -17,16 +17,18 @@
       crossorigin="anonymous"
     />
 
-    <title>Portfolio - Byron Miller</title>
     <link rel="stylesheet" href="./assets/css/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"
+    />
+
+    <title>Portfolio - Byron Miller</title>
   </head>
 
   <!-- -------Nav Bar------- -->
 
   <div class="container w-100 navbar-expand-lg px-0">
-    <!--
-                      <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom">
-                    -->
     <nav
       class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom mx-md-auto"
     >
@@ -82,7 +84,7 @@
             <a
               class="nav-item nav-link"
               target="_blank"
-              href="./assets/documents/Byron_Miller_Resume_v_vari_2019_04_6.doc"
+              href="./assets/documents/Byron_Miller_Resume_v_vari_2019_04_23.doc"
               download
             >
               <h3>Resume</h3>
@@ -96,7 +98,7 @@
   <!-- ----------_Body------------ -->
   <body class="text-light" id="portfolio-page-background">
     <div
-      class="container bg-secondary rounded mx-auto mt-2 mb-5 px-5 pt-3 pb-4 shadow-lg"
+      class="container bg-secondary rounded mx-auto mt-2 mb-5 px-5 pt-3 pb-4 shadow-lg projects"
       id="portfolio-page"
     >
       <section class="row justify-content-md-start justify-content-center">
@@ -105,13 +107,44 @@
           <h3 class="display-4 ">Portfolio</h3>
         </header>
       </section>
-
-      <div class="container rounded pt-2 pb-2">
+      <div class="projects__not-bootcamp">
+        <section>
+          <!-- Notes Node -->
+          <div
+            class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4 non-bcs"
+          >
+            <a
+              href="https://dashinja.github.io/notes-node/"
+              target="_blank"
+              class="text-white"
+              data-fancybox="non-bcs"
+            >
+              <img
+                class="card-img"
+                style="height: 200px; width: 200px;"
+                src="assets/images/crayon_alt.png"
+                alt="Notes Node Crayon"
+              />
+              <div
+                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
+              >
+                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
+                  <h5 class="card-title w-100 m-0 p-0 col rounded">
+                    Notes Node
+                  </h5>
+                </div>
+              </div>
+            </a>
+          </div>
+        </section>
+      </div>
+      <div class="container rounded pt-2 pb-2 projects__bootcamp">
         <!-- Row 1 -->
         <section
-          class="d-flex flex-row align-items-start justify-content-around py-4 flex-wrap flex-lg-nowrap"
+          class="d-flex flex-row align-items-start justify-content-around py-4 flex-wrap flex-lg-nowrap "
           style="height: 100%; width: 100%"
         >
+          <div id="item-display"></div>
           <!-- Recipeciprocity  -->
           <div
             class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
@@ -120,6 +153,7 @@
               href="https://dashinja.github.io/recipeciprocity/"
               target="_blank"
               class="text-white"
+              data-fancybox="bcs"
             >
               <img
                 class="card-img"
@@ -146,6 +180,7 @@
               href="https://dashinja.github.io/trainSchedulerDeluxe/"
               target="_blank"
               class="text-white"
+              data-fancybox="bcs"
             >
               <img
                 class="card-img"
@@ -164,32 +199,7 @@
               </div>
             </a>
           </div>
-          <!-- Notes Node -->
-          <div
-            class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
-          >
-            <a
-              href="https://dashinja.github.io/notes-node/"
-              target="_blank"
-              class="text-white"
-            >
-              <img
-                class="card-img"
-                style="height: 200px; width: 200px;"
-                src="assets/images/crayon_alt.png"
-                alt="Notes Node Crayon"
-              />
-              <div
-                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
-              >
-                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
-                  <h5 class="card-title w-100 m-0 p-0 col rounded">
-                    Notes Node
-                  </h5>
-                </div>
-              </div>
-            </a>
-          </div>
+
           <!-- Liri Bot -->
           <div
             class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
@@ -198,6 +208,7 @@
               href="https://dashinja.github.io/liri/"
               target="_blank"
               class="text-white"
+              data-fancybox="bcs"
             >
               <img
                 class="card-img"
@@ -209,7 +220,9 @@
                 class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
               >
                 <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
-                  <h5 class="card-title w-100 m-0 p-0 col rounded">Liri Bot</h5>
+                  <h5 class="card-title w-100 m-0 p-0 col rounded">
+                    Liri Bot
+                  </h5>
                 </div>
               </div>
             </a>
@@ -229,6 +242,7 @@
               href="https://dashinja.github.io/wordguessgame/"
               target="_blank"
               class="text-white"
+              data-fancybox="bcs"
             >
               <img
                 class="card-img"
@@ -255,6 +269,7 @@
               href="https://dashinja.github.io/bamazonathon/"
               target="_blank"
               class="text-white"
+              data-fancybox="bcs"
             >
               <img
                 class="card-img"
@@ -281,6 +296,7 @@
               href="https://dashinja.github.io/giphy/"
               target="_blank"
               class="text-white"
+              data-fancybox="bcs"
             >
               <img
                 class="card-img"
@@ -308,6 +324,7 @@
               href="https://friendfestfinder.herokuapp.com/"
               target="_blank"
               class="text-white"
+              data-fancybox="bcs"
             >
               <img
                 class="card-img"
@@ -341,6 +358,7 @@
               href="https://dashinja.github.io/themburgerztho/"
               target="_blank"
               class="text-white"
+              data-fancybox="bcs"
             >
               <img
                 class="card-img"
@@ -367,6 +385,7 @@
               href="https://puffroi.herokuapp.com/"
               target="_blank"
               class="text-white"
+              data-fancybox="bcs"
             >
               <img
                 class="card-img"
@@ -393,6 +412,7 @@
               href="https://dota2news.herokuapp.com/"
               target="_blank"
               class="text-white"
+              data-fancybox="bcs"
             >
               <img
                 class="card-img"
@@ -415,7 +435,12 @@
           <div
             class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
           >
-            <a href="https://demo-lisa.xyz/" target="_blank" class="text-white">
+            <a
+              href="https://demo-lisa.xyz/"
+              target="_blank"
+              class="text-white"
+              data-fancybox="bcs"
+            >
               <img
                 class="card-img"
                 style="height: 200px; width: 200px;"
@@ -458,4 +483,7 @@
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"
   ></script>
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+  <script src="./assets/javascript/portfolio.js" type="module"></script>
 </html>
