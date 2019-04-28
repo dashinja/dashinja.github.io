@@ -1,8 +1,8 @@
-import BCS_LINKS from './link-items'
+// import BCS_LINKS from './link-items.js'
 // Light Box
 
 console.log('hi')
-$(() => {
+const wholeThing = $(() => {
   console.log('only when ready')
 
   BCS_LINKS.forEach(item => {
@@ -56,3 +56,5 @@ $(() => {
     $('[data-fancybox=bcs]'),
   )
 })
+
+export wholeThing
