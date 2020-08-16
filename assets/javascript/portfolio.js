@@ -1,11 +1,11 @@
-// import BCS_LINKS from './link-items.js'
+import BCS_LINKS from './link-items.js'
 // Light Box
 
 console.log('hi')
-const wholeThing = $(() => {
+// const wholeThing = $(() => {
   console.log('only when ready')
 
-  BCS_LINKS.forEach(item => {
+  // BCS_LINKS.forEach(item => {
     const icon = $(`<div
               class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
             >
@@ -32,7 +32,7 @@ const wholeThing = $(() => {
                 </div>
               </a>
             </div>`)
-  })
+  // })
 
   const eachNOTbootcamp = $('div.projects__not-bootcamp>section>div>a')
 
@@ -55,6 +55,6 @@ const wholeThing = $(() => {
     "selection of just the data-fancybox='non-bcs':",
     $('[data-fancybox=bcs]'),
   )
-})
+// })
 
-export wholeThing
+module.export = icon;

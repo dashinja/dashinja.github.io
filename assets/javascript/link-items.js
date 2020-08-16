@@ -14,9 +14,9 @@
 //     banner: 'Recipeciprocity',
 //   },
 // ]
-import images from '../images'
+import { images } from '../images';
 
-export const LINKS_PROJECTS = [
+const LINKS_PROJECTS = [
   {
     banner: 'Maid Bot',
     a: {
@@ -43,7 +43,7 @@ export const LINKS_PROJECTS = [
   },
 ]
 
-export const BCS_LINKS_PROJECTS = [
+const CS_LINKS_PROJECTS = [
   {
     a: {
       href: 'https://dashinja.github.io/recipeciprocity',
@@ -82,7 +82,7 @@ export const BCS_LINKS_PROJECTS = [
   },
 ]
 
-export const BCS_LINKS = [
+const BCS_LINKS = [
   {
     banner: 'Train Scheduler Deluxe',
     a: {
@@ -180,3 +180,9 @@ export const BCS_LINKS = [
     },
   },
 ]
+
+export {
+  BCS_LINKS,
+  CS_LINKS_PROJECTS,
+  LINKS_PROJECTS
+}
