@@ -13,10 +13,10 @@ export default function Portfolio() {
               Byron Miller
             </Link>
             <div className="flex items-center space-x-6">
-              <Link href="https://www.linkedin.com/in/millerbyron/" target="_blank" className="nav-link">
+              <Link href="https://www.linkedin.com/in/millerbyron/" target="_blank" rel="noopener noreferrer" className="nav-link">
                 <FaLinkedin className="text-2xl" />
               </Link>
-              <Link href="https://github.com/dashinja" target="_blank" className="nav-link">
+              <Link href="https://github.com/dashinja" target="_blank" rel="noopener noreferrer" className="nav-link">
                 <FaGithub className="text-2xl" />
               </Link>
               <div className="flex space-x-4">
