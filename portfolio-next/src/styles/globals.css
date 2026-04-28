@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-primary text-white;
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply text-white hover:text-accent transition-colors duration-200;
+  }
+  
+  .section {
+    @apply py-8 px-4 md:px-8;
+  }
+  
+  .container {
+    @apply max-w-7xl mx-auto;
+  }
+} 
