@@ -1,19 +1,21 @@
 input.form-control,
 textarea.form-control {
-  background-color: bisque;
+  background-color: var(--field-bg, bisque);
+  color: var(--field-text, #111827);
+  border-color: var(--field-border, #d97706);
 }
 
 label#contact-form {
-  color: rgb(236, 148, 16);
+  color: var(--accent, rgb(236, 148, 16));
   font-weight: bold;
 }
 
 span.labelStyle {
-  text-shadow: 1px 10px 50px;
+  text-shadow: none;
   border-radius: 5px;
 }
 
 div#form-container {
-  background-blend-mode: overlay;
-  opacity: 0.85;
+  background-color: var(--panel-bg, rgba(17, 24, 39, 0.94));
+  opacity: 0.95;
 }
