@@ -7,20 +7,20 @@ const read = (file: string) => readFileSync(resolve(root, file), 'utf8')
 
 describe('static site nav', () => {
   it('links to Auntie Kim Dates from the deployed pages', () => {
-    const files = ['index.html', 'portfolio.html', 'contact.html']
+    const files = ['portfolio.html', 'contact.html']
     for (const file of files) {
       const html = read(file)
       expect(html).toContain('https://dashinja.github.io/auntieKimDates/')
     }
   })
 
-  it('includes theme and help controls on the deployed pages', () => {
+  it('does not include theme and help controls on the deployed pages', () => {
     for (const file of ['index.html', 'portfolio.html', 'contact.html']) {
       const html = read(file)
-      expect(html).toContain('data-theme-toggle')
-      expect(html).toContain('data-target="#siteHelpModal"')
-      expect(html).toContain('id="siteHelpModal"')
-      expect(html).toContain('How this site works')
+      expect(html).not.toContain('data-theme-toggle')
+      expect(html).not.toContain('data-target="#siteHelpModal"')
+      expect(html).not.toContain('id="siteHelpModal"')
+      expect(html).not.toContain('How this site works')
     }
   })
 })

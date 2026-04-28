@@ -90,8 +90,6 @@
             >
               <h3>Resume</h3>
             </a>
-            <button class="nav-item nav-link site-action-button theme-toggle" type="button" data-theme-toggle aria-label="Toggle site theme" aria-pressed="false">Theme: Midnight</button>
-            <button class="nav-item nav-link site-action-button" type="button" data-toggle="modal" data-target="#siteHelpModal" aria-label="Open site help">Help</button>
           </div>
         </div>
       </div>
@@ -99,7 +97,7 @@
   </div>
 
   <!-- ----------_Body------------ -->
-  <body class="text-light" id="portfolio-page-background" data-theme="midnight">
+  <body class="text-light" id="portfolio-page-background">
     <div
       class="container bg-secondary rounded mx-auto mt-2 mb-5 px-5 pt-3 pb-4 shadow-lg"
       id="portfolio-page"
@@ -445,56 +443,6 @@
         Copyright ©
       </div>
     </footer>
-    <div class="modal fade site-help-modal" id="siteHelpModal" tabindex="-1" role="dialog" aria-labelledby="siteHelpModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div>
-              <div class="site-help-kicker">Help</div>
-              <h2 class="modal-title h4 mb-0" id="siteHelpModalLabel">How this site works</h2>
-            </div>
-            <button type="button" class="close site-help-close" data-dismiss="modal" aria-label="Close help">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="help-card">
-              <h3 class="h5">What this site does</h3>
-              <p class="help-note mb-0">This is Byron Miller's portfolio home base. It introduces the developer, shows past work, shares contact details, and now points directly to Auntie Kim Dates.</p>
-            </div>
-            <div class="help-card">
-              <h3 class="h5">How to use it</h3>
-              <ol class="help-list mb-0 pl-3">
-                <li>Use <strong>About Me</strong> to read the bio and background.</li>
-                <li>Use <strong>Portfolio</strong> to browse projects and open live demos.</li>
-                <li>Select <strong>Auntie Kim Dates</strong> to jump to the family care app.</li>
-                <li>Use <strong>Theme</strong> to switch between the two dark looks.</li>
-                <li>Use <strong>Help</strong> anytime you need a quick refresher.</li>
-              </ol>
-            </div>
-            <div class="help-card">
-              <h3 class="h5">Visual example</h3>
-              <div class="help-flow" aria-label="Navigation example">
-                <span class="help-chip">About Me</span><span class="help-arrow">→</span><span class="help-chip">Auntie Kim Dates</span><span class="help-arrow">→</span><span class="help-chip">Portfolio</span>
-              </div>
-              <p class="help-note mt-3 mb-0">The chips above show the order of common places to visit.</p>
-            </div>
-            <div class="help-card">
-              <h3 class="h5">Terms</h3>
-              <dl class="help-term-grid mb-0">
-                <div><dt>Portfolio</dt><dd class="help-term-desc">A collection of projects with links to demos.</dd></div>
-                <div><dt>Resume</dt><dd class="help-term-desc">A downloadable document with experience details.</dd></div>
-                <div><dt>Theme</dt><dd class="help-term-desc">A color style that keeps the site dark while changing the mood.</dd></div>
-                <div><dt>Auntie Kim Dates</dt><dd class="help-term-desc">A separate app for tracking meaningful dates with friends' kids.</dd></div>
-              </dl>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="site-action-button" data-dismiss="modal">Close help</button>
-          </div>
-        </div>
-      </div>
-    </div>
   </body>
   <script
     src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -511,5 +459,4 @@
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"
   ></script>
-  <script src="./assets/js/theme-toggle.js"></script>
 </html>
