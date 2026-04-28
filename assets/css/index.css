@@ -2,6 +2,135 @@ body {
   background-color: black;
 }
 
+.container.navbar-expand-lg {
+  max-width: min(1180px, calc(100% - 2rem));
+}
+
+.navbar.navbar-dark {
+  align-items: center;
+  background: rgba(33, 37, 41, 0.94) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  gap: 1rem;
+  padding: 0.85rem 1.15rem;
+}
+
+.navbar-brand {
+  align-items: center;
+  display: flex;
+  flex: 0 1 auto;
+  margin: 0 1.5rem 0 0 !important;
+  min-width: max-content;
+  padding: 0 !important;
+}
+
+.navbar-brand h1 {
+  font-size: clamp(2.25rem, 5vw, 4.25rem);
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  margin: 0;
+}
+
+.navbar-collapse {
+  flex-grow: 1;
+}
+
+.navbar-nav.mr-0 {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.navbar-nav.mr-0 > .list-inline {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.25rem;
+  margin: 0 1rem 0 0 !important;
+}
+
+.navbar-nav.mx-auto {
+  align-items: center;
+  display: flex;
+  flex: 1 1 auto;
+  gap: 0.35rem;
+  justify-content: flex-end;
+  margin: 0 !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.72) !important;
+  padding: 0.45rem 0.8rem !important;
+  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.navbar-dark .navbar-nav .nav-link h3 {
+  font-size: clamp(1.1rem, 1.75vw, 1.65rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
+  text-align: center;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff !important;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.navbar-dark .navbar-nav .nav-link.active {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff !important;
+}
+
+.navbar-dark .fa-stack {
+  transition: transform 160ms ease;
+}
+
+.navbar-dark a:hover .fa-stack,
+.navbar-dark a:focus .fa-stack {
+  transform: translateY(-1px) scale(1.04);
+}
+
+@media (max-width: 991.98px) {
+  .navbar.navbar-dark {
+    padding: 0.85rem 1rem;
+  }
+
+  .navbar-brand {
+    margin-right: 0 !important;
+  }
+
+  .navbar-brand h1 {
+    font-size: clamp(2rem, 11vw, 3.25rem);
+  }
+
+  .navbar-collapse {
+    padding-top: 0.9rem;
+  }
+
+  .navbar-nav.mr-0,
+  .navbar-nav.mx-auto {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .navbar-nav.mr-0 > .list-inline {
+    justify-content: center;
+    margin: 0 0 0.25rem 0 !important;
+  }
+
+  .navbar-dark .navbar-nav .nav-link {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.75rem 1rem !important;
+  }
+}
+
 body#contact-page {
   background-image: url('../images/lets_connect_fencing_crop_sm.jpg') !important;
   background-size: 100%;
