@@ -20,6 +20,21 @@ body::before {
   z-index: 0;
 }
 
+body::after {
+  background:
+    linear-gradient(115deg, transparent 0 18%, rgba(111, 78, 255, 0.10) 28%, transparent 42%),
+    linear-gradient(28deg, transparent 0 34%, rgba(47, 232, 255, 0.08) 48%, transparent 62%),
+    radial-gradient(ellipse at 42% 36%, rgba(255, 196, 87, 0.13), transparent 24rem),
+    radial-gradient(ellipse at 58% 86%, rgba(31, 255, 180, 0.12), transparent 28rem);
+  content: "";
+  inset: 0;
+  mix-blend-mode: screen;
+  opacity: 0.78;
+  pointer-events: none;
+  position: fixed;
+  z-index: 0;
+}
+
 body > * {
   position: relative;
   z-index: 1;
@@ -36,7 +51,26 @@ body > * {
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 24px 55px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   gap: 1rem;
+  overflow: hidden;
   padding: 0.85rem 1.15rem;
+  position: relative;
+}
+
+.navbar.navbar-dark::before {
+  background:
+    linear-gradient(105deg, transparent 0 18%, rgba(255, 255, 255, 0.13) 34%, transparent 50%),
+    radial-gradient(circle at 18% 40%, rgba(47, 232, 255, 0.22), transparent 16rem),
+    radial-gradient(circle at 85% 65%, rgba(255, 104, 184, 0.20), transparent 16rem);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+.navbar.navbar-dark > * {
+  position: relative;
+  z-index: 1;
 }
 
 .navbar-brand {
@@ -112,7 +146,9 @@ body > * {
 }
 
 .navbar-dark .navbar-nav .nav-link.active {
-  background: linear-gradient(135deg, rgba(35, 220, 255, 0.32), rgba(151, 103, 255, 0.24), rgba(255, 122, 183, 0.24));
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.22), transparent 1.7rem),
+    linear-gradient(135deg, rgba(35, 220, 255, 0.36), rgba(151, 103, 255, 0.30), rgba(255, 122, 183, 0.28));
   box-shadow: 0 10px 25px rgba(70, 198, 255, 0.18);
   color: #ffffff !important;
 }
@@ -205,7 +241,10 @@ body#index-page > div.bg-secondary {
 .bg-secondary,
 #portfolio-page,
 #form-container {
-  background-color: rgba(12, 18, 42, 0.78) !important;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(68, 224, 255, 0.18), transparent 18rem),
+    radial-gradient(circle at 88% 12%, rgba(255, 94, 172, 0.15), transparent 20rem),
+    linear-gradient(145deg, rgba(12, 18, 42, 0.82), rgba(33, 23, 59, 0.72), rgba(5, 38, 49, 0.78)) !important;
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 30px 85px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.10);
 }
@@ -218,7 +257,20 @@ body#index-page > .container.bg-secondary,
 
 body#index-page > .container.bg-secondary {
   background:
+    radial-gradient(circle at 8% 8%, rgba(64, 222, 255, 0.22), transparent 18rem),
+    radial-gradient(circle at 95% 22%, rgba(255, 126, 196, 0.18), transparent 19rem),
+    radial-gradient(circle at 50% 100%, rgba(101, 255, 185, 0.14), transparent 22rem),
     linear-gradient(145deg, rgba(8, 14, 38, 0.88), rgba(35, 23, 59, 0.76) 52%, rgba(5, 37, 48, 0.84)) !important;
+}
+
+.display-4,
+article h4,
+#form-text h1 {
+  background: linear-gradient(105deg, #ffffff, #8be8ff 36%, #ffc0df 68%, #f9ffbd);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 34px rgba(93, 226, 255, 0.18);
 }
 
 hr.border-light {
@@ -231,7 +283,26 @@ hr.border-light {
   border-color: rgba(79, 245, 184, 0.62) !important;
   box-shadow: 0 22px 42px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(108, 232, 255, 0.12);
   overflow: hidden;
+  position: relative;
   transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.card.bg-dark::before {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 35%),
+    radial-gradient(circle at 18% 16%, rgba(79, 245, 184, 0.28), transparent 7rem),
+    radial-gradient(circle at 92% 90%, rgba(131, 104, 255, 0.25), transparent 8rem);
+  content: "";
+  inset: 0;
+  opacity: 0.78;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+.card.bg-dark > * {
+  position: relative;
+  z-index: 1;
 }
 
 .card.bg-dark:hover,
