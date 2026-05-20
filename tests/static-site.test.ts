@@ -21,11 +21,12 @@ function listFiles(dir: string): string[] {
 }
 
 describe('static site nav', () => {
-  it('links to project deploy entrypoints from the deployed pages', () => {
+  it('links to intended public destinations from the deployed pages', () => {
     for (const file of htmlFiles) {
       const html = read(file)
-      expect(html).toContain('https://dashinja.github.io/grocery/')
       expect(html).toContain('https://dashinja.github.io/auntieKimDates/')
+      expect(html).not.toContain('https://dashinja.github.io/grocery/')
+      expect(html).not.toContain('BKocery')
     }
   })
 
