@@ -19,6 +19,8 @@ export default function Navigation() {
             <div className="flex space-x-4">
               <Link href="/" className="nav-link">About Me</Link>
               <Link href="/portfolio" className="nav-link">Portfolio</Link>
+              <Link href="https://dashinja.github.io/grocery/" className="nav-link">BKocery</Link>
+              <Link href="https://dashinja.github.io/auntieKimDates/" className="nav-link">Auntie Kim Dates</Link>
               <Link href="/assets/documents/Byron_Miller_Resume_vc_techOnly_vari_ec_2024_03_18.docx" className="nav-link" download>
                 Resume
               </Link>

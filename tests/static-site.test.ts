@@ -21,11 +21,20 @@ function listFiles(dir: string): string[] {
 }
 
 describe('static site nav', () => {
-  it('links to Auntie Kim Dates from the deployed pages', () => {
+  it('links to project deploy entrypoints from the deployed pages', () => {
     for (const file of htmlFiles) {
       const html = read(file)
+      expect(html).toContain('https://dashinja.github.io/grocery/')
       expect(html).toContain('https://dashinja.github.io/auntieKimDates/')
     }
+  })
+
+  it('keeps /grocery as a redirect instead of a copied app bundle', () => {
+    const html = read('grocery/index.html')
+
+    expect(html).toContain('http-equiv="refresh" content="0; url=https://dashinja.github.io/bk_grocery/"')
+    expect(html).toContain('rel="canonical" href="https://dashinja.github.io/bk_grocery/"')
+    expect(html).not.toContain('/grocery/assets/')
   })
 
   it('does not include theme and help controls on the deployed pages', () => {
