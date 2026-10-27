@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deep Ocean — Variant 4 interactive demo</title>
+    <style>
+      :root {
+        --slate-1: #111113;
+        --slate-2: #18191b;
+        --slate-3: #212225;
+        --slate-5: #2e3135;
+        --slate-7: #43474e;
+        --slate-12: #edeef0;
+        --muted: #9fb8bf;
+        --accent: #67e8f9;
+        --accent-deep: #22d3ee;
+        --accent-fg: #05262e;
+        --border: #2e3135;
+        --border-strong: #43474e;
+        --radius-tile: 10px;
+        --radius-featured: 16px;
+        --radius-chip: 999px;
+        --speed: 180ms;
+        --ease: cubic-bezier(0.33, 1, 0.68, 1);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        color-scheme: dark;
+      }
+
+      body {
+        background-color: var(--slate-1);
+        background-image:
+          radial-gradient(1100px 520px at 50% -12%, rgba(103, 232, 249, 0.06), transparent 62%),
+          radial-gradient(900px 700px at 88% 115%, rgba(34, 211, 238, 0.04), transparent 60%);
+        background-repeat: no-repeat;
+        color: var(--slate-12);
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, sans-serif;
+        font-size: 16px;
+        line-height: 1.65;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+        border-radius: 3px;
+      }
+
+      ::selection {
+        background: rgba(103, 232, 249, 0.28);
+        color: var(--slate-12);
+      }
+
+      .demo-banner {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--accent);
+        color: var(--accent-fg);
+        font-size: 13px;
+        font-weight: 700;
+        text-align: center;
+        padding: 8px 16px;
+      }
+
+      .container {
+        max-width: 1120px;
+        margin-inline: auto;
+        padding-inline: 16px;
+      }
+
+      .site-header {
+        border-bottom: 1px solid var(--border);
+        background: rgba(17, 17, 19, 0.82);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+      }
+
+      .site-nav {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding: 12px 16px;
+        flex-wrap: wrap;
+      }
+
+      .brand {
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+      }
+
+      .brand .tilde {
+        color: var(--accent);
+        font-weight: 300;
+      }
+
+      .nav-menu {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-left: auto;
+      }
+
+      .nav-menu a {
+        font-size: 14px;
+        color: var(--muted);
+        padding: 4px 12px;
+        border-radius: var(--radius-chip);
+        transition: color var(--speed) var(--ease), background var(--speed) var(--ease);
+      }
+
+      .nav-menu a:hover {
+        color: var(--slate-12);
+        background: var(--slate-3);
+      }
+
+      .nav-menu a[aria-current="page"] {
+        color: var(--accent);
+        background: rgba(103, 232, 249, 0.09);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 48px;
+        padding-block: 96px 0;
+      }
+
+      .hero-kicker {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 16px;
+      }
+
+      .hero h1 {
+        font-size: clamp(44px, 6vw, 68px);
+        font-weight: 300;
+        letter-spacing: -0.015em;
+        line-height: 1.12;
+        margin-bottom: 16px;
+      }
+
+      .hero-deck {
+        font-size: 20px;
+        font-weight: 300;
+        color: var(--muted);
+        max-width: 32em;
+        margin-bottom: 32px;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .btn {
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 12px 24px;
+        border-radius: var(--radius-tile);
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition: background var(--speed) var(--ease), border-color var(--speed) var(--ease),
+          color var(--speed) var(--ease);
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: var(--accent-fg);
+      }
+
+      .btn-primary:hover {
+        background: #8ff0fb;
+      }
+
+      .btn-ghost {
+        border-color: var(--border-strong);
+        color: var(--slate-12);
+      }
+
+      .btn-ghost:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .portrait {
+        width: 280px;
+        height: 280px;
+        border: 1px solid var(--border-strong);
+        border-radius: var(--radius-featured);
+        background: var(--slate-2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .portrait svg {
+        display: block;
+      }
+
+      .section {
+        padding-block: 64px 0;
+      }
+
+      .section-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 24px;
+      }
+
+      .section-label::before {
+        content: "";
+        width: 20px;
+        height: 2px;
+        border-radius: 1px;
+        background: var(--accent-deep);
+      }
+
+      .bento {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .bento .span-2 {
+        grid-column: span 2;
+      }
+
+      .bento .span-all {
+        grid-column: 1 / -1;
+      }
+
+      .tile {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        background: var(--slate-2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-tile);
+        padding: 24px;
+        cursor: pointer;
+        transition: background var(--speed) var(--ease), border-color var(--speed) var(--ease),
+          transform var(--speed) var(--ease);
+      }
+
+      .tile-featured {
+        border-radius: var(--radius-featured);
+        padding: 32px;
+      }
+
+      .tile:hover,
+      .tile:focus-visible {
+        background: var(--slate-3);
+        border-color: var(--border-strong);
+        transform: translateY(-3px);
+      }
+
+      .tile-index {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-size: 13px;
+        font-variant-numeric: tabular-nums;
+        color: var(--muted);
+        opacity: 0.65;
+      }
+
+      .tile:hover .tile-index {
+        color: var(--accent);
+        opacity: 1;
+      }
+
+      .tile-name {
+        font-size: 20px;
+        font-weight: 550;
+        letter-spacing: -0.01em;
+      }
+
+      .tile-featured .tile-name {
+        font-size: 26px;
+        font-weight: 400;
+      }
+
+      .tile-blurb {
+        color: var(--muted);
+        font-size: 15px;
+        max-width: 44em;
+      }
+
+      .tile-foot {
+        margin-top: auto;
+        padding-top: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .tile-arrow {
+        margin-left: auto;
+        color: var(--muted);
+        transition: color var(--speed) var(--ease), transform var(--speed) var(--ease);
+      }
+
+      .tile:hover .tile-arrow,
+      .tile:focus-visible .tile-arrow {
+        color: var(--accent);
+        transform: translateX(4px);
+      }
+
+      .chip {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-chip);
+        padding: 3px 12px;
+        width: fit-content;
+      }
+
+      .tile:hover .chip {
+        border-color: var(--border-strong);
+      }
+
+      .badge {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        border: 1px solid var(--border-strong);
+        border-radius: var(--radius-chip);
+        padding: 3px 12px;
+        color: var(--slate-12);
+        width: fit-content;
+      }
+
+      .badge-soon {
+        color: var(--muted);
+        border-style: dashed;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+      }
+
+      .site-footer {
+        margin-top: 96px;
+        border-top: 1px solid var(--border);
+        padding: 32px 0 48px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      .site-footer .container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .footer-links {
+        margin-left: auto;
+        display: flex;
+        gap: 16px;
+      }
+
+      .site-footer a {
+        color: var(--muted);
+        transition: color var(--speed) var(--ease);
+      }
+
+      .site-footer a:hover {
+        color: var(--accent);
+      }
+
+      @media (max-width: 900px) {
+        .hero {
+          grid-template-columns: 1fr;
+          padding-block-start: 64px;
+        }
+        .portrait {
+          width: 200px;
+          height: 200px;
+        }
+        .bento {
+          grid-template-columns: 1fr;
+        }
+        .bento .span-2,
+        .bento .span-all {
+          grid-column: auto;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .hero {
+          padding-block-start: 48px;
+        }
+        .section {
+          padding-block-start: 48px;
+        }
+        .tile-featured {
+          padding: 24px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+        }
+
+        .tile:hover,
+        .tile:focus-visible {
+          transform: none;
+        }
+
+        .tile:hover .tile-arrow,
+        .tile:focus-visible .tile-arrow {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <p class="demo-banner">Interactive demo — all links intentionally inert</p>
+
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Primary">
+        <a class="brand" href="#">byron<span class="tilde">~</span>miller</a>
+        <ul class="nav-menu">
+          <li><a href="#" aria-current="page">about</a></li>
+          <li><a href="#">portfolio</a></li>
+          <li><a href="#">contact</a></li>
+          <li><a href="#">github</a></li>
+          <li><a href="#">linkedin</a></li>
+          <li><a href="#">resume ↓</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container">
+        <section class="hero">
+          <div>
+            <p class="hero-kicker">Developer &amp; app hub</p>
+            <h1>Byron Miller</h1>
+            <p class="hero-deck">
+              Full-stack developer and former theatrical master electrician.
+              A calm harbor for everything I build, ship, and keep afloat.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#">view portfolio →</a>
+              <a class="btn btn-ghost" href="#">get in touch</a>
+            </div>
+          </div>
+          <div class="portrait" role="img" aria-label="Portrait placeholder for Byron Miller">
+            <svg width="160" height="160" viewBox="0 0 160 160" aria-hidden="true">
+              <circle cx="80" cy="58" r="30" fill="none" stroke="#43474e" stroke-width="2" />
+              <path d="M25 140 C 30 100, 55 88, 80 88 C 105 88, 130 100, 135 140" fill="none" stroke="#43474e" stroke-width="2" stroke-linecap="round" />
+              <path d="M20 150 Q 50 142, 80 150 T 140 150" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" opacity="0.7" />
+            </svg>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="demo-featured">
+          <p class="section-label" id="demo-featured">Featured</p>
+          <div class="bento">
+            <a class="tile tile-featured span-2" href="#">
+              <span class="tile-index" aria-hidden="true">01</span>
+              <span class="chip">Flagship app</span>
+              <span class="tile-name">Auntie Kim Dates</span>
+              <span class="tile-blurb">A community dating and social-events brand — events, vibes, and connections, run with heart.</span>
+              <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+            </a>
+            <a class="tile tile-featured" href="#">
+              <span class="tile-index" aria-hidden="true">02</span>
+              <span class="chip">AI</span>
+              <span class="tile-name">AI Agent</span>
+              <span class="tile-blurb">Agentic control deck — the agentic doorway.</span>
+              <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+            </a>
+            <a class="tile tile-featured span-all" href="#">
+              <span class="tile-index" aria-hidden="true">03</span>
+              <span class="chip">Web app</span>
+              <span class="tile-name">Atelier Grocery</span>
+              <span class="tile-blurb">Grocery product sync and a storefront theme — inventory in, storefront out.</span>
+              <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+            </a>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="demo-gallery">
+          <p class="section-label" id="demo-gallery">App gallery</p>
+          <div class="gallery">
+            <a class="tile" href="#">
+              <span class="tile-index" aria-hidden="true">01</span>
+              <span class="chip">Flagship app</span>
+              <span class="tile-name">Auntie Kim Dates</span>
+              <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+            </a>
+            <a class="tile" href="#">
+              <span class="tile-index" aria-hidden="true">02</span>
+              <span class="chip">AI</span>
+              <span class="tile-name">AI Agent</span>
+              <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+            </a>
+            <a class="tile" href="#">
+              <span class="tile-index" aria-hidden="true">03</span>
+              <span class="chip">Web app</span>
+              <span class="tile-name">Atelier Grocery</span>
+              <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+            </a>
+            <a class="tile" href="#">
+              <span class="tile-index" aria-hidden="true">04</span>
+              <span class="chip">Web app</span>
+              <span class="tile-name">RecipeCiprocity</span>
+              <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+            </a>
+            <a class="tile" href="#">
+              <span class="tile-index" aria-hidden="true">05</span>
+              <span class="chip">Tool</span>
+              <span class="tile-name">Train Scheduler Deluxe</span>
+              <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+            </a>
+            <a class="tile" href="#">
+              <span class="tile-index" aria-hidden="true">06</span>
+              <span class="chip">Web app</span>
+              <span class="tile-name">Notes Node</span>
+              <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+            </a>
+            <a class="tile" href="#">
+              <span class="tile-index" aria-hidden="true">07</span>
+              <span class="chip">CLI</span>
+              <span class="tile-name">Liri Bot</span>
+              <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+            </a>
+            <a class="tile" href="#">
+              <span class="tile-index" aria-hidden="true">08</span>
+              <span class="chip">Game</span>
+              <span class="tile-name">Las Horcas</span>
+              <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+            </a>
+            <a class="tile" href="#">
+              <span class="tile-index" aria-hidden="true">09</span>
+              <span class="chip">CLI</span>
+              <span class="tile-name">Bamazonathon</span>
+              <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+            </a>
+            <a class="tile" href="#">
+              <span class="tile-index" aria-hidden="true">10</span>
+              <span class="chip">Tool</span>
+              <span class="tile-name">Giphy Fun</span>
+              <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+            </a>
+            <a class="tile" href="#">
+              <span class="tile-index" aria-hidden="true">11</span>
+              <span class="chip">Web app</span>
+              <span class="tile-name">Them Burgerz Tho</span>
+              <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+            </a>
+            <div class="tile" aria-label="Tetris — coming soon">
+              <span class="tile-index" aria-hidden="true">12</span>
+              <span class="chip">Game</span>
+              <span class="tile-name">Tetris</span>
+              <span class="tile-foot"><span class="badge badge-soon">Coming soon</span></span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <span>© 2026 Byron Miller</span>
+        <div class="footer-links">
+          <a href="#">LinkedIn</a>
+          <a href="#">GitHub</a>
+          <a href="#">Resume ↓</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        document.addEventListener('click', function (event) {
+          var anchor = event.target instanceof Element ? event.target.closest('a') : null;
+          if (anchor) event.preventDefault();
+        });
+      }());
+    </script>
+  </body>
+</html>
