@@ -1,187 +1,169 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://stackpath.bootstrapcdn.com https://use.fontawesome.com; font-src 'self' https://use.fontawesome.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="./assets/css/index.css" />
-
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <link rel="stylesheet" href="./assets/css/redesign.css" />
     <title>About - Byron Miller</title>
   </head>
+  <body>
+    <header class="site-nav">
+      <div class="site-nav__shell">
+        <a class="brand" href="./index.html">byron.miller<span class="brand__cursor">_</span></a>
+        <button
+          class="nav-toggle"
+          type="button"
+          data-navbar-toggle
+          aria-expanded="false"
+          aria-controls="site-menu"
+        >
+          menu
+        </button>
+        <nav class="nav-menu" id="site-menu" data-navbar-menu aria-label="Site">
+          <a href="./index.html" aria-current="page">about</a>
+          <a href="./portfolio.html">portfolio</a>
+          <a href="./contact.html">contact</a>
+          <a href="https://dashinja.github.io/auntieKimDates/">auntie&nbsp;kim</a>
+          <a
+            class="nav-menu__resume"
+            href="./assets/documents/Byron_Miller_Resume_vc_techOnly_vari_ec_2024_03_18.docx"
+            download
+          >resume↓</a>
+          <a href="https://github.com/dashinja" target="_blank" rel="noopener noreferrer">github↗</a>
+        </nav>
+      </div>
+    </header>
 
-  <body id="index-page" class="bg-dark text-light">
-    <!-- -------Nav Bar------- -->
-  <div class="container w-100 navbar-expand-lg px-0">
-    <!--
-                      <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom">
-                    -->
-    <nav
-      class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom mx-md-auto">
-      <a class="navbar-brand pl-md-3 h1 mx-auto" href="./index.html">
-        <h1 class="display-3 sm-text-center">Byron Miller</h1>
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse"
-        data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end mr-2"
-        id="navbarNavAltMarkup">
-        <div class="navbar-nav mr-0">
-          <!--Social Media Icons-->
-          <ul class="list-inline text-center mx-sm-auto mt-2 mr-lg-4">
-            <li class="list-inline-item">
-              <a href="https://www.linkedin.com/in/millerbyron/" target="_blank" rel="noopener noreferrer">
-                <span class="fa-stack fa-lg">
-                  <i class="fab fa-linkedin fa-stack-2x fa-inverse"></i>
-                </span>
-              </a>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <img
+            class="hero__portrait"
+            src="./assets/images/squaremeup.png"
+            alt="Byron's Headshot"
+            width="200"
+            height="200"
+          />
+          <ul class="hero__facts">
+            <li>
+              <span class="fact-label">base</span>
+              <span class="fact-value">Davidson &rsquo;09</span>
             </li>
-  
-            <li class="list-inline-item">
-              <a href="https://github.com/dashinja" target="_blank" rel="noopener noreferrer">
-                <span class="fa-stack fa-lg">
-                  <i class="fab fa-github fa-stack-2x fa-inverse"></i>
-                </span>
-              </a>
+            <li>
+              <span class="fact-label">stack</span>
+              <span class="fact-value">MERN &middot; GraphQL</span>
+            </li>
+            <li>
+              <span class="fact-label">status</span>
+              <span class="fact-value">open to work</span>
             </li>
           </ul>
-          <!--Internal Navigation-->
-          <div class="navbar-nav mx-auto mt-1">
-            <a class="nav-item nav-link active" href="./index.html">
-              <h3>About Me</h3>
-              <span class="sr-only">(current)</span>
-            </a>
-            <a class="nav-item nav-link" href="./portfolio.html">
-              <h3>Portfolio</h3>
-            </a>
-            <a class="nav-item nav-link" href="https://dashinja.github.io/auntieKimDates/">
-              <h3>Auntie Kim Dates</h3>
-            </a>
-            <a class="nav-item nav-link" href="https://agent.dashinja.com/">
-              <h3>AI Agent</h3>
-            </a>
-            <a class="nav-item nav-link"
-              href="./assets/documents/Byron_Miller_Resume_vc_techOnly_vari_ec_2024_03_18.docx"
-              download>
-              <h3>Resume</h3>
-            </a>
-          </div>
         </div>
-      </div>
-    </nav>
-  </div
 
-    <!-- -------Portfolio Area---------- -->
-    <div
-      class="container bg-secondary rounded mt-2 mb-5 mx-md-auto my-md-4 px-md-5 py-md-3 w-100"
-    >
-      <section class="row"><header class="font-weight-bold"></header></section>
+        <div class="prose">
+          <p class="kicker">// operator profile</p>
+          <h1 class="console-title">Byron Miller</h1>
+          <p class="console-lede">
+            The Developer Previously Known as: The Master of Electricity.
+          </p>
+          <p>
+            I graduated from Davidson College in 2009, having majored in the Art
+            and Science of being Myself. I also left with a piece of paper
+            reading &lsquo;Spanish Literature&rsquo;, that is, if you could read the Latin.
+          </p>
+          <p>
+            I&rsquo;ve been sharpening my programming axe for 3 years, beginning with
+            Ruby, transitioning to Javascript, and most recently culminating in
+            a three month intensive bootcamp focused on a full stack approach to
+            Javascript (MERN).
+          </p>
+          <p>
+            As if the MERN stack wasn&rsquo;t enough, I drank the GraphQL Kool-Aid as
+            an alternative to RESTful APIs and am cutting my teeth in that wide
+            open landscape.
+          </p>
+          <p>
+            I enjoy learning new technologies for real-world applications that
+            manifest as improvements to quality of life for all &mdash; whether for
+            business or personal needs. I believe design and functionality
+            should engage the user and simplify decision making.
+          </p>
+          <p>Coding is like water. You have to drink it everyday. &hellip; I love water.</p>
+          <p>
+            Furthermore: I have background in the entertainment industry as a
+            master electrician (theatrical), lighting department director,
+            lighting designer, lighting console programmer, and stage manager.
+            Understanding a client&rsquo;s dream, translating that into the technical
+            language of the trade, and executing on that knowledge has been
+            common place and a daily occurrence.
+          </p>
+          <p>Getting to the heart of what a client wants and needs is in my blood. Delivery flows from there.</p>
+          <p class="stack-line">
+            MongoDB &middot; ExpressJS &middot; ReactJS &middot; NodeJS &middot; jQuery &middot; Semantic
+            HTML5 &middot; CSS &middot; Vanilla JavaScript &middot; GraphQL &middot; Prisma ORM &middot;
+            MySQL &middot; APIs
+          </p>
+          <p>
+            In addition to coding I enjoy learning, thinking, reading,
+            conversation, eating, sleeping &mdash; and getting back into Tennis one
+            day soon.
+          </p>
+        </div>
+      </section>
 
-      <!-- -Divider- -->
-      <div class="row">
-        <hr class=" border border-light w-100 mx-md-0 mx-3" />
-      </div>
+      <section style="margin-top: 48px">
+        <p class="kicker">// featured deployments</p>
+        <h2 class="console-title" style="font-size: 22px">Featured</h2>
+        <p class="console-lede" style="margin-bottom: 20px">
+          Three live builds. The full gallery runs on the
+          <a href="./portfolio.html" style="text-decoration: underline; text-underline-offset: 3px">portfolio console</a>.
+        </p>
+        <div class="card-grid">
+          <a class="feature-card" href="https://dashinja.github.io/auntieKimDates/">
+            <span class="feature-card__name">
+              <span class="status-dot status-dot--live" aria-hidden="true"></span>
+              Auntie Kim Dates
+            </span>
+            <span class="feature-card__cat">flagship app &middot; live</span>
+            <p class="feature-card__blurb">Community dating &amp; social events brand.</p>
+            <span class="feature-card__go">open &rarr;</span>
+          </a>
+          <a class="feature-card" href="https://agent.dashinja.com/">
+            <span class="feature-card__name">
+              <span class="status-dot status-dot--live" aria-hidden="true"></span>
+              AI Agent
+            </span>
+            <span class="feature-card__cat">ai &middot; live</span>
+            <p class="feature-card__blurb">Agentic control deck (agenticMe) &mdash; the dashinja.com/agent doorway.</p>
+            <span class="feature-card__go">open &rarr;</span>
+          </a>
+          <a class="feature-card" href="./grocery/">
+            <span class="feature-card__name">
+              <span class="status-dot status-dot--live" aria-hidden="true"></span>
+              Atelier Grocery
+            </span>
+            <span class="feature-card__cat">web app &middot; live</span>
+            <p class="feature-card__blurb">Grocery product sync &amp; storefront theme.</p>
+            <span class="feature-card__go">open &rarr;</span>
+          </a>
+        </div>
+      </section>
+    </main>
 
-      <!-- --Main Area-- -->
-      <div class="row">
-        <section class="m-md-auto mx-3">
-          <img
-            src="assets/images/squaremeup.png"
-            alt="Byron's Headshot"
-            class="img-fluid float-left mr-4 mb-3 rounded w-25 shadow-lg"
-          />
-          <article class="ml-md-2 mx-sm-2 float-none justify-conten p-2">
-            <h4>
-              The Developer Previously Known as:
-              The Master of Electricity
-            </h4>
-            <p class="lead justify-content">
-
-              I graduated from Davidson College in 2009, having majored in the
-              Art and Science of being Myself. I also left with a piece of paper
-              reading 'Spanish Literature', that is, if you could read the
-              Latin.
-            </p>
-
-            <p>
-              I've been sharpening my programming axe for 3 years, beginning
-              with Ruby, transitioning to Javascript, and most recently
-              culminating in a three month intensive bootcamp focused on a full
-              stack approach to Javascript (MERN).
-            </p>
-
-            <p>
-              As if the MERN stack wasn't enough, I drank the GraphQL Kool-Aid
-              as an alternative to RESTful APIs and am cutting my teeth in that
-              wide open landscape.
-            </p>
-            <p>
-              I enjoy learning new technologies for real-world applications that
-              manifest as improvements to quality of life for all - whether for
-              business or personal needs. I believe design and functionality
-              should engage the user and simplify decision making.
-            </p>
-            <p>
-              Coding is like water. You have to drink it everyday. ... I love
-              water.
-            </p>
-
-            <p>
-              Furthermore: I have background in the entertainment industry as a
-              master electrician (theatrical), lighting department director,
-              lighting designer, lighting console programmer, and stage manager
-              as well. Understanding a client's dream, translating that into the
-              technical language of the trade, and executing on that knowledge
-              has been common place and a daily occurrence.
-            </p>
-            <p>
-              Getting to the heart of what a client wants and needs is in my
-              blood. Delivery flows from there.
-            </p>
-
-            <p>
-              MongoDb | ExpressJS | ReactJS | NodeJS | jQuery | Semantic HTML5 |
-              CSS | Vanilla JavaScript | GraphQL | Prisma ORM | MySQL | APIs
-            </p>
-
-            <p>In addition to coding I enjoy:</p>
-            <ul>
-              <li>Learning</li>
-              <li>Thinking</li>
-              <li>Reading</li>
-              <li>Conversation</li>
-              <li>Eating</li>
-              <li>Sleeping</li>
-            </ul>
-            <p>
-              I also want to get back into Tennis one day soon!
-            </p>
-
-          </article>
-        </section>
-      </div>
-    </div>
-    <footer class="row mx-auto w-100 fixed-bottom mt-4">
-      <div class="card-footer bg-dark col text-center text-muted">
-        Copyright ©
+    <footer class="site-footer">
+      <div class="site-footer__shell">
+        <span>byron.miller &mdash; graphite console</span>
+        <span>
+          <a href="https://www.linkedin.com/in/millerbyron/" target="_blank" rel="noopener noreferrer">linkedin</a>
+          &middot;
+          <a href="https://github.com/dashinja" target="_blank" rel="noopener noreferrer">github</a>
+        </span>
+        <span>Copyright &copy;</span>
       </div>
     </footer>
-  </body>
 
-  <script src="./assets/js/navbar-toggle.js"></script>
+    <script src="./assets/js/navbar-toggle.js"></script>
+  </body>
 </html>

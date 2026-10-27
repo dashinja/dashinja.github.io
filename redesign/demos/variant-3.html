@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Graphite Console — interactive demo (inert)</title>
+<style>
+:root {
+  --bg-base: #141516;
+  --surface-1: #1a1b1c;
+  --surface-2: #212224;
+  --surface-3: #28292c;
+  --hover-step: #232426;
+  --line: #2c2e31;
+  --line-strong: #3a3d41;
+  --text-hi: #e2e4e7;
+  --text-mid: #a6abb2;
+  --text-lo: #8d939b;
+  --status-live: #fbbf24;
+  --status-soon: #34d399;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --hover-speed: 120ms;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg-base); color: var(--text-hi);
+  font-family: var(--font-sans); line-height: 1.6; -webkit-font-smoothing: antialiased;
+}
+a { color: var(--text-hi); text-decoration: none; }
+:focus-visible { outline: 2px solid var(--status-live); outline-offset: 2px; }
+.demo-banner {
+  background: var(--status-live); color: #1c1502;
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.04em;
+  text-align: center; padding: 10px 16px;
+}
+.site-nav { position: sticky; top: 0; background: var(--surface-1); border-bottom: 1px solid var(--line); }
+.site-nav__shell {
+  max-width: 1040px; margin: 0 auto; padding: 0 24px; min-height: 60px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.brand { font-family: var(--font-mono); font-size: 15px; letter-spacing: 0.04em; }
+.brand__cursor { color: var(--status-live); }
+.nav-toggle {
+  display: none; background: var(--surface-2); border: 1px solid var(--line-strong);
+  color: var(--text-hi); font-family: var(--font-mono); font-size: 12px;
+  letter-spacing: 0.08em; padding: 8px 12px; cursor: pointer;
+}
+.nav-menu { display: flex; align-items: center; gap: 4px; }
+.nav-menu a {
+  font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.04em;
+  color: var(--text-mid); padding: 8px 12px;
+  transition: background-color var(--hover-speed) ease;
+}
+.nav-menu a:hover { background: var(--hover-step); color: var(--text-hi); }
+.nav-menu a[aria-current="page"] { color: var(--text-hi); background: var(--surface-2); }
+@media (max-width: 760px) {
+  .nav-toggle { display: inline-block; }
+  .nav-menu {
+    display: none; position: absolute; top: 60px; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0; background: var(--surface-1);
+    border-bottom: 1px solid var(--line); padding: 8px 0 12px;
+  }
+  .nav-menu.is-open { display: flex; }
+  .nav-menu a { padding: 12px 24px; }
+}
+.shell { max-width: 1040px; margin: 0 auto; padding: 40px 24px 72px; }
+.kicker {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--text-lo); margin: 0 0 8px;
+}
+.console-title { font-size: clamp(26px, 4vw, 34px); font-weight: 600; margin: 0 0 6px; }
+.console-lede { color: var(--text-mid); max-width: 62ch; margin: 0 0 32px; }
+.panel { background: var(--surface-1); border: 1px solid var(--line); }
+.panel__head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  padding: 14px 20px; border-bottom: 1px solid var(--line);
+}
+.panel__label {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-lo); margin: 0;
+}
+.panel__count { font-family: var(--font-mono); font-size: 12px; color: var(--text-lo); }
+.row-head, .row-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.2fr) minmax(0, 1.6fr) 28px;
+  gap: 16px; align-items: center; padding: 14px 20px;
+}
+.row-head {
+  padding: 10px 20px; border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-lo);
+}
+.console-row { border-bottom: 1px solid var(--line); color: var(--text-hi); transition: background-color var(--hover-speed) ease; }
+.console-row:last-child { border-bottom: none; }
+a.console-row:hover { background: var(--hover-step); }
+.console-row__name { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.console-row__title { font-size: 15px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.console-row__cat, .console-row__meta {
+  font-family: var(--font-mono); font-size: 12.5px; color: var(--text-mid);
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.console-row__go { font-family: var(--font-mono); color: var(--text-lo); text-align: right; transition: color var(--hover-speed) ease; }
+a.console-row:hover .console-row__go { color: var(--text-hi); }
+.status-dot { flex: 0 0 auto; width: 8px; height: 8px; border-radius: 50%; }
+.status-dot--live { background: var(--status-live); }
+.status-dot--soon { background: var(--status-soon); }
+.site-footer { border-top: 1px solid var(--line); background: var(--surface-1); }
+.site-footer__shell {
+  max-width: 1040px; margin: 0 auto; padding: 16px 24px;
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-lo);
+  display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+<div class="demo-banner" role="note">Interactive demo — all links intentionally inert</div>
+
+<header class="site-nav">
+  <div class="site-nav__shell">
+    <a class="brand" href="#">byron.miller<span class="brand__cursor">_</span></a>
+    <button class="nav-toggle" type="button" data-navbar-toggle aria-expanded="false" aria-controls="site-menu">menu</button>
+    <nav class="nav-menu" id="site-menu" data-navbar-menu aria-label="Site">
+      <a href="#" aria-current="page">about</a>
+      <a href="#">portfolio</a>
+      <a href="#">contact</a>
+      <a href="#">auntie&nbsp;kim</a>
+      <a href="#">resume↓</a>
+      <a href="#">github↗</a>
+    </nav>
+  </div>
+</header>
+
+<main class="shell">
+  <p class="kicker">// deployment console</p>
+  <h1 class="console-title">Portfolio</h1>
+  <p class="console-lede">
+    Graphite Console — variant 3. Dashboard-density rows, amber = live,
+    green = coming soon. Hover a row to see the 120ms background step; tab
+    through to see focus rings; this demo respects reduced-motion.
+  </p>
+
+  <section class="panel" aria-label="App gallery (demo)">
+    <div class="panel__head">
+      <h2 class="panel__label">apps — all systems</h2>
+      <span class="panel__count">11 live · 1 pending</span>
+    </div>
+    <div class="row-head" aria-hidden="true">
+      <span>app</span><span>category</span><span>host / notes</span><span></span>
+    </div>
+
+    <a class="console-row row-grid" href="#">
+      <span class="console-row__name"><span class="status-dot status-dot--live" aria-hidden="true"></span><span class="console-row__title">Auntie Kim Dates</span></span>
+      <span class="console-row__cat">flagship app</span>
+      <span class="console-row__meta">pages host · community events brand</span>
+      <span class="console-row__go">→</span>
+    </a>
+    <a class="console-row row-grid" href="#">
+      <span class="console-row__name"><span class="status-dot status-dot--live" aria-hidden="true"></span><span class="console-row__title">AI Agent</span></span>
+      <span class="console-row__cat">ai</span>
+      <span class="console-row__meta">agent subdomain · agenticMe deck</span>
+      <span class="console-row__go">→</span>
+    </a>
+    <a class="console-row row-grid" href="#">
+      <span class="console-row__name"><span class="status-dot status-dot--live" aria-hidden="true"></span><span class="console-row__title">Atelier Grocery</span></span>
+      <span class="console-row__cat">web app</span>
+      <span class="console-row__meta">relative redirect · storefront theme</span>
+      <span class="console-row__go">→</span>
+    </a>
+    <a class="console-row row-grid" href="#">
+      <span class="console-row__name"><span class="status-dot status-dot--live" aria-hidden="true"></span><span class="console-row__title">RecipeCiprocity</span></span>
+      <span class="console-row__cat">web app</span>
+      <span class="console-row__meta">pages host · recipe finder</span>
+      <span class="console-row__go">→</span>
+    </a>
+    <a class="console-row row-grid" href="#">
+      <span class="console-row__name"><span class="status-dot status-dot--live" aria-hidden="true"></span><span class="console-row__title">Train Scheduler Deluxe</span></span>
+      <span class="console-row__cat">tool</span>
+      <span class="console-row__meta">pages host · scheduling</span>
+      <span class="console-row__go">→</span>
+    </a>
+    <a class="console-row row-grid" href="#">
+      <span class="console-row__name"><span class="status-dot status-dot--live" aria-hidden="true"></span><span class="console-row__title">Notes Node</span></span>
+      <span class="console-row__cat">web app</span>
+      <span class="console-row__meta">pages host · notes</span>
+      <span class="console-row__go">→</span>
+    </a>
+    <a class="console-row row-grid" href="#">
+      <span class="console-row__name"><span class="status-dot status-dot--live" aria-hidden="true"></span><span class="console-row__title">Liri Bot</span></span>
+      <span class="console-row__cat">cli</span>
+      <span class="console-row__meta">pages host · Node assistant</span>
+      <span class="console-row__go">→</span>
+    </a>
+    <a class="console-row row-grid" href="#">
+      <span class="console-row__name"><span class="status-dot status-dot--live" aria-hidden="true"></span><span class="console-row__title">Las Horcas</span></span>
+      <span class="console-row__cat">game</span>
+      <span class="console-row__meta">pages host · word guess</span>
+      <span class="console-row__go">→</span>
+    </a>
+    <a class="console-row row-grid" href="#">
+      <span class="console-row__name"><span class="status-dot status-dot--live" aria-hidden="true"></span><span class="console-row__title">Bamazonathon</span></span>
+      <span class="console-row__cat">cli</span>
+      <span class="console-row__meta">pages host · storefront</span>
+      <span class="console-row__go">→</span>
+    </a>
+    <a class="console-row row-grid" href="#">
+      <span class="console-row__name"><span class="status-dot status-dot--live" aria-hidden="true"></span><span class="console-row__title">Giphy Fun</span></span>
+      <span class="console-row__cat">web app</span>
+      <span class="console-row__meta">pages host · GIF search</span>
+      <span class="console-row__go">→</span>
+    </a>
+    <a class="console-row row-grid" href="#">
+      <span class="console-row__name"><span class="status-dot status-dot--live" aria-hidden="true"></span><span class="console-row__title">Them Burgerz Tho</span></span>
+      <span class="console-row__cat">demo</span>
+      <span class="console-row__meta">pages host · ordering</span>
+      <span class="console-row__go">→</span>
+    </a>
+    <div class="console-row row-grid">
+      <span class="console-row__name"><span class="status-dot status-dot--soon" aria-hidden="true"></span><span class="console-row__title">Tetris</span></span>
+      <span class="console-row__cat">game</span>
+      <span class="console-row__meta">deploy pending · coming soon</span>
+      <span class="console-row__go">·</span>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__shell">
+    <span>byron.miller — graphite console</span>
+    <span><a href="#">linkedin</a> · <a href="#">github</a></span>
+    <span>Copyright ©</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var toggle = document.querySelector('[data-navbar-toggle]');
+  var menu = document.querySelector('[data-navbar-menu]');
+  if (!toggle || !menu) return;
+  function setOpen(open) {
+    toggle.setAttribute('aria-expanded', String(open));
+    menu.classList.toggle('is-open', open);
+  }
+  toggle.addEventListener('click', function () {
+    setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+  });
+  menu.addEventListener('click', function (event) {
+    if (event.target.closest('a')) setOpen(false);
+  });
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && menu.classList.contains('is-open')) {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+  document.addEventListener('click', function (event) {
+    var link = event.target.closest('a');
+    if (link) event.preventDefault();
+  });
+})();
+</script>
+</body>
+</html>
