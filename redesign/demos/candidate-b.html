@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Candidate B — Editorial Index (interactive demo)</title>
+    <!--
+      Self-contained interactive demo for Candidate B "Editorial Index".
+      Every anchor is inert: href="#" + a global preventDefault handler.
+      Zero absolute URLs in any href or src attribute.
+    -->
+    <style>
+      :root {
+        --bg: #faf9f6;
+        --surface: #ffffff;
+        --fg: #141414;
+        --muted: #6f6b64;
+        --border: #e6e2da;
+        --accent: #2c5cd6;
+        --accent-soft: #e8edfb;
+        --highlight: #f5efe4;
+        --font-display: 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+        --font-body: ui-sans-serif, system-ui, 'Helvetica Neue', Arial, sans-serif;
+        --ease: 200ms ease;
+        --rule: 1px solid var(--border);
+        --radius: 4px;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--font-body);
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      h1, h2, h3 { font-family: var(--font-display); line-height: 1.08; margin: 0; }
+      p { margin: 0; }
+      ul, ol { margin: 0; padding: 0; list-style: none; }
+
+      .demo-banner {
+        background: var(--accent);
+        color: #ffffff;
+        text-align: center;
+        font-size: 0.875rem;
+        letter-spacing: 0.04em;
+        padding: 0.6em 1em;
+        position: sticky;
+        top: 0;
+        z-index: 20;
+      }
+
+      .shell {
+        max-width: 1200px;
+        margin-inline: auto;
+        padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+      }
+
+      section { padding-block: clamp(3rem, 8vw, 6rem); }
+
+      /* Nav */
+      .site-header {
+        position: sticky;
+        top: 2.6em;
+        z-index: 10;
+        background: var(--bg);
+        border-bottom: var(--rule);
+      }
+      .site-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.875rem 0;
+      }
+      .brand { font-family: var(--font-display); font-size: 1.5rem; color: var(--fg); text-decoration: none; }
+      .brand em { color: var(--accent); }
+      .nav-links { display: flex; gap: 2rem; }
+      .nav-links a { color: var(--fg); text-decoration: none; font-size: 0.875rem; }
+      .nav-links a:hover { color: var(--accent); }
+
+      /* Hero */
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(180px, 280px) 1fr;
+        gap: clamp(2rem, 6vw, 4rem);
+        align-items: center;
+      }
+      .monogram {
+        width: 100%;
+        aspect-ratio: 1;
+        border: var(--rule);
+        border-radius: var(--radius);
+        background:
+          linear-gradient(135deg, var(--accent-soft), var(--highlight));
+        display: grid;
+        place-items: center;
+        font-family: var(--font-display);
+        font-size: 4rem;
+        font-style: italic;
+        color: var(--accent);
+      }
+      .eyebrow {
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+        margin-bottom: 1rem;
+      }
+      h1 { font-size: clamp(2.75rem, 6vw, 4.25rem); margin-bottom: 1rem; }
+      .deck {
+        font-family: var(--font-display);
+        font-style: italic;
+        font-size: clamp(1.25rem, 2vw, 1.5rem);
+        color: var(--muted);
+        max-width: 44ch;
+      }
+
+      /* Featured band */
+      .featured { background: var(--highlight); border-block: var(--rule); }
+      .pull-quote {
+        font-family: var(--font-display);
+        font-style: italic;
+        font-size: clamp(1.625rem, 3vw, 2.125rem);
+        line-height: 1.25;
+        max-width: 30ch;
+        margin-bottom: 2rem;
+      }
+      .featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+      .featured-tile {
+        display: flex; flex-direction: column; gap: 0.25rem;
+        padding: 1.5rem;
+        background: var(--surface);
+        border: var(--rule);
+        border-radius: var(--radius);
+        color: var(--fg);
+        text-decoration: none;
+        transition: background-color var(--ease), border-color var(--ease);
+      }
+      .featured-tile:hover { background: var(--accent-soft); border-color: var(--accent); }
+      .tile-category {
+        font-size: 0.875rem; text-transform: uppercase;
+        letter-spacing: 0.12em; color: var(--muted);
+      }
+      .tile-name { font-family: var(--font-display); font-size: 1.5rem; }
+      .tile-blurb { color: var(--muted); }
+      .tile-arrow {
+        margin-top: 0.75rem; color: var(--accent);
+        opacity: 0; transform: translateX(-4px);
+        transition: opacity var(--ease), transform var(--ease);
+      }
+      .featured-tile:hover .tile-arrow,
+      .featured-tile:focus-visible .tile-arrow { opacity: 1; transform: translateX(0); }
+
+      /* Index rows */
+      .index-list { border-top: var(--rule); }
+      .index-list li { border-bottom: var(--rule); }
+      .index-row {
+        display: grid;
+        grid-template-columns: 4.5rem minmax(0, 1fr) auto auto;
+        align-items: baseline;
+        gap: 1rem;
+        padding: 1rem;
+        color: var(--fg);
+        text-decoration: none;
+        transition: background-color var(--ease);
+      }
+      .index-row:hover { background: var(--accent-soft); }
+      .row-numeral {
+        font-family: var(--font-display); font-weight: 300;
+        font-size: 2.25rem; line-height: 1; color: var(--muted);
+        transition: color var(--ease);
+      }
+      .index-row:hover .row-numeral { color: var(--accent); }
+      .row-body { display: flex; flex-direction: column; gap: 0.15rem; }
+      .row-name {
+        font-family: var(--font-display); font-size: 1.5rem; width: fit-content;
+        background-image: linear-gradient(currentColor, currentColor);
+        background-repeat: no-repeat;
+        background-position: 0 100%;
+        background-size: 0% 1px;
+        transition: background-size var(--ease);
+      }
+      .index-row:hover .row-name,
+      .index-row:focus-visible .row-name { background-size: 100% 1px; }
+      .row-blurb { color: var(--muted); font-size: 0.9375rem; }
+      .row-arrow {
+        color: var(--accent);
+        opacity: 0; transform: translateX(-6px);
+        transition: opacity var(--ease), transform var(--ease);
+      }
+      .index-row:hover .row-arrow,
+      .index-row:focus-visible .row-arrow { opacity: 1; transform: translateX(0); }
+
+      .chip {
+        display: inline-block;
+        padding: 0.2em 0.9em;
+        border: var(--rule);
+        border-radius: 999px;
+        font-size: 0.875rem;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      /* Reduced-motion simulation switch */
+      .motion-switch {
+        display: flex; align-items: center; gap: 0.5rem;
+        font-size: 0.875rem; color: var(--muted);
+        padding: 0.75rem 0;
+        border-top: var(--rule);
+      }
+      .demo-reduced *,
+      .demo-reduced *::before,
+      .demo-reduced *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+
+      footer {
+        border-top: var(--rule);
+        padding-block: 2rem;
+        color: var(--muted);
+        font-size: 0.875rem;
+      }
+
+      :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+      @media (max-width: 900px) {
+        .hero-grid, .featured-grid { grid-template-columns: 1fr; }
+        .index-row { grid-template-columns: 3rem minmax(0, 1fr) auto; }
+        .row-arrow { display: none; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * { transition: none !important; animation: none !important; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <p class="demo-banner" role="note">
+      Interactive demo — all links intentionally inert
+    </p>
+
+    <header class="site-header">
+      <div class="shell">
+        <nav class="site-nav" aria-label="Primary">
+          <a class="brand" href="#">Byron <em>Miller</em></a>
+          <ul class="nav-links">
+            <li><a href="#" aria-current="page">Index</a></li>
+            <li><a href="#">Work</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Resume</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section aria-labelledby="demo-hero">
+        <div class="shell hero-grid">
+          <div class="monogram" aria-hidden="true">B.</div>
+          <div>
+            <p class="eyebrow">Byron Miller · Full-stack developer</p>
+            <h1 id="demo-hero">I build web apps that make decisions easier.</h1>
+            <p class="deck">
+              Hover a row below — the underline draws, the arrow fades in.
+              That is the whole personality of Candidate B.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="featured" aria-labelledby="demo-featured">
+        <div class="shell">
+          <p class="pull-quote" id="demo-featured">
+            Three projects that show the range.
+          </p>
+          <div class="featured-grid">
+            <a class="featured-tile" href="#">
+              <span class="tile-category">Flagship app</span>
+              <span class="tile-name">Auntie Kim Dates</span>
+              <span class="tile-blurb">Community dating &amp; social events brand.</span>
+              <span class="tile-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            <a class="featured-tile" href="#">
+              <span class="tile-category">AI</span>
+              <span class="tile-name">AI Agent</span>
+              <span class="tile-blurb">Agentic control deck.</span>
+              <span class="tile-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            <a class="featured-tile" href="#">
+              <span class="tile-category">Web app</span>
+              <span class="tile-name">Atelier Grocery</span>
+              <span class="tile-blurb">Grocery product sync &amp; storefront theme.</span>
+              <span class="tile-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="demo-index">
+        <div class="shell">
+          <h2 id="demo-index" style="font-size: 3rem; margin-bottom: 2rem;">
+            The index
+          </h2>
+          <ol class="index-list">
+            <li>
+              <a class="index-row" href="#">
+                <span class="row-numeral" aria-hidden="true">01</span>
+                <span class="row-body">
+                  <span class="row-name">Auntie Kim Dates</span>
+                  <span class="row-blurb">Community dating &amp; social events brand.</span>
+                </span>
+                <span class="chip">Flagship</span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+            <li>
+              <a class="index-row" href="#">
+                <span class="row-numeral" aria-hidden="true">02</span>
+                <span class="row-body">
+                  <span class="row-name">AI Agent</span>
+                  <span class="row-blurb">Agentic control deck.</span>
+                </span>
+                <span class="chip">AI</span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+            <li>
+              <a class="index-row" href="#">
+                <span class="row-numeral" aria-hidden="true">03</span>
+                <span class="row-body">
+                  <span class="row-name">Atelier Grocery</span>
+                  <span class="row-blurb">Grocery product sync &amp; storefront theme.</span>
+                </span>
+                <span class="chip">Web app</span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+            <li>
+              <a class="index-row" href="#">
+                <span class="row-numeral" aria-hidden="true">04</span>
+                <span class="row-body">
+                  <span class="row-name">RecipeCiprocity</span>
+                  <span class="row-blurb">Recipe finder.</span>
+                </span>
+                <span class="chip">Web app</span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+            <li>
+              <a class="index-row" href="#">
+                <span class="row-numeral" aria-hidden="true">05</span>
+                <span class="row-body">
+                  <span class="row-name">Train Scheduler Deluxe</span>
+                  <span class="row-blurb">Scheduling tool.</span>
+                </span>
+                <span class="chip">Tool</span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <div class="shell">
+        <label class="motion-switch">
+          <input type="checkbox" id="motion-toggle" />
+          Simulate prefers-reduced-motion
+        </label>
+      </div>
+    </main>
+
+    <footer>
+      <div class="shell">
+        <p>&copy; 2026 Byron Miller — Candidate B, Editorial Index</p>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        'use strict';
+
+        document.addEventListener('click', function (event) {
+          var anchor = event.target.closest('a');
+          if (anchor) event.preventDefault();
+        });
+
+        var motionToggle = document.getElementById('motion-toggle');
+        motionToggle.addEventListener('change', function () {
+          document.documentElement.classList.toggle(
+            'demo-reduced',
+            motionToggle.checked
+          );
+        });
+      })();
+    </script>
+  </body>
+</html>

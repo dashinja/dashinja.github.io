@@ -1,462 +1,389 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://stackpath.bootstrapcdn.com https://use.fontawesome.com; font-src 'self' https://use.fontawesome.com; img-src 'self' https://media0.giphy.com data:; object-src 'none'; base-uri 'self'; form-action 'self'" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-      crossorigin="anonymous"
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'"
     />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-      crossorigin="anonymous"
+    <meta
+      name="description"
+      content="The work of Byron Miller, grouped by kind: flagship apps, AI, web apps, command-line tools, and games."
     />
-
-    <title>Portfolio - Byron Miller</title>
-    <link rel="stylesheet" href="./assets/css/index.css" />
+    <title>Work — Byron Miller</title>
+    <link rel="stylesheet" href="./assets/css/redesign.css" />
   </head>
 
-  <!-- -------Nav Bar------- -->
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-  <div class="container w-100 navbar-expand-lg px-0">
-    <!--
-                      <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom">
-                    -->
-    <nav
-      class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom mx-md-auto"
-    >
-      <a class="navbar-brand pl-md-3 h1 mx-auto" href="./index.html">
-        <h1 class="display-3 sm-text-center">Byron Miller</h1>
-      </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div
-        class="collapse navbar-collapse justify-content-end mr-2"
-        id="navbarNavAltMarkup"
-      >
-        <div class="navbar-nav mr-0">
-          <!--Social Media Icons-->
-          <ul class="list-inline text-center mx-sm-auto mt-2 mr-lg-4">
-            <li class="list-inline-item">
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Primary">
+        <a class="brand" href="./index.html">Byron <em>Miller</em></a>
+        <button
+          class="nav-toggle"
+          type="button"
+          data-nav-toggle
+          aria-controls="site-menu"
+          aria-expanded="false"
+        >
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+          <span class="visually-hidden">Toggle navigation</span>
+        </button>
+        <div class="nav-menu" id="site-menu">
+          <ul class="nav-links">
+            <li><a href="./index.html">Index</a></li>
+            <li><a href="./portfolio.html" aria-current="page">Work</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+            <li>
               <a
-                href="https://www.linkedin.com/in/millerbyron/"
+                class="nav-resume"
+                href="./assets/documents/Byron_Miller_Resume_vc_techOnly_vari_ec_2024_03_18.docx"
+                download
+                >Resume</a
+              >
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="work-heading">
+        <div class="shell">
+          <p class="eyebrow">Byron Miller · Full-stack developer</p>
+          <h1 id="work-heading">The work, grouped by kind.</h1>
+          <p class="deck">
+            Live links open in a new tab. Everything here is small on purpose —
+            each entry does one thing and hands you the result.
+          </p>
+        </div>
+      </section>
+
+      <div class="shell">
+        <section class="group" aria-labelledby="group-flagship">
+          <h2 class="group-title" id="group-flagship">Flagship &amp; AI</h2>
+          <ol class="index-list">
+            <li>
+              <a
+                class="index-row"
+                href="https://dashinja.github.io/auntieKimDates/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span class="fa-stack fa-lg">
-                  <i class="fab fa-linkedin fa-stack-2x fa-inverse"></i>
+                <span class="row-numeral" aria-hidden="true">01</span>
+                <span class="row-body">
+                  <span class="row-name">Auntie Kim Dates</span>
+                  <span class="row-blurb">
+                    Community dating &amp; social events brand — events, RSVPs,
+                    and a brand people greet by name.
+                  </span>
                 </span>
+                <span class="row-meta">
+                  <span class="chip">Flagship</span>
+                  <span class="badge badge-live">Live</span>
+                </span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
               </a>
             </li>
+            <li>
+              <a
+                class="index-row"
+                href="https://agent.dashinja.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="row-numeral" aria-hidden="true">02</span>
+                <span class="row-body">
+                  <span class="row-name">AI Agent</span>
+                  <span class="row-blurb">
+                    The agenticMe control deck — one doorway to the assistant
+                    that runs my experiments.
+                  </span>
+                </span>
+                <span class="row-meta">
+                  <span class="chip">AI</span>
+                  <span class="badge badge-live">Live</span>
+                </span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+          </ol>
+        </section>
 
-            <li class="list-inline-item">
-              <a href="https://github.com/dashinja" target="_blank" rel="noopener noreferrer">
-                <span class="fa-stack fa-lg">
-                  <i class="fab fa-github fa-stack-2x fa-inverse"></i>
+        <section class="group" aria-labelledby="group-web">
+          <h2 class="group-title" id="group-web">Web apps</h2>
+          <ol class="index-list">
+            <li>
+              <a
+                class="index-row"
+                href="./grocery/"
+                rel="noopener noreferrer"
+              >
+                <span class="row-numeral" aria-hidden="true">03</span>
+                <span class="row-body">
+                  <span class="row-name">Atelier Grocery</span>
+                  <span class="row-blurb">
+                    Grocery product sync and a storefront theme, wired to a real
+                    inventory pipeline.
+                  </span>
                 </span>
+                <span class="row-meta">
+                  <span class="chip">Web app</span>
+                  <span class="badge badge-live">Live</span>
+                </span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
               </a>
             </li>
-          </ul>
-          <!--Internal Navigation-->
-          <div class="navbar-nav mx-auto mt-1">
-            <a class="nav-item nav-link" href="./index.html">
-              <h3>About Me</h3>
-              <span class="sr-only">(current)</span>
-            </a>
-            <a class="nav-item nav-link active" href="./portfolio.html">
-              <h3>Portfolio</h3>
-            </a>
-            <a class="nav-item nav-link" href="https://dashinja.github.io/auntieKimDates/">
-              <h3>Auntie Kim Dates</h3>
-            </a>
+            <li>
+              <a
+                class="index-row"
+                href="https://dashinja.github.io/recipeciprocity/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="row-numeral" aria-hidden="true">04</span>
+                <span class="row-body">
+                  <span class="row-name">RecipeCiprocity</span>
+                  <span class="row-blurb">
+                    Recipe finder that answers “what can I cook with what I
+                    have?”
+                  </span>
+                </span>
+                <span class="row-meta">
+                  <span class="chip">Web app</span>
+                  <span class="badge badge-live">Live</span>
+                </span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="index-row"
+                href="https://dashinja.github.io/trainSchedulerDeluxe/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="row-numeral" aria-hidden="true">05</span>
+                <span class="row-body">
+                  <span class="row-name">Train Scheduler Deluxe</span>
+                  <span class="row-blurb">
+                    Scheduling tool with arrivals, departures, and a departure
+                    board that feels alive.
+                  </span>
+                </span>
+                <span class="row-meta">
+                  <span class="chip">Tool</span>
+                  <span class="badge badge-live">Live</span>
+                </span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="index-row"
+                href="https://dashinja.github.io/notes-node/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="row-numeral" aria-hidden="true">06</span>
+                <span class="row-body">
+                  <span class="row-name">Notes Node</span>
+                  <span class="row-blurb">
+                    Plain notes, stored and served simply — no ceremony, all
+                    signal.
+                  </span>
+                </span>
+                <span class="row-meta">
+                  <span class="chip">Web app</span>
+                  <span class="badge badge-live">Live</span>
+                </span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="index-row"
+                href="https://dashinja.github.io/giphy/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="row-numeral" aria-hidden="true">07</span>
+                <span class="row-body">
+                  <span class="row-name">Giphy Fun</span>
+                  <span class="row-blurb">
+                    GIF search for the permanently amused — type a mood, get a
+                    loop.
+                  </span>
+                </span>
+                <span class="row-meta">
+                  <span class="chip">Media</span>
+                  <span class="badge badge-live">Live</span>
+                </span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+          </ol>
+        </section>
+
+        <section class="group" aria-labelledby="group-cli">
+          <h2 class="group-title" id="group-cli">Command line</h2>
+          <ol class="index-list">
+            <li>
+              <a
+                class="index-row"
+                href="https://dashinja.github.io/liri/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="row-numeral" aria-hidden="true">08</span>
+                <span class="row-body">
+                  <span class="row-name">Liri Bot</span>
+                  <span class="row-blurb">
+                    Command-line assistant in Node — songs, movies, and trivia
+                    on demand.
+                  </span>
+                </span>
+                <span class="row-meta">
+                  <span class="chip">CLI</span>
+                  <span class="badge badge-live">Live</span>
+                </span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="index-row"
+                href="https://dashinja.github.io/bamazonathon/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="row-numeral" aria-hidden="true">09</span>
+                <span class="row-body">
+                  <span class="row-name">Bamazonathon</span>
+                  <span class="row-blurb">
+                    Command-line storefront — browse, fill a cart, check out,
+                    watch inventory drop.
+                  </span>
+                </span>
+                <span class="row-meta">
+                  <span class="chip">CLI</span>
+                  <span class="badge badge-live">Live</span>
+                </span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+          </ol>
+        </section>
+
+        <section class="group" aria-labelledby="group-games">
+          <h2 class="group-title" id="group-games">Games &amp; demos</h2>
+          <ol class="index-list">
+            <li>
+              <a
+                class="index-row"
+                href="https://dashinja.github.io/lashorcas/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="row-numeral" aria-hidden="true">10</span>
+                <span class="row-body">
+                  <span class="row-name">Las Horcas</span>
+                  <span class="row-blurb">
+                    A word game with teeth — guess the phrase before the
+                    gallows fills in.
+                  </span>
+                </span>
+                <span class="row-meta">
+                  <span class="chip">Game</span>
+                  <span class="badge badge-live">Live</span>
+                </span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="index-row"
+                href="https://dashinja.github.io/themburgerztho/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="row-numeral" aria-hidden="true">11</span>
+                <span class="row-body">
+                  <span class="row-name">Them Burgerz Tho</span>
+                  <span class="row-blurb">
+                    Ordering demo that takes burgers far more seriously than it
+                    should.
+                  </span>
+                </span>
+                <span class="row-meta">
+                  <span class="chip">Demo</span>
+                  <span class="badge badge-live">Live</span>
+                </span>
+                <span class="row-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+            <li>
+              <div class="index-row" aria-disabled="true">
+                <span class="row-numeral" aria-hidden="true">12</span>
+                <span class="row-body">
+                  <span class="row-name">Tetris</span>
+                  <span class="row-blurb">
+                    Falling blocks, on the way — still in the shop.
+                  </span>
+                </span>
+                <span class="row-meta">
+                  <span class="chip">Game</span>
+                  <span class="badge badge-soon">Coming soon</span>
+                </span>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <aside class="site-note" aria-label="About this site">
+          <p>
+            About this site: a static hub — hand-written HTML, one stylesheet,
+            a few hundred lines of first-party JavaScript, and no framework in
+            sight. The typography does the heavy lifting.
+          </p>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <p>&copy; 2026 Byron Miller</p>
+        <ul class="footer-links">
+          <li>
             <a
-              class="nav-item nav-link"
+              href="https://www.linkedin.com/in/millerbyron/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >LinkedIn</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://github.com/dashinja/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >GitHub</a
+            >
+          </li>
+          <li>
+            <a
               href="./assets/documents/Byron_Miller_Resume_vc_techOnly_vari_ec_2024_03_18.docx"
               download
+              >Resume</a
             >
-              <h3>Resume</h3>
-            </a>
-          </div>
-        </div>
-      </div>
-    </nav>
-  </div>
-
-  <!-- ----------_Body------------ -->
-  <body class="text-light" id="portfolio-page-background">
-    <div
-      class="container bg-secondary rounded mx-auto mt-2 mb-5 px-5 pt-3 pb-4 shadow-lg"
-      id="portfolio-page"
-    >
-      <section class="row justify-content-md-start justify-content-center">
-        <!-- Header -->
-        <header class="font-weight-bold">
-          <h3 class="display-4">Portfolio</h3>
-        </header>
-      </section>
-
-      <div class="container rounded pt-2 pb-2">
-        <!-- Row 1 -->
-        <section
-          class="d-flex flex-row align-items-start justify-content-around py-4 flex-wrap flex-lg-nowrap"
-          style="height: 100%; width: 100%"
-        >
-          <!-- Recipeciprocity  -->
-          <div
-            class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
-          >
-            <a
-              href="https://dashinja.github.io/recipeciprocity/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-white"
-            >
-              <img
-                class="card-img"
-                style="height: 200px; width: 200px"
-                src="./assets/images/recipeciprocity.png"
-                alt="Recipeciprocity Hero Image"
-              />
-              <div
-                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
-              >
-                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
-                  <h5 class="card-title w-100 m-0 p-0 col rounded">
-                    Recipeciprocity
-                  </h5>
-                </div>
-              </div>
-            </a>
-          </div>
-          <!--Train Scheduler Deluxe -->
-          <div
-            class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
-          >
-            <a
-              href="https://dashinja.github.io/trainSchedulerDeluxe/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-white"
-            >
-              <img
-                class="card-img"
-                style="height: 200px; width: 200px"
-                src="assets/images/train.jpg"
-                alt="Nice Train Profile"
-              />
-              <div
-                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
-              >
-                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
-                  <h5 class="card-title w-100 m-0 p-0 col rounded">
-                    Train Scheduler Deluxe
-                  </h5>
-                </div>
-              </div>
-            </a>
-          </div>
-          <!-- Notes Node -->
-          <div
-            class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
-          >
-            <a
-              href="https://dashinja.github.io/notes-node/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-white"
-            >
-              <img
-                class="card-img"
-                style="height: 200px; width: 200px"
-                src="assets/images/crayon_alt.png"
-                alt="Notes Node Crayon"
-              />
-              <div
-                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
-              >
-                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
-                  <h5 class="card-title w-100 m-0 p-0 col rounded">
-                    Notes Node
-                  </h5>
-                </div>
-              </div>
-            </a>
-          </div>
-          <!-- Liri Bot -->
-          <div
-            class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
-          >
-            <a
-              href="https://dashinja.github.io/liri/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-white"
-            >
-              <img
-                class="card-img"
-                style="height: 200px; width: 200px"
-                src="./assets/images/housethreads.jpg"
-                alt="Notes Node Crayon"
-              />
-              <div
-                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
-              >
-                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
-                  <h5 class="card-title w-100 m-0 p-0 col rounded">Liri Bot</h5>
-                </div>
-              </div>
-            </a>
-          </div>
-        </section>
-
-        <!-- Row 2 -->
-        <section
-          class="d-flex flex-row align-items-start justify-content-around py-4 flex-wrap flex-lg-nowrap"
-          style="height: 100%; width: 100%"
-        >
-          <!-- Word Guess Game -->
-          <div
-            class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
-          >
-            <a
-              href="https://dashinja.github.io/lashorcas/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-white"
-            >
-              <img
-                class="card-img"
-                style="height: 200px; width: 200px"
-                src="assets/images/las_horcas.png"
-                alt="Placeholder"
-              />
-              <div
-                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
-              >
-                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
-                  <h5 class="card-title w-100 m-0 p-0 col rounded">
-                    Las Horcas
-                  </h5>
-                </div>
-              </div>
-            </a>
-          </div>
-          <!--Bamazonathon-->
-          <div
-            class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
-          >
-            <a
-              href="https://dashinja.github.io/bamazonathon/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-white"
-            >
-              <img
-                class="card-img"
-                style="height: 200px; width: 200px"
-                src="assets/images/bamazonathon.jpg"
-                alt="Placeholder"
-              />
-              <div
-                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
-              >
-                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
-                  <h5 class="card-title w-100 m-0 p-0 col rounded">
-                    Bamazonathon!
-                  </h5>
-                </div>
-              </div>
-            </a>
-          </div>
-          <!-- Giphy -->
-          <div
-            class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
-          >
-            <a
-              href="https://dashinja.github.io/giphy/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-white"
-            >
-              <img
-                class="card-img"
-                style="height: 200px; width: 200px"
-                src="https://media0.giphy.com/media/dbyg4S91m5BkY/200.gif"
-                referrerpolicy="no-referrer"
-                alt="Funny Giphy Placeholder"
-              />
-              <div
-                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
-              >
-                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
-                  <h5 class="card-title w-100 m-0 p-0 col rounded">
-                    GIF Haven
-                  </h5>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <!-- Friend Fest Finder -->
-          <div
-            class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
-          >
-            <a
-              href="https://friendfestfinder.herokuapp.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-white"
-            >
-              <img
-                class="card-img"
-                style="height: 200px; width: 200px"
-                src="assets/images/couple.png"
-                alt="Card image"
-              />
-              <div
-                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
-              >
-                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
-                  <h5 class="card-title w-100 m-0 p-0 col rounded">
-                    Friend Fest Finder
-                  </h5>
-                </div>
-              </div>
-            </a>
-          </div>
-        </section>
-
-        <!-- Row 3 -->
-        <section
-          class="d-flex flex-row align-items-start justify-content-around py-4 flex-wrap flex-lg-nowrap"
-          style="height: 100%; width: 100%"
-        >
-          <!--Them Burgerz Tho-->
-          <div
-            class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
-          >
-            <a
-              href="https://dashinja.github.io/themburgerztho/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-white"
-            >
-              <img
-                class="card-img"
-                style="height: 200px; width: 200px"
-                src="assets/images/burger-photo.jpg"
-                alt="Placeholder"
-              />
-              <div
-                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
-              >
-                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
-                  <h5 class="card-title w-100 m-0 p-0 col rounded">
-                    Them Burgerz Tho!
-                  </h5>
-                </div>
-              </div>
-            </a>
-          </div>
-          <!--Project 2-->
-          <div
-            class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
-          >
-            <a
-              href="https://puffroi.herokuapp.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-white"
-            >
-              <img
-                class="card-img"
-                style="height: 200px; width: 200px"
-                src="assets/images/cityPano.jpg"
-                alt="Placeholder"
-              />
-              <div
-                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
-              >
-                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
-                  <h5 class="card-title w-100 m-0 p-0 col rounded">COL-lege</h5>
-                </div>
-              </div>
-            </a>
-          </div>
-          <!--Dota2News-->
-          <div
-            class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
-          >
-            <a
-              href="https://dota2news.herokuapp.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-white"
-            >
-              <img
-                class="card-img"
-                style="height: 200px; width: 200px"
-                src="assets/images/team_liquid.png"
-                alt="Placeholder"
-              />
-              <div
-                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
-              >
-                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
-                  <h5 class="card-title w-100 m-0 p-0 col rounded">
-                    Dota2News
-                  </h5>
-                </div>
-              </div>
-            </a>
-          </div>
-          <!-- LISA - Project 3 -->
-          <div
-            class="card bg-dark text-white rounded border border-success my-sm-3 my-md-4"
-          >
-            <a href="https://demo-lisa.xyz/" target="_blank" rel="noopener noreferrer" class="text-white">
-              <img
-                class="card-img"
-                style="height: 200px; width: 200px"
-                src="assets/images/lisa.png"
-                alt="Placeholder"
-              />
-              <div
-                class="card-img-overlay container p-1 d-flex d-column justify-content-center align-items-end"
-              >
-                <div class="row bg-success w-100 text-center mb-2 py-2 rounded">
-                  <h5 class="card-title w-100 m-0 p-0 col rounded">
-                    L.I.S.A. Preview
-                  </h5>
-                </div>
-              </div>
-            </a>
-          </div>
-        </section>
-      </div>
-    </div>
-
-    <footer class="row bg-dark mx-auto w-100 fixed-bottom mt-4">
-      <div class="card-footer bg-dark col-12 text-center text-muted">
-        Copyright ©
+          </li>
+        </ul>
       </div>
     </footer>
+
+    <script src="./assets/js/navbar-toggle.js"></script>
   </body>
-  <script src="./assets/js/navbar-toggle.js"></script>
 </html>
