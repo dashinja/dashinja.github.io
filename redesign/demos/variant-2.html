@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Midnight Signature — Interactive demo</title>
+    <style>
+      :root {
+        --bg: #09090b;
+        --bg2: #101012;
+        --comp-1: #0e0e10;
+        --comp-2: #16161a;
+        --comp-3: #1d1d22;
+        --border-4: #1f1f23;
+        --border-5: #2a2a30;
+        --border-6: #3f3f46;
+        --text-10: #ededf0;
+        --text-9: #a1a1aa;
+        --accent: #6366f1;
+        --accent-link: #818cf8;
+        --accent-soft: #a78bfa;
+        --grad: linear-gradient(100deg, #6366f1, #a78bfa);
+        --hero-glow: radial-gradient(ellipse 90% 65% at 50% -12%, rgba(99, 102, 241, 0.18), rgba(167, 139, 250, 0.12) 48%, transparent 72%);
+        --ease: 180ms ease-out;
+        --radius: 10px;
+        --nav-h: 64px;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text-10);
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: var(--accent-link); text-decoration: none; transition: color var(--ease); }
+      a:hover { color: var(--accent-soft); }
+      :focus-visible { outline: 2px solid var(--accent-soft); outline-offset: 2px; border-radius: 4px; }
+
+      .demo-banner {
+        background: var(--accent);
+        color: #f4f4ff;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 8px 16px;
+      }
+      .site-nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(9, 9, 11, 0.82);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border-4);
+      }
+      .nav {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 24px;
+        height: var(--nav-h);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+      .brand { color: var(--text-10); font-weight: 700; font-size: 17px; }
+      .brand:hover { color: var(--text-10); }
+      .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0; }
+      .nav-link {
+        display: block; padding: 8px 12px; border-radius: 8px;
+        color: var(--text-9); font-size: 14px;
+        transition: color var(--ease), background-color var(--ease);
+      }
+      .nav-link:hover { color: var(--text-10); background: var(--comp-2); }
+      .nav-link.active { color: var(--text-10); }
+      .nav-cta {
+        display: inline-block; padding: 7px 14px; border-radius: 999px;
+        background: var(--accent); color: #f4f4ff; font-size: 14px; font-weight: 500;
+        transition: background-color var(--ease);
+      }
+      .nav-cta:hover { background: #4f52e0; color: #f4f4ff; }
+      .nav-toggle {
+        display: none; flex-direction: column; justify-content: center; gap: 5px;
+        width: 40px; height: 40px; padding: 8px;
+        background: var(--comp-1); border: 1px solid var(--border-5);
+        border-radius: 8px; cursor: pointer;
+      }
+      .nav-toggle-bar { display: block; width: 100%; height: 2px; background: var(--text-10); border-radius: 1px; }
+
+      .hero { position: relative; padding: 96px 24px 72px; text-align: center; overflow: hidden; }
+      .hero::before { content: ""; position: absolute; inset: 0; background: var(--hero-glow); pointer-events: none; }
+      .hero-inner { position: relative; max-width: 820px; margin: 0 auto; }
+      .eyebrow-chip {
+        display: inline-block; padding: 5px 14px;
+        border: 1px solid var(--border-5); border-radius: 999px;
+        background: var(--comp-1); color: var(--text-9);
+        font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase;
+      }
+      .hero h1 {
+        margin: 24px 0 0;
+        font-size: clamp(44px, 5vw, 72px);
+        line-height: 1.05; letter-spacing: -0.03em; font-weight: 700;
+        background: linear-gradient(180deg, var(--text-10) 55%, var(--text-9));
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent; color: var(--text-10);
+      }
+      .hero p { margin: 20px auto 0; max-width: 560px; color: var(--text-9); font-size: 18px; }
+      .hero-actions { margin-top: 32px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+      .btn {
+        display: inline-block; padding: 10px 20px; border-radius: 8px;
+        font-size: 15px; font-weight: 500; border: 1px solid transparent;
+        transition: background-color var(--ease), border-color var(--ease), color var(--ease);
+      }
+      .btn-primary { background: var(--accent); color: #f4f4ff; }
+      .btn-primary:hover { background: #4f52e0; color: #f4f4ff; }
+      .btn-ghost { background: var(--comp-1); border-color: var(--border-5); color: var(--text-10); }
+      .btn-ghost:hover { background: var(--comp-2); border-color: var(--border-6); color: var(--text-10); }
+
+      .section { max-width: 1120px; margin: 0 auto; padding: 48px 24px 24px; }
+      .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+      .section-head h2 { margin: 0; font-size: 28px; letter-spacing: -0.02em; }
+      .section-head p { margin: 0; color: var(--text-9); font-size: 14px; }
+
+      .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+      .tile {
+        position: relative; display: flex; flex-direction: column;
+        background: var(--comp-1); border: 1px solid var(--border-4);
+        border-radius: var(--radius); overflow: hidden;
+        transition: background-color var(--ease), border-color var(--ease);
+      }
+      .tile:hover { background: var(--comp-2); border-color: var(--border-5); }
+      .tile:active { background: var(--comp-3); }
+      a.tile { color: inherit; }
+      a.tile:hover { color: inherit; }
+      .tile--featured::before {
+        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.7), rgba(167, 139, 250, 0.7), transparent);
+      }
+      .tile-art {
+        height: 128px; display: flex; align-items: center; justify-content: center;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.16), rgba(167, 139, 250, 0.09));
+        border-bottom: 1px solid var(--border-4);
+      }
+      .tile-art span {
+        font-size: 40px; font-weight: 700; letter-spacing: -0.02em;
+        background: var(--grad); -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent; color: var(--accent);
+      }
+      .tile-body { padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+      .tile-cat { color: var(--text-9); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
+      .tile-name { margin: 0; font-size: 17px; font-weight: 600; color: var(--text-10); }
+      .tile-blurb { margin: 0; color: var(--text-9); font-size: 14px; }
+      .tile--soon { border-style: dashed; border-color: var(--border-5); background: transparent; opacity: 0.75; }
+      .tile--soon:hover { background: transparent; border-color: var(--border-5); }
+
+      .site-footer { margin-top: 72px; border-top: 1px solid var(--border-4); padding: 28px 24px; }
+      .footer-inner {
+        max-width: 1120px; margin: 0 auto;
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 16px; flex-wrap: wrap; color: var(--text-9); font-size: 14px;
+      }
+      .footer-links { display: flex; gap: 16px; }
+      .footer-links a { color: var(--text-9); font-size: 14px; }
+      .footer-links a:hover { color: var(--text-10); }
+
+      @media (max-width: 760px) {
+        .nav-toggle { display: flex; }
+        .nav-menu {
+          display: none; position: absolute; top: var(--nav-h); left: 0; right: 0;
+          background: var(--bg2); border-bottom: 1px solid var(--border-4);
+          padding: 12px 24px 20px;
+        }
+        .nav-menu.open { display: block; }
+        .nav { position: relative; flex-wrap: wrap; }
+        .nav-links { flex-direction: column; align-items: stretch; gap: 2px; }
+        .nav-link { padding: 12px; }
+        .nav-cta { margin-top: 12px; text-align: center; display: block; }
+        .hero { padding: 64px 20px 48px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { transition: none !important; animation: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo-banner" role="note">
+      Interactive demo — all links intentionally inert
+    </div>
+
+    <header class="site-nav">
+      <nav class="nav" aria-label="Primary">
+        <a class="brand" href="#">Byron Miller</a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </button>
+        <div class="nav-menu" id="nav-menu">
+          <ul class="nav-links">
+            <li><a class="nav-link active" href="#" aria-current="page">About</a></li>
+            <li><a class="nav-link" href="#">Portfolio</a></li>
+            <li><a class="nav-link" href="#">Contact</a></li>
+            <li><a class="nav-link" href="#">Auntie Kim Dates</a></li>
+            <li><a class="nav-link" href="#">AI Agent</a></li>
+            <li><a class="nav-link" href="#">GitHub</a></li>
+            <li><a class="nav-link" href="#">LinkedIn</a></li>
+          </ul>
+          <a class="nav-cta" href="#">Resume</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-inner">
+          <span class="eyebrow-chip">Developer &amp; App Hub</span>
+          <h1>Byron Miller</h1>
+          <p>
+            Full-stack developer building web apps, games and agent tooling —
+            all shipped from one hub.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#">Explore the portfolio</a>
+            <a class="btn btn-ghost" href="#">Get in touch</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="featured-heading">
+        <div class="section-head">
+          <h2 id="featured-heading">Featured</h2>
+          <p>The apps front and center right now</p>
+        </div>
+        <div class="grid">
+          <a class="tile tile--featured" href="#">
+            <div class="tile-art" aria-hidden="true"><span>AK</span></div>
+            <div class="tile-body">
+              <span class="tile-cat">Flagship app</span>
+              <h3 class="tile-name">Auntie Kim Dates</h3>
+              <p class="tile-blurb">Community dating &amp; social events brand</p>
+            </div>
+          </a>
+          <a class="tile tile--featured" href="#">
+            <div class="tile-art" aria-hidden="true"><span>AI</span></div>
+            <div class="tile-body">
+              <span class="tile-cat">AI</span>
+              <h3 class="tile-name">AI Agent</h3>
+              <p class="tile-blurb">Agentic control deck — the agent doorway</p>
+            </div>
+          </a>
+          <a class="tile tile--featured" href="#">
+            <div class="tile-art" aria-hidden="true"><span>AG</span></div>
+            <div class="tile-body">
+              <span class="tile-cat">Web app</span>
+              <h3 class="tile-name">Atelier Grocery</h3>
+              <p class="tile-blurb">Grocery product sync &amp; storefront theme</p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="gallery-heading">
+        <div class="section-head">
+          <h2 id="gallery-heading">All projects</h2>
+          <p>Eleven apps and counting</p>
+        </div>
+        <div class="grid">
+          <a class="tile" href="#">
+            <div class="tile-art" aria-hidden="true"><span>RC</span></div>
+            <div class="tile-body">
+              <span class="tile-cat">Recipe finder</span>
+              <h3 class="tile-name">RecipeCiprocity</h3>
+            </div>
+          </a>
+          <a class="tile" href="#">
+            <div class="tile-art" aria-hidden="true"><span>TS</span></div>
+            <div class="tile-body">
+              <span class="tile-cat">Scheduling tool</span>
+              <h3 class="tile-name">Train Scheduler Deluxe</h3>
+            </div>
+          </a>
+          <a class="tile" href="#">
+            <div class="tile-art" aria-hidden="true"><span>NN</span></div>
+            <div class="tile-body">
+              <span class="tile-cat">Notes app</span>
+              <h3 class="tile-name">Notes Node</h3>
+            </div>
+          </a>
+          <a class="tile" href="#">
+            <div class="tile-art" aria-hidden="true"><span>LB</span></div>
+            <div class="tile-body">
+              <span class="tile-cat">CLI assistant</span>
+              <h3 class="tile-name">Liri Bot</h3>
+            </div>
+          </a>
+          <a class="tile" href="#">
+            <div class="tile-art" aria-hidden="true"><span>LH</span></div>
+            <div class="tile-body">
+              <span class="tile-cat">Game</span>
+              <h3 class="tile-name">Las Horcas</h3>
+            </div>
+          </a>
+          <a class="tile" href="#">
+            <div class="tile-art" aria-hidden="true"><span>BA</span></div>
+            <div class="tile-body">
+              <span class="tile-cat">CLI storefront</span>
+              <h3 class="tile-name">Bamazonathon</h3>
+            </div>
+          </a>
+          <a class="tile" href="#">
+            <div class="tile-art" aria-hidden="true"><span>GF</span></div>
+            <div class="tile-body">
+              <span class="tile-cat">GIF search</span>
+              <h3 class="tile-name">Giphy Fun</h3>
+            </div>
+          </a>
+          <a class="tile" href="#">
+            <div class="tile-art" aria-hidden="true"><span>BT</span></div>
+            <div class="tile-body">
+              <span class="tile-cat">Ordering demo</span>
+              <h3 class="tile-name">Them Burgerz Tho</h3>
+            </div>
+          </a>
+          <div class="tile tile--soon" aria-label="Tetris — coming soon">
+            <div class="tile-art" aria-hidden="true"><span>T</span></div>
+            <div class="tile-body">
+              <span class="tile-cat">Game</span>
+              <h3 class="tile-name">Tetris</h3>
+              <p class="tile-blurb">Coming soon</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <span>Copyright © Byron Miller</span>
+        <div class="footer-links">
+          <a href="#">GitHub</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">Portfolio</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        'use strict';
+        var toggle = document.querySelector('.nav-toggle');
+        var menu = document.getElementById('nav-menu');
+
+        function setOpen(open) {
+          if (toggle) toggle.setAttribute('aria-expanded', String(open));
+          if (menu) menu.classList.toggle('open', open);
+        }
+
+        Array.prototype.forEach.call(document.querySelectorAll('a'), function (anchor) {
+          anchor.addEventListener('click', function (event) {
+            event.preventDefault();
+            if (anchor.classList.contains('nav-link') && !anchor.classList.contains('active')) {
+              Array.prototype.forEach.call(document.querySelectorAll('.nav-link'), function (link) {
+                link.classList.remove('active');
+                link.removeAttribute('aria-current');
+              });
+              anchor.classList.add('active');
+              anchor.setAttribute('aria-current', 'page');
+            }
+            setOpen(false);
+          });
+        });
+
+        if (toggle) {
+          toggle.addEventListener('click', function () {
+            setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+          });
+        }
+        document.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape') {
+            setOpen(false);
+            if (toggle) toggle.focus();
+          }
+        });
+      }());
+    </script>
+  </body>
+</html>
