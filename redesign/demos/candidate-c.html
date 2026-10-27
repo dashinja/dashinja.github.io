@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tonal Bento — interactive demo (Candidate C)</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --surface: #fbfbfd;
+    --surface-container: #f1f2f6;
+    --on-surface: #1b1d22;
+    --on-surface-variant: #4b4e57;
+    --outline: #c4c7cf;
+    --primary: #3b5bdb;
+    --on-primary: #ffffff;
+    --primary-container: #e3e9fc;
+    --cat-apps: #2f4ecb; --cat-apps-chip: #e4eafb;
+    --cat-games: #b3261e; --cat-games-chip: #fbe9e7;
+    --cat-ai: #6d3fc0; --cat-ai-chip: #efe9fb;
+    --cat-cli: #0d7a72; --cat-cli-chip: #e0f2f0;
+    --cat-tools: #8a5c00; --cat-tools-chip: #f7edda;
+    --radius-tile: 16px;
+    --radius-featured: 24px;
+    --radius-chip: 999px;
+    --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+    --duration: 200ms;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface: #131417;
+      --surface-container: #1d1f24;
+      --on-surface: #e4e6eb;
+      --on-surface-variant: #a2a6b0;
+      --outline: #3f424a;
+      --primary: #9db1ff;
+      --on-primary: #10204a;
+      --primary-container: #2a3a66;
+      --cat-apps: #9db1ff; --cat-apps-chip: #26325c;
+      --cat-games: #ffb4ab; --cat-games-chip: #542925;
+      --cat-ai: #c9b8ff; --cat-ai-chip: #392d61;
+      --cat-cli: #7adfd4; --cat-cli-chip: #164b46;
+      --cat-tools: #ffcf72; --cat-tools-chip: #4a3813;
+    }
+  }
+  * , *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--surface);
+    color: var(--on-surface);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+  }
+  .demo-banner {
+    background: var(--primary);
+    color: var(--on-primary);
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .container { max-width: 1200px; margin-inline: auto; padding-inline: 16px; }
+  :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+  .skip-link {
+    position: absolute; left: 16px; top: -48px; z-index: 100;
+    padding: 8px 16px; border-radius: 999px;
+    background: var(--primary); color: var(--on-primary); text-decoration: none;
+  }
+  .skip-link:focus-visible { top: 12px; }
+  .site-header { position: sticky; top: 0; z-index: 50; background: var(--surface); border-bottom: 1px solid var(--outline); }
+  .site-nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
+  .brand { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.25rem; color: var(--on-surface); text-decoration: none; }
+  .brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--primary); }
+  .nav-menu { display: flex; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0; }
+  .nav-menu a {
+    display: inline-block; padding: 8px 16px; border-radius: 999px;
+    color: var(--on-surface); text-decoration: none; font-size: 0.9375rem; font-weight: 500;
+    transition: background-color var(--duration) var(--ease-emphasized);
+  }
+  .nav-menu a:hover { background: var(--surface-container); }
+  .nav-menu a[aria-current="page"] { background: var(--primary-container); }
+  .nav-cta { margin-left: 8px; background: var(--primary); color: var(--on-primary); }
+  .nav-cta:hover { background: var(--primary); opacity: 0.9; }
+  .nav-toggle {
+    display: none; align-items: center; border: 1px solid var(--outline);
+    background: var(--surface); color: var(--on-surface);
+    border-radius: 999px; padding: 8px 14px; font: inherit; font-size: 0.875rem; font-weight: 500; cursor: pointer;
+  }
+  .nav-toggle:hover { background: var(--surface-container); }
+  @media (max-width: 860px) {
+    .nav-toggle { display: inline-flex; }
+    .nav-menu {
+      display: none; position: absolute; left: 0; right: 0; top: 100%;
+      flex-direction: column; align-items: stretch; padding: 12px 16px 16px;
+      background: var(--surface); border-bottom: 1px solid var(--outline);
+    }
+    .nav-menu.is-open { display: flex; }
+    .nav-menu a { display: block; padding: 12px 16px; }
+  }
+  .type-label { font-size: 0.875rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--on-surface-variant); margin: 0 0 8px; }
+  .type-display { font-size: clamp(2.5rem, 4vw + 1rem, 3.5625rem); line-height: 1.1; letter-spacing: -0.015em; font-weight: 700; margin: 0 0 16px; }
+  .type-headline { font-size: clamp(1.5rem, 1.5vw + 1rem, 1.75rem); line-height: 1.25; font-weight: 700; margin: 0 0 12px; }
+  .muted { color: var(--on-surface-variant); }
+  .hero { padding: 48px 0; }
+  .hero-grid { display: grid; grid-template-columns: 1.4fr 1fr; align-items: center; gap: 32px; }
+  .hero-portrait {
+    justify-self: center; width: min(280px, 70vw); aspect-ratio: 1;
+    border-radius: var(--radius-featured); border: 1px solid var(--outline);
+    background: var(--surface-container);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--on-surface-variant); font-size: 0.875rem; text-align: center; padding: 16px;
+  }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+  @media (max-width: 720px) { .hero-grid { grid-template-columns: 1fr; } .hero-portrait { order: -1; } }
+  .btn {
+    display: inline-block; padding: 12px 24px; border-radius: 999px;
+    font-weight: 600; font-size: 0.9375rem; text-decoration: none; border: 1px solid transparent;
+    transition: opacity var(--duration) var(--ease-emphasized), border-color var(--duration) var(--ease-emphasized);
+  }
+  .btn-primary { background: var(--primary); color: var(--on-primary); }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-outline { border-color: var(--outline); color: var(--on-surface); }
+  .btn-outline:hover { background: var(--surface-container); }
+  .section { padding: 48px 0; }
+  .section-tinted { background: var(--surface-container); }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+  .bento { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .tile {
+    position: relative; display: flex; flex-direction: column; gap: 8px;
+    padding: 24px; border-radius: var(--radius-tile);
+    background: var(--surface-container); color: var(--on-surface); text-decoration: none; overflow: hidden;
+    transition: background-color var(--duration) var(--ease-emphasized);
+  }
+  .tile:hover { background: color-mix(in srgb, var(--surface-container) 92%, var(--on-surface)); }
+  .tile::after {
+    content: ""; position: absolute; inset: 0; background: var(--on-surface);
+    opacity: 0; transition: opacity var(--duration) var(--ease-emphasized); pointer-events: none;
+  }
+  .tile:hover::after { opacity: 0.08; }
+  .tile-arrow { position: absolute; top: 16px; right: 16px; font-size: 1.25rem; color: var(--on-surface-variant); transition: transform var(--duration) var(--ease-emphasized); }
+  .tile:hover .tile-arrow { transform: translateX(4px); }
+  .tile h3 { margin: 0; font-size: 1.25rem; font-weight: 600; }
+  .tile p { margin: 0; color: var(--on-surface-variant); font-size: 0.9375rem; }
+  .tile-meta { margin-top: auto; padding-top: 12px; }
+  .tile-featured-a {
+    grid-column: span 2; grid-row: span 2; border-radius: var(--radius-featured);
+    background: var(--primary-container);
+  }
+  .tile-featured-a:hover { background: color-mix(in srgb, var(--primary-container) 92%, var(--on-surface)); }
+  .tile-featured-a h3 { font-size: clamp(1.5rem, 1.5vw + 1rem, 1.75rem); }
+  .tile-span-2 { grid-column: span 2; }
+  .badge { display: inline-flex; padding: 4px 12px; border-radius: 999px; font-size: 0.8125rem; font-weight: 600; background: var(--primary-container); }
+  @media (max-width: 900px) {
+    .bento { grid-template-columns: repeat(2, 1fr); }
+    .tile-featured-a, .tile-span-2 { grid-column: span 2; }
+  }
+  @media (max-width: 560px) {
+    .bento { grid-template-columns: 1fr; }
+    .tile-featured-a, .tile-span-2 { grid-column: span 1; grid-row: span 1; }
+  }
+  .chip {
+    display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
+    padding: 6px 14px; border-radius: 999px;
+    background: var(--chip-bg, var(--surface-container));
+    color: var(--chip-fg, var(--on-surface-variant));
+    font-size: 0.875rem; font-weight: 500;
+  }
+  .chip-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dot, var(--primary)); }
+  .cat-apps { --dot: var(--cat-apps); --chip-bg: var(--cat-apps-chip); --chip-fg: var(--cat-apps); }
+  .cat-games { --dot: var(--cat-games); --chip-bg: var(--cat-games-chip); --chip-fg: var(--cat-games); }
+  .cat-ai { --dot: var(--cat-ai); --chip-bg: var(--cat-ai-chip); --chip-fg: var(--cat-ai); }
+  .cat-cli { --dot: var(--cat-cli); --chip-bg: var(--cat-cli-chip); --chip-fg: var(--cat-cli); }
+  .cat-tools { --dot: var(--cat-tools); --chip-bg: var(--cat-tools-chip); --chip-fg: var(--cat-tools); }
+  .tech-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; padding: 0; list-style: none; }
+  .tech-chips .chip { color: var(--on-surface-variant); background: var(--surface-container); }
+  .site-footer { border-top: 1px solid var(--outline); padding: 32px 0; color: var(--on-surface-variant); font-size: 0.875rem; }
+  .footer-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+  .footer-links { display: flex; flex-wrap: wrap; gap: 16px; list-style: none; margin: 0; padding: 0; }
+  .footer-links a { color: var(--on-surface-variant); }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    .tile:hover .tile-arrow { transform: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="demo-banner">Interactive demo — all links intentionally inert</div>
+  <a class="skip-link" href="#">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container site-nav">
+      <a class="brand" href="#"><span class="brand-dot" aria-hidden="true"></span>Byron Miller</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav-menu">Menu</button>
+      <ul class="nav-menu" id="site-nav-menu">
+        <li><a href="#" aria-current="page">Home</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Auntie Kim Dates</a></li>
+        <li><a href="#">AI Agent</a></li>
+        <li><a class="nav-cta" href="#">Resume</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="type-label">Software developer</p>
+          <h1 class="type-display">Hi, I'm Byron Miller.</h1>
+          <p class="muted">I build web apps, games, and command-line tools that make everyday decisions simpler.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#">View portfolio</a>
+            <a class="btn btn-outline" href="#">Get in touch</a>
+          </div>
+        </div>
+        <div class="hero-portrait" role="img" aria-label="Portrait placeholder">portrait<br>placeholder</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head"><h2 class="type-headline">Featured</h2></div>
+        <div class="bento">
+          <a class="tile tile-featured-a" href="#">
+            <span class="chip cat-apps"><span class="chip-dot" aria-hidden="true"></span>Apps · Flagship</span>
+            <h3>Auntie Kim Dates</h3>
+            <p>Community dating and social events brand — the app I grow proudest of.</p>
+            <span class="tile-meta"><span class="badge">Live</span></span>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile" href="#">
+            <span class="chip cat-ai"><span class="chip-dot" aria-hidden="true"></span>AI</span>
+            <h3>AI Agent</h3>
+            <p>Agentic control deck and agent doorway.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile" href="#">
+            <span class="chip cat-apps"><span class="chip-dot" aria-hidden="true"></span>Apps</span>
+            <h3>Atelier Grocery</h3>
+            <p>Grocery product sync and storefront theme.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tinted">
+      <div class="container">
+        <div class="section-head"><h2 class="type-headline">All projects</h2><p class="muted">11 and counting.</p></div>
+        <div class="bento">
+          <a class="tile tile-span-2" href="#">
+            <span class="chip cat-apps"><span class="chip-dot" aria-hidden="true"></span>Apps</span>
+            <h3>RecipeCiprocity</h3>
+            <p>Find a recipe for what's already in your kitchen.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile" href="#">
+            <span class="chip cat-tools"><span class="chip-dot" aria-hidden="true"></span>Tools</span>
+            <h3>Train Scheduler Deluxe</h3>
+            <p>Scheduling tool for train timetables.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile" href="#">
+            <span class="chip cat-tools"><span class="chip-dot" aria-hidden="true"></span>Tools</span>
+            <h3>Notes Node</h3>
+            <p>A no-nonsense notes app.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile tile-span-2" href="#">
+            <span class="chip cat-cli"><span class="chip-dot" aria-hidden="true"></span>CLI</span>
+            <h3>Liri Bot</h3>
+            <p>Node-powered command-line assistant.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile" href="#">
+            <span class="chip cat-games"><span class="chip-dot" aria-hidden="true"></span>Games</span>
+            <h3>Las Horcas</h3>
+            <p>Word-guess game, hangman style.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile" href="#">
+            <span class="chip cat-cli"><span class="chip-dot" aria-hidden="true"></span>CLI</span>
+            <h3>Bamazonathon</h3>
+            <p>Command-line storefront experience.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile" href="#">
+            <span class="chip cat-apps"><span class="chip-dot" aria-hidden="true"></span>Apps</span>
+            <h3>Giphy Fun</h3>
+            <p>Search and share GIFs in a click.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="tile tile-span-2" href="#">
+            <span class="chip cat-tools"><span class="chip-dot" aria-hidden="true"></span>Tools</span>
+            <h3>Them Burgerz Tho</h3>
+            <p>Ordering demo, burger-joint edition.</p>
+            <span class="tile-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <p class="type-label">About me</p>
+        <h2 class="type-headline">Developer, builder, former master electrician.</h2>
+        <p class="muted">A decade of theatrical lighting taught me to translate a vision into technical language and execute under pressure. Now I point that energy at code.</p>
+        <ul class="tech-chips">
+          <li class="chip">MongoDB</li>
+          <li class="chip">Express</li>
+          <li class="chip">React</li>
+          <li class="chip">Node.js</li>
+          <li class="chip">GraphQL</li>
+          <li class="chip">Prisma ORM</li>
+          <li class="chip">MySQL</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <p>© 2026 Byron Miller</p>
+      <ul class="footer-links">
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="#">GitHub</a></li>
+        <li><a href="#">Resume (download)</a></li>
+      </ul>
+    </div>
+  </footer>
+
+<script>
+  (function () {
+    'use strict';
+    // Every anchor is inert by design.
+    document.addEventListener('click', function (event) {
+      var anchor = event.target.closest('a');
+      if (anchor) event.preventDefault();
+    });
+
+    var toggle = document.querySelector('[data-nav-toggle]');
+    var menu = document.querySelector('#site-nav-menu');
+    document.documentElement.classList.add('has-js');
+    function setOpen(open) {
+      menu.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+    }
+    toggle.addEventListener('click', function () {
+      setOpen(!menu.classList.contains('is-open'));
+    });
+    menu.addEventListener('click', function (event) {
+      if (event.target.closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && menu.classList.contains('is-open')) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    document.addEventListener('click', function (event) {
+      if (menu.classList.contains('is-open') && !event.target.closest('.site-nav')) setOpen(false);
+    });
+  }());
+</script>
+</body>
+</html>
