@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Midnight Editorial — Interactive demo</title>
+<style>
+  :root {
+    --ink: #0d0d10;
+    --ink-raised: #15151a;
+    --ink-raised-2: #1b1b21;
+    --paper: #e8e2d9;
+    --paper-muted: #a39a8b;
+    --gold: #d4b483;
+    --gold-dim: #8a7652;
+    --hairline: #2a2a31;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --sans: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+    --rule-speed: 220ms;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--serif);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  a { color: var(--paper); }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+  .demo-banner {
+    background: var(--gold);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 0.55rem 1rem;
+  }
+  .site-header {
+    position: sticky;
+    top: 0;
+    background: rgba(13, 13, 16, 0.92);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .site-nav {
+    max-width: 66rem;
+    margin: 0 auto;
+    padding: 0.9rem 1.5rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .brand { font-family: var(--serif); font-size: 1.5rem; text-decoration: none; }
+  .brand em { font-style: italic; color: var(--gold); }
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--hairline);
+    color: var(--paper);
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.5rem 0.9rem;
+    cursor: pointer;
+  }
+  .nav-menu { display: flex; align-items: baseline; gap: 1.75rem; list-style: none; margin: 0; padding: 0; }
+  .nav-menu a {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--paper-muted);
+    border-bottom: 1px solid transparent;
+    padding-bottom: 0.15rem;
+    transition: color var(--rule-speed) ease, border-color var(--rule-speed) ease;
+  }
+  .nav-menu a:hover { color: var(--paper); border-bottom-color: var(--gold); }
+  .nav-menu a[aria-current="page"] { color: var(--gold); border-bottom-color: var(--gold); }
+  @media (max-width: 820px) {
+    html.js .site-nav { align-items: center; }
+    html.js .nav-toggle { display: inline-block; }
+    html.js .nav-menu { display: none; flex-basis: 100%; flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1rem 0 0.5rem; }
+    html.js .nav-menu.open { display: flex; }
+  }
+
+  .container { max-width: 66rem; margin: 0 auto; padding: 0 1.5rem; }
+  .hero { display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center; padding: 4rem 0 3.5rem; }
+  .hero-kicker {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 1.25rem;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2.75rem, 7vw, 4.75rem);
+    line-height: 1.04;
+    margin: 0 0 1.25rem;
+  }
+  .hero-deck { font-style: italic; font-size: 1.3125rem; color: var(--paper-muted); max-width: 34rem; margin: 0 0 2rem; }
+  .btn {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.8rem 1.4rem;
+    border: 1px solid var(--gold);
+    background: none;
+    color: var(--gold);
+    cursor: pointer;
+    transition: background-color var(--rule-speed) ease, color var(--rule-speed) ease;
+  }
+  .btn:hover { background: var(--gold); color: var(--ink); }
+  .portrait-mat {
+    width: 240px;
+    height: 240px;
+    border: 1px solid var(--gold-dim);
+    background: var(--ink-raised);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .portrait-mat span { font-style: italic; color: var(--paper-muted); font-size: 0.9375rem; }
+
+  .section-label {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--paper-muted);
+    margin: 0 0 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .featured-band {
+    border-top: 1px solid var(--gold);
+    border-bottom: 1px solid var(--gold);
+    background: var(--ink-raised);
+    padding: 2.5rem 0;
+    margin: 3rem 0;
+  }
+  .featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+  .featured-item { display: block; text-decoration: none; }
+  .ed-num {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--gold-dim);
+    transition: color var(--rule-speed) ease;
+  }
+  .featured-item .ed-num { display: block; font-size: 2.25rem; line-height: 1; }
+  .featured-item:hover .ed-num { color: var(--gold); }
+  .featured-quote { font-style: italic; font-size: 1.3125rem; display: block; margin: 0.5rem 0 0.75rem; transition: color var(--rule-speed) ease; }
+  .featured-item:hover .featured-quote { color: var(--gold); }
+  .featured-kind { font-family: var(--sans); font-size: 0.6875rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-muted); }
+
+  .ed-index { border-top: 1px solid var(--hairline); }
+  .ed-row {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr auto auto;
+    gap: 1.5rem;
+    align-items: baseline;
+    padding: 1.4rem 0.25rem;
+    border-bottom: 1px solid var(--hairline);
+    text-decoration: none;
+    transition: border-color var(--rule-speed) ease, background-color var(--rule-speed) ease;
+  }
+  .ed-row:hover { border-bottom-color: var(--gold); background: var(--ink-raised); }
+  .ed-row .ed-num { font-size: 3rem; }
+  .ed-row:hover .ed-num { color: var(--gold); }
+  .ed-name { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; margin: 0; }
+  .ed-blurb { font-style: italic; color: var(--paper-muted); font-size: 1rem; margin: 0.2rem 0 0; }
+  .ed-kind { font-family: var(--sans); font-size: 0.6875rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-muted); }
+  .ed-arrow { color: var(--gold); font-family: var(--serif); }
+
+  footer.site-footer { border-top: 1px solid var(--hairline); margin-top: 3rem; }
+  .site-footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2.5rem;
+  }
+  .site-footer .colophon { font-style: italic; color: var(--paper-muted); }
+  .footer-links { display: flex; gap: 1.75rem; }
+  .footer-links a {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--paper-muted);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color var(--rule-speed) ease, border-color var(--rule-speed) ease;
+  }
+  .footer-links a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .featured-grid { grid-template-columns: 1fr; }
+    .ed-row { grid-template-columns: 4rem 1fr auto; }
+    .ed-kind { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+  <div class="demo-banner" role="note">Interactive demo — all links intentionally inert</div>
+
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="brand" href="#">byron<em>.</em>miller</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">menu</button>
+      <ul id="nav-menu" class="nav-menu">
+        <li><a href="#" aria-current="page">About</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">GitHub</a></li>
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="#" style="color: var(--gold);">Resume ↓</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <div class="container">
+      <section class="hero">
+        <div>
+          <p class="hero-kicker">Midnight Editorial — variant 5</p>
+          <h1>Byron Miller</h1>
+          <p class="hero-deck">
+            Swiss serif on ink: warm off-white type on a near-black ground,
+            a single warm-gold accent, oversized italic numerals, and hairline
+            rules that brighten on hover. Try the rows below.
+          </p>
+          <a class="btn" href="#">View the index →</a>
+        </div>
+        <div class="portrait-mat" aria-hidden="true"><span>portrait, gold-ruled mat</span></div>
+      </section>
+
+      <section class="featured-band" aria-label="Featured trio">
+        <div class="featured-grid">
+          <a class="featured-item" href="#">
+            <span class="ed-num" aria-hidden="true">i.</span>
+            <span class="featured-quote">Auntie Kim Dates</span>
+            <span class="featured-kind">Flagship app</span>
+          </a>
+          <a class="featured-item" href="#">
+            <span class="ed-num" aria-hidden="true">ii.</span>
+            <span class="featured-quote">AI Agent</span>
+            <span class="featured-kind">AI doorway</span>
+          </a>
+          <a class="featured-item" href="#">
+            <span class="ed-num" aria-hidden="true">iii.</span>
+            <span class="featured-quote">Atelier Grocery</span>
+            <span class="featured-kind">Web app</span>
+          </a>
+        </div>
+      </section>
+
+      <section aria-label="Editorial index rows">
+        <p class="section-label">The index — hover to watch the rule brighten (220ms)</p>
+        <div class="ed-index">
+          <a class="ed-row" href="#">
+            <span class="ed-num" aria-hidden="true">01</span>
+            <span><h2 class="ed-name">RecipeCiprocity</h2><p class="ed-blurb">Find a recipe, share it forward.</p></span>
+            <span class="ed-kind">Web app</span>
+            <span class="ed-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="ed-row" href="#">
+            <span class="ed-num" aria-hidden="true">02</span>
+            <span><h2 class="ed-name">Train Scheduler Deluxe</h2><p class="ed-blurb">Timetable math for commuters.</p></span>
+            <span class="ed-kind">Tool</span>
+            <span class="ed-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="ed-row" href="#">
+            <span class="ed-num" aria-hidden="true">03</span>
+            <span><h2 class="ed-name">Notes Node</h2><p class="ed-blurb">A scrappy notes app that remembers.</p></span>
+            <span class="ed-kind">Web app</span>
+            <span class="ed-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="ed-row" href="#">
+            <span class="ed-num" aria-hidden="true">04</span>
+            <span><h2 class="ed-name">Las Horcas</h2><p class="ed-blurb">Hangman with a Spanish accent.</p></span>
+            <span class="ed-kind">Game</span>
+            <span class="ed-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span class="colophon">© 2026 Byron Miller — demo edition</span>
+      <div class="footer-links">
+        <a href="#">LinkedIn</a>
+        <a href="#">GitHub</a>
+        <a href="#">Resume ↓</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      document.documentElement.classList.add('js');
+
+      var anchors = document.querySelectorAll('a[href="#"]');
+      for (var i = 0; i < anchors.length; i++) {
+        anchors[i].addEventListener('click', function (event) {
+          event.preventDefault();
+        });
+      }
+
+      var toggle = document.querySelector('.nav-toggle');
+      var menu = document.getElementById('nav-menu');
+      if (toggle && menu) {
+        toggle.addEventListener('click', function () {
+          var open = toggle.getAttribute('aria-expanded') !== 'true';
+          toggle.setAttribute('aria-expanded', String(open));
+          menu.classList.toggle('open', open);
+        });
+      }
+    }());
+  </script>
+</body>
+</html>
