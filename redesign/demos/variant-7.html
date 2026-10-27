@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dusk Bento — interactive demo (variant 7)</title>
+<style>
+/* Dusk Bento — Material 3 dark scheme, dark-only (variant 7, issue #32)
+   Elevation = tonal steps, never shadows. One border draw per surface.
+   Text never pure white; ground never pure black. */
+
+:root {
+  --surface: #131417;
+  --surface-container-low: #191b20;
+  --surface-container: #1e2026;
+  --surface-container-high: #262832;
+  --surface-container-highest: #2e303b;
+
+  --on-surface: #e5e3ea;
+  --on-surface-variant: #a5a3b0;
+  --outline: #34363f;
+
+  --primary: #a78bfa;
+  --on-primary: #241245;
+  --primary-container: #3d2a63;
+  --on-primary-container: #e6dcff;
+
+  --state-layer: rgb(255 255 255 / 8%);
+
+  --cat-flagship: #bca8f8;
+  --cat-ai: #93bce6;
+  --cat-web: #8fc7a4;
+  --cat-game: #dba3b3;
+  --cat-cli: #d9bd82;
+  --cat-tool: #9cc7c3;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --border: 1px solid var(--outline);
+  --content-width: 1080px;
+
+  --fs-display: clamp(2.1rem, 1.35rem + 3vw, 3.4rem);
+  --fs-title: clamp(1.35rem, 1.2rem + 0.7vw, 1.7rem);
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--surface);
+  color: var(--on-surface);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: var(--fs-body);
+  line-height: 1.65;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+h1, h2, h3, h4 {
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+  font-weight: 650;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.container {
+  width: min(var(--content-width), 100% - 2.5rem);
+  margin-inline: auto;
+}
+
+/* ---------- Sticky nav ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--surface);
+  border-bottom: var(--border);
+}
+
+.site-nav {
+  width: min(var(--content-width), 100% - 2.5rem);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 4rem;
+}
+
+.brand {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--on-surface);
+  white-space: nowrap;
+}
+
+.brand:hover {
+  text-decoration: none;
+  color: var(--primary);
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  background: transparent;
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.nav-toggle:hover {
+  background: var(--state-layer);
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--on-surface);
+}
+
+.nav-panel {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  display: block;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  color: var(--on-surface-variant);
+  font-size: var(--fs-small);
+  font-weight: 550;
+}
+
+.nav-links a:hover {
+  background: var(--state-layer);
+  color: var(--on-surface);
+  text-decoration: none;
+}
+
+.nav-links a[aria-current="page"] {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+}
+
+.nav-links a.nav-cta {
+  color: var(--primary);
+}
+
+.nav-social {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-social a {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--on-surface-variant);
+}
+
+.nav-social a:hover {
+  background: var(--state-layer);
+  color: var(--on-surface);
+}
+
+.nav-social svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  padding: clamp(2.5rem, 1.5rem + 4vw, 5rem) 0 clamp(2rem, 1.2rem + 3vw, 4rem);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+  align-items: center;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin: 0 0 1rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.hero h1 {
+  font-size: var(--fs-display);
+  margin-bottom: 1rem;
+}
+
+.hero h1 .accent {
+  color: var(--primary);
+}
+
+.hero-lede {
+  color: var(--on-surface-variant);
+  font-size: clamp(1rem, 0.95rem + 0.3vw, 1.15rem);
+  max-width: 46ch;
+  margin: 0 0 1.75rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  border: var(--border);
+  font-weight: 600;
+  font-size: var(--fs-small);
+  color: var(--on-surface);
+}
+
+.btn:hover {
+  text-decoration: none;
+  background: var(--state-layer);
+}
+
+.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.btn-primary:hover {
+  background: color-mix(in srgb, var(--primary) 88%, var(--on-primary));
+}
+
+.hero-portrait {
+  justify-self: center;
+}
+
+.hero-portrait img {
+  width: clamp(180px, 12rem + 6vw, 260px);
+  border-radius: 50%;
+  border: var(--border);
+  background: var(--surface-container);
+}
+
+/* ---------- Sections ---------- */
+
+.section {
+  padding: clamp(1.5rem, 1rem + 2vw, 3rem) 0;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.section-head h2 {
+  font-size: var(--fs-title);
+  margin: 0;
+}
+
+.section-head p {
+  margin: 0;
+  color: var(--on-surface-variant);
+  font-size: var(--fs-small);
+}
+
+/* ---------- Bento tiles ---------- */
+
+.bento-featured {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 1rem;
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr));
+  gap: 1rem;
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-container);
+  border: var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  color: var(--on-surface);
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--state-layer);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease;
+}
+
+a.tile:hover {
+  text-decoration: none;
+  background: var(--surface-container-high);
+  border-color: var(--outline);
+}
+
+a.tile:hover::after {
+  opacity: 1;
+}
+
+.tile-media {
+  aspect-ratio: 1 / 1;
+  background: var(--surface-container-low);
+}
+
+.tile-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tile-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem;
+}
+
+.tile-body h3 {
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.tile-body p {
+  margin: 0;
+  color: var(--on-surface-variant);
+  font-size: var(--fs-small);
+}
+
+.tile-featured .tile-body h3 {
+  font-size: 1.25rem;
+}
+
+.badge {
+  align-self: flex-start;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+  background: var(--surface-container-high);
+  color: var(--on-surface-variant);
+}
+
+.badge-flagship { color: var(--cat-flagship); background: color-mix(in srgb, var(--cat-flagship) 16%, var(--surface-container)); }
+.badge-ai       { color: var(--cat-ai);       background: color-mix(in srgb, var(--cat-ai) 16%, var(--surface-container)); }
+.badge-web      { color: var(--cat-web);      background: color-mix(in srgb, var(--cat-web) 16%, var(--surface-container)); }
+.badge-game     { color: var(--cat-game);     background: color-mix(in srgb, var(--cat-game) 16%, var(--surface-container)); }
+.badge-cli      { color: var(--cat-cli);      background: color-mix(in srgb, var(--cat-cli) 16%, var(--surface-container)); }
+.badge-tool     { color: var(--cat-tool);     background: color-mix(in srgb, var(--cat-tool) 16%, var(--surface-container)); }
+
+.tile-mono {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1 / 1;
+  background: var(--surface-container-low);
+  border-bottom: var(--border);
+}
+
+.tile-mono span {
+  font-size: clamp(2.2rem, 1.8rem + 1.5vw, 3rem);
+  font-weight: 700;
+  color: var(--cat-tool);
+}
+
+.tile-soon {
+  opacity: 0.75;
+}
+
+.tile-soon .soon-note {
+  color: var(--on-surface-variant);
+  font-size: 0.8rem;
+}
+
+/* ---------- Portfolio page ---------- */
+
+.page-head {
+  padding: clamp(2rem, 1.4rem + 2.5vw, 3.5rem) 0 1.5rem;
+}
+
+.page-head h1 {
+  font-size: var(--fs-display);
+  margin-bottom: 0.5rem;
+}
+
+.page-head p {
+  color: var(--on-surface-variant);
+  margin: 0;
+  max-width: 60ch;
+}
+
+/* ---------- Contact page ---------- */
+
+.contact-card {
+  background: var(--surface-container);
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  max-width: 640px;
+}
+
+.contact-card h1 {
+  font-size: var(--fs-title);
+  margin-bottom: 0.25rem;
+}
+
+.contact-card > p {
+  color: var(--on-surface-variant);
+  margin-top: 0;
+}
+
+.field {
+  display: block;
+  margin-bottom: 1.1rem;
+}
+
+.field span {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-container-low);
+  color: var(--on-surface);
+  font: inherit;
+  resize: vertical;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--on-surface-variant);
+  opacity: 0.8;
+}
+
+.field input:hover,
+.field textarea:hover {
+  background: var(--surface-container);
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  margin-top: 2rem;
+  border-top: var(--border);
+  background: var(--surface-container-low);
+}
+
+.site-footer .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  color: var(--on-surface-variant);
+  font-size: var(--fs-small);
+}
+
+/* ---------- Responsive nav ---------- */
+
+@media (max-width: 820px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-panel {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem 1.25rem;
+    background: var(--surface-container);
+    border-bottom: var(--border);
+  }
+
+  .nav-panel.is-open {
+    display: flex;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+  }
+
+  .nav-links a {
+    padding: 0.7rem 0.9rem;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+  }
+
+  .nav-social {
+    justify-content: center;
+    padding-top: 0.5rem;
+  }
+
+  .site-nav {
+    position: relative;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-portrait {
+    order: -1;
+    justify-self: flex-start;
+  }
+
+  .hero-portrait img {
+    width: 140px;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .tile,
+  .tile::after,
+  .nav-links a,
+  .btn {
+    transition: none;
+  }
+}
+
+
+/* demo-only chrome */
+.demo-banner {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  text-align: center;
+  padding: 0.6rem 1rem;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.demo-nav-gap { height: 0; }
+</style>
+</head>
+<body>
+<div class="demo-banner" role="note">Interactive demo — all links intentionally inert</div>
+
+<header class="site-header">
+  <nav class="site-nav" aria-label="Primary">
+    <a class="brand" href="#">Byron Miller</a>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+    <div class="nav-panel" id="primary-nav">
+      <ul class="nav-links">
+        <li><a href="#" aria-current="page">About</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a class="nav-cta" href="#">Auntie Kim Dates</a></li>
+        <li><a href="#">Resume</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">App hub</span>
+        <h1>Byron Miller, <span class="accent">full-stack developer</span></h1>
+        <p class="hero-lede">Builder of web apps, agent tooling, and community platforms. Every project below is live — browse the bento and pick a door.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#">View portfolio</a>
+          <a class="btn" href="#">Contact</a>
+        </div>
+      </div>
+      <div class="hero-portrait">
+        <div class="tile-mono portrait-mono"><span>BM</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Featured</h2>
+        <p>Flagship work, live now</p>
+      </div>
+      <div class="bento-featured">
+
+          <a class="tile" href="#">
+            <div class="tile-mono"><span>AK</span></div>
+            <div class="tile-body">
+              <span class="badge badge-flagship">Flagship app</span>
+              <h3>Auntie Kim Dates</h3>
+              <p>Community dating and social events brand</p>
+            </div>
+          </a>
+
+          <a class="tile" href="#">
+            <div class="tile-mono"><span>AI</span></div>
+            <div class="tile-body">
+              <span class="badge badge-ai">AI</span>
+              <h3>AI Agent</h3>
+              <p>Agentic control deck doorway</p>
+            </div>
+          </a>
+
+          <a class="tile" href="#">
+            <div class="tile-mono"><span>AG</span></div>
+            <div class="tile-body">
+              <span class="badge badge-web">Web app</span>
+              <h3>Atelier Grocery</h3>
+              <p>Grocery product sync and storefront theme</p>
+            </div>
+          </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Full gallery</h2>
+        <p>11 apps and counting</p>
+      </div>
+      <div class="bento-grid">
+
+          <a class="tile" href="#">
+            <div class="tile-mono"><span>RC</span></div>
+            <div class="tile-body">
+              <span class="badge badge-web">Web app</span>
+              <h3>RecipeCiprocity</h3>
+              <p>Recipe finder</p>
+            </div>
+          </a>
+
+          <a class="tile" href="#">
+            <div class="tile-mono"><span>TS</span></div>
+            <div class="tile-body">
+              <span class="badge badge-tool">Tool</span>
+              <h3>Train Scheduler Deluxe</h3>
+              <p>Scheduling tool</p>
+            </div>
+          </a>
+
+          <a class="tile" href="#">
+            <div class="tile-mono"><span>NN</span></div>
+            <div class="tile-body">
+              <span class="badge badge-tool">Tool</span>
+              <h3>Notes Node</h3>
+              <p>Notes app</p>
+            </div>
+          </a>
+
+          <a class="tile" href="#">
+            <div class="tile-mono"><span>LB</span></div>
+            <div class="tile-body">
+              <span class="badge badge-cli">CLI</span>
+              <h3>Liri Bot</h3>
+              <p>CLI assistant</p>
+            </div>
+          </a>
+
+          <a class="tile" href="#">
+            <div class="tile-mono"><span>LH</span></div>
+            <div class="tile-body">
+              <span class="badge badge-game">Game</span>
+              <h3>Las Horcas</h3>
+              <p>Game</p>
+            </div>
+          </a>
+
+          <a class="tile" href="#">
+            <div class="tile-mono"><span>BA</span></div>
+            <div class="tile-body">
+              <span class="badge badge-cli">CLI</span>
+              <h3>Bamazonathon</h3>
+              <p>CLI storefront</p>
+            </div>
+          </a>
+
+          <a class="tile" href="#">
+            <div class="tile-mono"><span>GF</span></div>
+            <div class="tile-body">
+              <span class="badge badge-tool">Tool</span>
+              <h3>Giphy Fun</h3>
+              <p>GIF search</p>
+            </div>
+          </a>
+
+          <a class="tile" href="#">
+            <div class="tile-mono"><span>TB</span></div>
+            <div class="tile-body">
+              <span class="badge badge-web">Web app</span>
+              <h3>Them Burgerz Tho</h3>
+              <p>Ordering demo</p>
+            </div>
+          </a>
+        <div class="tile tile-soon" aria-disabled="true">
+          <div class="tile-mono"><span>T</span></div>
+          <div class="tile-body">
+            <span class="badge badge-game">Coming soon</span>
+            <h3>Tetris</h3>
+            <p class="soon-note">In deploy — tile will link once live</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>Dusk Bento — variant 7</span>
+    <span>Copyright ©</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  document.addEventListener("click", function (event) {
+    var anchor = event.target instanceof Element && event.target.closest("a");
+    if (anchor) event.preventDefault();
+  });
+
+  var toggle = document.querySelector("[data-nav-toggle]");
+  if (!toggle) return;
+  var panel = document.getElementById(toggle.getAttribute("aria-controls"));
+
+  function setOpen(open) {
+    toggle.setAttribute("aria-expanded", String(open));
+    panel.classList.toggle("is-open", open);
+  }
+
+  toggle.addEventListener("click", function () {
+    setOpen(toggle.getAttribute("aria-expanded") !== "true");
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") setOpen(false);
+  });
+}());
+</script>
+<style>
+.portrait-mono {
+  width: clamp(180px, 12rem + 6vw, 260px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: var(--border);
+}
+</style>
+</body>
+</html>
