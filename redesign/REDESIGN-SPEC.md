@@ -1,9 +1,12 @@
 # REDESIGN-SPEC — dashinja.github.io modern app-hub
 
-LLM-executable implementation plan. Three candidate design systems (A Terminal Noir,
-B Editorial Index, C Tonal Bento) implement the SAME information architecture, the
-SAME file contract, and the SAME hard test rules from `tests/static-site.test.ts`.
-Only the design system (tokens, components, motion) differs.
+LLM-executable implementation plan. The program is **8 design variants, all dark or
+"not bright"** (operator ruling 2026-10-27). Candidate A (Terminal Noir) is BUILT
+(issue #20). Candidates B (Editorial Index) and C (Tonal Bento, as shipped
+light-dominant) are **REJECTED**. Variants 2–8 implement the SAME information
+architecture, the SAME file contract, and the SAME hard test rules from
+`tests/static-site.test.ts`. Only the design system (tokens, components, motion)
+differs.
 
 Executors: this document assumes a capable LLM working branch-by-branch in a
 worktree, verifying with `npm test` after every function, and never merging.
@@ -90,8 +93,8 @@ simply must not regress).
    - `data-target="#siteHelpModal"`
    - `id="siteHelpModal"`
    - `How this site works`
-   - (Consequence: Candidate C ships light+dark via `prefers-color-scheme` only —
-     never a toggle button.)
+  - (Consequence: no variant ships a theme toggle — the dark presentation is the
+    default stylesheet, never behind a control.)
 4. **New-tab opener/referrer protection** (every source file): every anchor whose
    markup includes `target="_blank"` MUST also include `rel="noopener noreferrer"`
    within the same tag.
@@ -116,7 +119,7 @@ process even where not testable):
 - Do not modify `grocery/` or `assets/documents/`.
 - `contact.html` is fully in scope for the redesign.
 - Tetris is not deployed to Pages: optional non-linking "coming soon" tile only.
-- Candidates are proposals: branches/PRs/issues only, NEVER merge, never close
+- Variants are proposals: branches/PRs/issues only, NEVER merge, never close
   issues with `Closes`.
 
 ---
@@ -238,106 +241,71 @@ header.site-nav > nav.site-nav__inner
   div#site-nav-menu.site-nav__menu > a.site-nav__link[aria-current="page"]?
 section.hero > h1.hero__title, p.hero__tagline, img.hero__portrait, div.hero__ctas
 section.featured > h2, div.bento > a.tile.tile--featured*3
-section.gallery > h2, div.gallery__grid > a.tile*11 (or ol.gallery__list on candidate B)
+section.gallery > h2, div.gallery__grid > a.tile*11
 section.about > p, ul.about__chips > li.chip
 footer.site-footer > div.footer__socials, a.footer__resume, p.footer__copyright
 ```
 
 ---
 
-## Part 2 — Function-by-function implementation (per candidate)
+## Part 2 — Function-by-function implementation (variants 2–8)
 
-General execution protocol for every function below:
+> **Candidate status (operator ruling, 2026-10-27 — dark-only program, 8 variants):**
+>
+> | Candidate | Verdict |
+> |---|---|
+> | A — Terminal Noir (dark) | **ACCEPTED & BUILT** (issue #20). Remains the reference for IA, file contract, and the a11y floor; not re-specified here. |
+> | B — Editorial Index (light) | **REJECTED** — light theme; the program is dark-only. |
+> | C — Tonal Bento (light-dominant, dark via media query) | **REJECTED** as shipped. Its tonal-bento idea survives reworked dark-only as **variant 7 (Dusk Bento)**. |
+> | Variants 2–8 | **SPECIFIED BELOW** — all dark or "not bright". |
+>
+> Evidence and per-variant grounding: `~/code/homeApps/.atomic/redesign-evidence/dark-variant-brief.md`.
 
-1. Implement the function on the candidate branch in the candidate worktree.
-2. Run `npm test` after EVERY function. If red, fix before proceeding.
-3. Each function lists an **Acceptance check** — run it literally (command or
+### 2.1 General execution protocol (every variant, every function)
+
+1. Work on branch `design/variant-N` in worktree
+   `~/code/dashinja-redesign-worktrees/variant-N` (node_modules symlinked, Part 3.1).
+2. Implement one function at a time, in the order listed (F1 → F12), then assemble
+   per F13.
+3. Run `npm test` after EVERY function. If red, fix before proceeding.
+4. Each function lists an **Acceptance check** — run it literally (command or
    inspection) and only proceed when it passes.
+5. Standing scope rules from Part 0 apply throughout: never touch `grocery/`,
+   `assets/documents/`, `src/`, `portfolio-next/`; never merge.
 
-File layout (identical for every candidate):
+File layout (identical for every variant; `N` = variant number 2–8):
 
 ```
 assets/css/main.css        tokens + reset + shared components (nav, footer, chips, tiles)
 assets/css/home.css        index.html-specific layout (hero, featured, about strip)
 assets/css/portfolio.css   portfolio.html-specific layout
 assets/css/contact.css     contact.html-specific layout
-assets/js/navbar-toggle.js rewritten first-party (see F9)
-demo mock → NOT in the repo: ~/code/homeApps/.atomic/redesign-evidence/candidate-{a|b|c}/demo.html
+assets/js/navbar-toggle.js rewritten first-party (see S-F9)
+demo mock → NOT in the repo: ~/code/homeApps/.atomic/redesign-evidence/variant-{N}/demo.html
 ```
 
-### F1 — Design tokens block (per candidate)
+### 2.2 Hard rules inherited from the research (every variant)
 
-**A — Terminal Noir** (`assets/css/main.css`, `:root`):
-```css
-:root {
-  --bg: #0a0a0a; --surface: #111111; --surface-2: #161616;
-  --fg: #ededed; --muted: #a1a1a1;
-  --border: #262626; --border-strong: #3f3f3f;
-  --accent: #5ee6a8; --accent-fg: #05130d;
-  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Inter, sans-serif;
-  --font-mono: ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, monospace;
-  --text-13: 0.8125rem; --text-16: 1rem; --text-20: 1.25rem; --text-25: 1.5625rem;
-  --text-31: 1.9375rem; --text-39: 2.4375rem; --text-49: 3.0625rem;
-  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
-  --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px; --space-24: 96px;
-  --radius-tile: 8px; --radius-featured: 12px; --radius-chip: 999px;
-  --duration: 150ms; --ease: ease-out;
-}
-```
-Display sizes use `letter-spacing: -0.02em`; labels use `font-family: var(--font-mono);
-text-transform: uppercase; font-size: 11px; letter-spacing: 0.08em;`.
+1. Page background between `#0a0a0a` and `#151517` (each variant pins one in F1);
+   text off-white (`#e8eaed`-ish), NEVER pure `#000`/`#fff`; muted text ≥ 4.5:1 on
+   its surface.
+2. Exactly ONE accent per variant, desaturated/brightened for dark (M3 ~40-tone
+   rule); status colors get dark-tuned variants.
+3. Border discipline (Geist): each border drawn once, no stacked alpha borders;
+   hairlines over shadows; translucent shadows only.
+4. Elevation = tonal steps (Radix steps 2/3, M3 surface-container), never opaque
+   drop shadows.
+5. NO `prefers-color-scheme` media query anywhere — every variant is dark-only by
+   default, and no variant ships a theme toggle (test 3).
 
-**B — Editorial Index**:
-```css
-:root {
-  --bg: #faf9f6; --surface: #ffffff; --fg: #141414; --muted: #6f6b64;
-  --border: #e6e2da; --accent: #2c5cd6; --accent-soft: #e8edfb; --highlight: #f5efe4;
-  --font-display: 'Iowan Old Style', Georgia, 'Times New Roman', serif;
-  --font-sans: ui-sans-serif, system-ui, 'Helvetica Neue', Arial, sans-serif;
-  --text-14: 0.875rem; --text-16: 1rem; --text-19: 1.1875rem; --text-24: 1.5rem;
-  --text-34: 2.125rem; --text-48: 3rem; --text-68: 4.25rem;
-  --space-1: 8px; --space-2: 16px; --space-3: 24px; --space-4: 32px;
-  --space-6: 48px; --space-8: 64px; --space-12: 96px; --space-16: 128px;
-  --maxw-text: 72ch; --maxw-site: 1200px;
-  --radius-tile: 4px; --radius-chip: 999px;
-  --duration: 200ms; --ease: ease;
-}
-```
+### 2.3 Shared functions (mechanics identical for all variants)
 
-**C — Tonal Bento** (M3 roles; light is default, dark in `@media (prefers-color-scheme: dark)`):
-```css
-:root {
-  --surface: #fbfbfd; --surface-container: #f1f2f6;
-  --on-surface: #1b1d22; --on-surface-variant: #4b4e57;
-  --outline: #c4c7cf; --primary: #3b5bdb; --on-primary: #ffffff;
-  --primary-container: #e3e9fc;
-  --cat-apps: #2c5cd6; --cat-games: #b3261e; --cat-ai: #6b21c8;
-  --cat-cli: #0f6b63; --cat-tools: #8a5a00;
-  --radius-tile: 16px; --radius-featured: 24px; --radius-chip: 999px;
-  --duration: 200ms;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --surface: #131417; --surface-container: #1d1f24;
-    --on-surface: #e4e6eb; --on-surface-variant: #a2a6b0;
-    --outline: #3f424a; --primary: #9db1ff; --on-primary: #10204a;
-    --primary-container: #2a3a66;
-    --cat-apps: #9db1ff; --cat-games: #ffb4ab; --cat-ai: #d3b8ff;
-    --cat-cli: #6cd9cc; --cat-tools: #ffd54f;
-  }
-}
-```
-Type roles via `clamp()`: `--type-display: clamp(2.25rem, 5vw, 3.5625rem)` (57),
-`--type-headline: clamp(1.5rem, 3vw, 1.75rem)` (28), `--type-title-lg: 1.375rem` (22),
-`--type-body: 1rem` (16), `--type-label: 0.875rem` (14, weight 500). Elevation is
-tonal (`--surface-container`), no shadows.
+S-F2 (base/reset), S-F9 (navbar-toggle.js), the S-F10 breakpoint skeleton, the
+S-F11 a11y floor, S-F12 (demo mock), and S-F13 (assembly order) are written out
+ONCE here and are implemented on every variant branch at the same position in the
+order. F1 and the visual treatments for F3–F8 are per-variant (2.4).
 
-*Acceptance check (all)*: `npm test` green; opening any page shows the correct
-canvas color; `grep -c 'prefers-color-scheme' assets/css/main.css` → ≥1 only for C,
-and for C **zero** occurrences of `data-theme-toggle` anywhere
-(`grep -r 'data-theme-toggle' index.html portfolio.html contact.html` → no matches).
-
-### F2 — Base/reset
+#### S-F2 — Base/reset
 
 In `assets/css/main.css`: modern reset (`box-sizing: border-box` on `*`,
 `margin: 0` on body/h/p/ul, `img { max-width: 100%; display: block }`), then:
@@ -353,9 +321,7 @@ In `assets/css/main.css`: modern reset (`box-sizing: border-box` on `*`,
 *Acceptance check*: keyboard Tab on any page reaches the skip link first and it is
 visibly rendered when focused; `npm test` green.
 
-### F3 — Nav component
-
-Markup (same for all candidates, from 1.3/1.7):
+#### S-F3-markup — Nav markup (shared skeleton, per-variant skin in 2.4)
 
 ```html
 <header class="site-nav">
@@ -379,107 +345,16 @@ Markup (same for all candidates, from 1.3/1.7):
 ```
 
 - The current page's link gets `aria-current="page"` (hardcode per page).
-- `position: sticky; top: 0; z-index: 10;` with per-candidate treatment:
-  - **A**: hairline bottom border (`border-bottom: 1px solid var(--border)`),
-    `background: color-mix(in srgb, var(--bg) 85%, transparent)` + `backdrop-filter: blur(8px)`,
-    links in 11px mono uppercase.
-  - **B**: no border until scrolled (optional); plain `var(--bg)` background; links in
-    sans 14px with generous spacing; active link underlined.
-  - **C**: `background: var(--surface)`; active link gets a **pill** state
-    (`background: var(--primary-container); border-radius: var(--radius-chip);
-    padding: var(--space-1) var(--space-2); color: var(--on-surface)`).
-- Every candidate keeps `data-target="#siteHelpModal"`, `id="siteHelpModal"`,
+- `position: sticky; top: 0; z-index: 10;` on `header.site-nav`.
+- The nav keeps `data-target="#siteHelpModal"`, `id="siteHelpModal"`,
   `How this site works`, and `data-theme-toggle` OUT (test 3).
 
-*Acceptance check*: nav renders on all three pages; `npm test` green; `grep -c
+*Acceptance check*: nav renders on all three pages; `grep -c
 'rel="noopener noreferrer"' index.html` counts both social anchors; no
-`data-toggle="collapse"` remains (`grep -r 'data-toggle' index.html` → empty).
-
-### F4 — Hero (index.html)
-
-- **A**: left-aligned; `h1.hero__title` at `--text-49`, tracking -0.02em; tagline in
-  `--muted`; optional portrait at right as a bordered square (1px `--border`,
-  radius 8px); CTAs: primary = accent-filled button (`--accent` bg, `--accent-fg`
-  text, radius 8px), secondary = hairline ghost button; mono kicker label above
-  title (`FULL-STACK DEVELOPER`).
-- **B**: two-column (portrait left ~360px, headline right); headline serif
-  `--text-68` with an italic serif deck line under it; CTAs are underlined text
-  links with arrows, accent color.
-- **C**: hero as a large `--radius-featured` surface-container card; title at
-  `--type-display`; portrait rounded; CTAs filled (`--primary`/`--on-primary`) +
-  tonal (`--primary-container`/`--on-surface`).
-
-*Acceptance check*: hero contains name, one-liner (1.5 copy), portrait
-(`assets/images/squaremeup.png`, meaningful `alt="Portrait of Byron Miller"`), and
-the two CTAs; `npm test` green.
-
-### F5 — Featured bento row (index.html)
-
-`div.bento` — CSS grid, 3 columns desktop; each featured app from 1.2 is an
-`<a class="tile tile--featured">` spanning **2 columns** (grid-template-areas or
-`grid-column: span 2`; on C the middle tile is 2×2). Tile content: name
-(`.tile__name`), category chip (`.tile__chip`), blurb (`.tile__blurb`), arrow
-affordance (`.tile__arrow` — an inline SVG `→`).
-- **A**: tiles are `--surface` with 1px `--border`, radius `--radius-featured`;
-  mono index numbers `01` `02` `03` top-right (`.tile__index`); hover = border
-  brightens to `--border-strong` + arrow nudges `translateX(4px)` + background
-  lifts to `--surface-2`.
-- **B**: featured 3 get a warm band: `background: var(--highlight)` with a serif
-  pull-quote intro line above the row; rows are otherwise hairline-ruled.
-- **C**: featured tiles 2×2 spans with `--primary-container` tint per category
-  color; color-coded dot (`.tile__dot`) + chip on every tile.
-- Grocery tile href is EXACTLY `./grocery/`.
-
-*Acceptance check*: exactly 3 `.tile--featured` on index.html; the third has
-`href="./grocery/"`; `grep -c 'https://dashinja.github.io/grocery/' index.html` → 0;
+`data-toggle="collapse"` remains (`grep -r 'data-toggle' index.html` → empty);
 `npm test` green.
 
-### F6 — App gallery (index.html + portfolio.html)
-
-11 linking tiles (3 featured + 8 gallery) + optional non-linking Tetris tile.
-Every tile: name, category, one-liner (index) or status badge (portfolio), arrow.
-- **A**: same bento grid, 1×1 tiles with mono index numbers `04`–`11` top-right.
-- **B**: an **editorial index list** — `ol.gallery__list` of rows
-  (`li.gallery__row`): big light serif numeral, name (serif `--text-24`), category
-  in muted small caps, one-liner, arrow that fades in on hover; hairline
-  `border-top: 1px solid var(--border)` between rows; hover = row background tint
-  + 1px title underline draw (`background-image` linear-gradient width 0→100%).
-  Portfolio page groups rows by category with serif category headings + status
-  badges (chip: `Live` for all 11, `Coming soon` for Tetris as a non-link row).
-- **C**: true bento with varied spans (featured 2×2, categories 1×1 / 2×1), each
-  tile `--surface-container` with category color dot + chip; portfolio groups
-  tiles under category headings with status badges.
-- All external app hrefs keep `target="_blank" rel="noopener noreferrer"`.
-
-*Acceptance check*: `grep -c 'class="tile' index.html` (or `.gallery__row` for B)
-≥ 11 linking tiles + optional 1 non-link; every `target="_blank"` anchor on the
-page carries `rel="noopener noreferrer"` (test 4); Tetris tile (if present) is a
-`<div>`/`<li>` without `href`; `npm test` green.
-
-### F7 — About strip (index.html)
-
-`section.about`: the 2–3 sentence copy from 1.5 + `ul.about__chips` with the 10
-tech chips (`.chip`).
-- **A**: strip on `--surface` with hairline top/bottom borders; chips mono 11px
-  uppercase with 1px `--border`, radius 999.
-- **B**: strip on `var(--bg)` with hairline rules; chips as accent-soft pills
-  (`--accent-soft` bg, `--accent` text).
-- **C**: strip as a `--surface-container` rounded (16px) band; chips
-  `--primary-container`/`--on-surface`.
-
-*Acceptance check*: strip renders with ≥10 `.chip` items; `npm test` green.
-
-### F8 — Footer
-
-`footer.site-footer` (in normal flow — NOT fixed-bottom): socials, resume
-download, copyright. Per-candidate background: A = `--surface` + hairline top
-border; B = `--bg` + hairline rule; C = `--surface-container`. Include the year
-span from 1.4.
-
-*Acceptance check*: no `fixed-bottom` class remains on any page; footer social
-anchors carry `rel="noopener noreferrer"`; `npm test` green.
-
-### F9 — navbar-toggle.js behavior (rewrite, first-party)
+#### S-F9 — navbar-toggle.js behavior (rewrite, first-party)
 
 Replace `assets/js/navbar-toggle.js` entirely (keep the filename):
 
@@ -513,36 +388,35 @@ Replace `assets/js/navbar-toggle.js` entirely (keep the filename):
 
 CSS pairs with it: `.site-nav__menu` is a horizontal row ≥768px; below 768px it is
 hidden (`display: none`) until `.site-nav__menu--open` shows it as a vertical
-dropdown panel under the sticky bar (A: `--surface` + hairline border; B:
-`--surface` card; C: `--surface-container` panel, radius 16 at bottom corners).
+dropdown panel under the sticky bar. Panel skin per variant: `--surface` (or the
+variant's panel tone) with a 1px `--border`, bottom corners at the variant's tile
+radius.
 
 *Acceptance check*: at 390px width, clicking `.site-nav__toggle` opens the menu,
 `aria-expanded` flips to `true`, Escape closes it, clicking a link closes it;
 `npm test` green (exact script tag still present on all three pages).
 
-### F10 — Responsive breakpoints
+#### S-F10 — Responsive breakpoint skeleton (all variants)
 
-All candidates, in each stylesheet:
 - `--mobile-max: 767px`, `--tablet-min: 768px`, `--desktop-min: 1024px`.
 - Nav: hamburger below 768px, full row at ≥768px.
-- Bento (A/C): 1 column below 768px, 2 columns 768–1023px, 3 columns ≥1024px;
-  featured spans collapse to full width below 1024px. B: rows stack vertically
-  below 768px (numeral shrinks, arrow hidden), two-line rows at ≥768px.
-- Hero: A single column below 768px (portrait above title, max-width 240px);
-  B two-column below 768px collapses to portrait-on-top; C hero card stays
-  full-width with content stacking below 768px.
-- Type: A/B fixed scale steps step down one size per breakpoint; C scales via
-  `clamp()` automatically (verify no overflow at 320px).
-- Site max-width: B `--maxw-site: 1200px` centered; A content max-width 1120px;
-  C content max-width 1200px, `padding-inline: var(--space-4)`.
+- Tile grids: 1 column below 768px, 2 columns 768–1023px, 3 columns ≥1024px;
+  featured spans collapse to full width below 1024px.
+- Hero: single column below 768px (portrait above title, max-width 240px).
+- Type: fixed scale steps step down one size per breakpoint (no fluid `clamp()`
+  scale anywhere — the C-style fluid type was rejected with C; variant 7 uses
+  fixed steps too).
+- Content max-width 1120–1200px centered (per variant), `padding-inline:
+  var(--space-4)`.
+- Per-variant deltas (e.g. variant 5's editorial rows): see 2.4.
 
-*Acceptance check*: with browser at 1440×900 and 390×844, no horizontal
-scrollbar (`document.documentElement.scrollWidth <= window.innerWidth` in
-console); layout matches the candidate description at both widths.
+*Acceptance check*: with browser at 1440×900 and 390×844, no horizontal scrollbar
+(`document.documentElement.scrollWidth <= window.innerWidth` in console); layout
+matches the variant description at both widths.
 
-### F11 — Reduced motion, focus-visible, contrast (accessibility floor)
+#### S-F11 — Reduced motion, focus-visible, contrast (accessibility floor)
 
-In `assets/css/main.css` (all candidates):
+In `assets/css/main.css` (all variants):
 
 ```css
 @media (prefers-reduced-motion: reduce) {
@@ -553,35 +427,25 @@ In `assets/css/main.css` (all candidates):
     scroll-behavior: auto !important;
   }
 }
-:focus-visible { outline: 2px solid var(--accent, var(--primary)); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 ```
-(B uses `var(--accent)`; C uses `--primary` at 12% ring convention: 2px solid
-`--primary`, offset 2px.)
 
-Contrast requirements (WCAG AA, verify each pair ≥ 4.5:1 body text / 3:1 large
-text & UI borders):
-- A: `--fg` on `--bg` (≈17:1), `--muted #a1a1a1` on `--bg` (≈7.6:1), `--accent-fg`
-  on `--accent` (≈10:1), `--border` used for decoration only (non-text).
-- B: `--fg` on `--bg` (≈16:1), `--muted #6f6b64` on `--bg` (≈4.6:1), `--accent
-  #2c5cd6` on `--bg` (≈5.5:1).
-- C: BOTH schemes — light `--on-surface-variant` on `--surface` (≈7:1), light
-  `--primary` on `--surface` (≈5.9:1); dark `--on-surface-variant` on `--surface`
-  (≈6:1), dark `--primary` on `--surface` (≈8:1); each `--cat-*` color on
-  `--surface` in its scheme ≥ 4.5:1 (the values above are pre-checked; if an
-  executor adjusts a `--cat-*` value it must re-verify with a contrast calculator).
+Every variant defines `--accent`, so the focus-ring token is uniform. Per-variant
+contrast pairs (WCAG AA: ≥ 4.5:1 body text, ≥ 3:1 large text & UI borders) are
+listed in each variant's F11 step in 2.4; values there are pre-checked — if an
+executor adjusts any listed value it must re-verify with a contrast calculator.
 
-*Acceptance check*: OS dark mode + "reduce motion" toggled → no animations, C
-renders dark, all text readable; `:focus-visible` ring visible when tabbing;
-`npm test` green.
+*Acceptance check*: OS "reduce motion" toggled → no animations, all text readable;
+`:focus-visible` ring visible when tabbing; `npm test` green.
 
-### F12 — Demo mock (per candidate, NOT committed to the repo)
+#### S-F12 — Demo mock (per variant, NOT committed to the repo)
 
-Path: `~/code/homeApps/.atomic/redesign-evidence/candidate-{a|b|c}/demo.html`.
+Path: `~/code/homeApps/.atomic/redesign-evidence/variant-{N}/demo.html`.
 Requirements:
 - Single self-contained file: inline `<style>`, inline `<script>`, NO external
   URLs of any kind (no fonts, no images — use CSS shapes/emoji/gradients).
-- Reproduces the candidate's index.html visually: nav (toggle works), hero,
-  featured bento, gallery, about strip, footer.
+- Reproduces the variant's index.html visually: nav (toggle works), hero, featured
+  bento, gallery, about strip, footer.
 - All anchors are `href="#"` with `event.preventDefault()` in the inline script.
 - Hover/focus interactions and `prefers-reduced-motion` behavior work.
 
@@ -590,10 +454,10 @@ Requirements:
 lines); all `href="#"`; open in a browser: toggle, hover, focus, and reduced-motion
 all behave; file ≥ 5 KB.
 
-### F13 — Page assembly order (final wiring, per candidate)
+#### S-F13 — Page assembly order (final wiring, per variant)
 
-1. Write `assets/css/main.css` (F1, F2, F3, F8, F9-css, F10, F11 shared parts).
-2. Rewrite `index.html` on the F1.6 head skeleton: skip link → nav → `main#main`
+1. Write `assets/css/main.css` (F1, S-F2, F3, F8, S-F9 CSS, S-F10, S-F11 shared parts).
+2. Rewrite `index.html` on the Part 1.6 head skeleton: skip link → nav → `main#main`
    (hero → featured → gallery → about) → footer → script tag.
 3. Rewrite `portfolio.html`: nav → heading → category-grouped richer gallery →
    about-this-site note → footer. Keep zero or fully-annotated external images
@@ -607,6 +471,655 @@ all behave; file ≥ 5 KB.
 *Acceptance check*: `npm test` green with all 8 test blocks passing; all three
 pages visually complete at both viewports; no console errors in the browser.
 
+### 2.4 The variants (2–8), function by function
+
+Each variant below lists its 12 steps in execution order: token block → base/reset
+→ nav → hero → featured → gallery → about → footer → navbar-toggle.js →
+breakpoints → a11y floor → demo mock. Steps marked **(shared)** are implemented
+exactly as written in 2.3 — they are restated as one line per variant so no
+variant skips one. Each step carries its acceptance check; shared-step checks
+are incorporated by reference.
+
+---
+
+#### Variant 2 — Midnight Signature (Vercel marketing + Geist)
+
+Grounded in: Vercel-style marketing surfaces + the Geist 10-step scale.
+Signature: gradient-glow hero, big display type, calm near-black canvas.
+
+**F1 — Design tokens** (`assets/css/main.css`, `:root`):
+
+```css
+:root {
+  --bg: #09090b; --surface: #101013; --surface-2: #16161a;
+  --fg: #ededed; --muted: #a1a1aa;
+  --border: #26262b; --border-strong: #3f3f46;
+  --accent: #7c8cff; --accent-fg: #0a0a14;
+  --glow-from: #3b82f6; --glow-to: #8b5cf6;   /* decorative gradient, never text */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Inter, sans-serif;
+  --font-mono: ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  --text-13: 0.8125rem; --text-16: 1rem; --text-20: 1.25rem; --text-25: 1.5625rem;
+  --text-31: 1.9375rem; --text-39: 2.4375rem; --text-56: 3.5rem;
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px; --space-24: 96px;
+  --radius-tile: 10px; --radius-featured: 14px; --radius-chip: 999px;
+  --duration: 150ms; --ease: ease-out;
+}
+```
+
+Display sizes use `letter-spacing: -0.02em`; labels mono 11px uppercase 0.08em.
+The glow pair is used ONLY in gradients (hero background, tile top-edge
+highlights) — never as text color.
+
+*Acceptance check*: `npm test` green; any page's canvas is `#09090b`;
+`grep -c 'prefers-color-scheme' assets/css/main.css` → 0.
+
+**F2 — Base/reset** **(shared, S-F2)** — no deltas. *Acceptance check*: as S-F2.
+
+**F3 — Nav**: sticky; `background: color-mix(in srgb, var(--bg) 80%, transparent)`
++ `backdrop-filter: blur(8px)`; 1px `--border` bottom hairline (drawn once);
+links sans 14px; active link `color: var(--accent)`.
+
+*Acceptance check*: nav matches the treatment on all three pages; S-F3-markup
+checks pass; `npm test` green.
+
+**F4 — Hero**: centered; mono kicker label `FULL-STACK DEVELOPER`; title at
+`--text-56`, tracking -0.02em; behind the title a radial glow on the hero section:
+`background: radial-gradient(ellipse 60% 40% at 50% 0%,
+color-mix(in srgb, var(--glow-from) 22%, transparent), transparent 70%)`
+(decorative); tagline in `--muted`; CTAs: primary accent-filled (`--accent` bg /
+`--accent-fg` text, radius 10px), secondary hairline ghost.
+
+*Acceptance check*: hero contains name, one-liner (1.5 copy), portrait
+(`assets/images/squaremeup.png`, `alt="Portrait of Byron Miller"`), and the two
+CTAs; the glow renders behind the title only; `npm test` green.
+
+**F5 — Featured bento**: 3 tiles spanning 2 columns each (`grid-column: span 2`),
+`--surface` with 1px `--border`, radius `--radius-featured`; a 1px gradient
+top-edge highlight per tile (`::before` with
+`linear-gradient(90deg, var(--glow-from), var(--glow-to))`, opacity 0 → 0.6 on
+hover); hover = border brightens to `--border-strong`, background lifts to
+`--surface-2`, arrow nudges `translateX(4px)`. Grocery tile href EXACTLY `./grocery/`.
+
+*Acceptance check*: exactly 3 `.tile--featured` on index.html; the third has
+`href="./grocery/"`; `grep -c 'https://dashinja.github.io/grocery/' index.html` → 0;
+`npm test` green.
+
+**F6 — App gallery**: same grid, 1×1 tiles with mono index numbers `04`–`11`
+top-right; hover as featured minus the gradient edge. External app hrefs keep
+`target="_blank" rel="noopener noreferrer"`.
+
+*Acceptance check*: ≥ 11 linking tiles + optional non-link Tetris `<div>`; every
+`target="_blank"` anchor carries `rel="noopener noreferrer"` (test 4); `npm test`
+green.
+
+**F7 — About strip**: strip on `--surface` with hairline top/bottom borders;
+chips mono 11px uppercase, 1px `--border`, radius 999px.
+
+*Acceptance check*: strip renders with ≥ 10 `.chip` items; `npm test` green.
+
+**F8 — Footer**: `--bg` background, 1px `--border` top hairline; socials, resume
+download, year span per 1.4.
+
+*Acceptance check*: no `fixed-bottom` class remains on any page; footer social
+anchors carry `rel="noopener noreferrer"`; `npm test` green.
+
+**F9 — navbar-toggle.js** **(shared, S-F9)** — no deltas. *Acceptance check*: as S-F9.
+
+**F10 — Breakpoints** **(shared, S-F10)** — no deltas. *Acceptance check*: as S-F10.
+
+**F11 — A11y floor** **(shared, S-F11)**. Contrast pairs (pre-checked): `--fg` on
+`--bg` ≈ 16.9:1; `--muted #a1a1aa` on `--bg` ≈ 7.4:1; `--accent #7c8cff` on
+`--bg` ≈ 6.7:1; `--accent-fg` on `--accent` ≈ 9:1; glow colors never used as text.
+
+*Acceptance check*: as S-F11.
+
+**F12 — Demo mock** **(shared, S-F12)** →
+`~/code/homeApps/.atomic/redesign-evidence/variant-2/demo.html`.
+*Acceptance check*: as S-F12.
+
+---
+
+#### Variant 3 — Graphite Console (Polaris dark)
+
+Grounded in: Shopify Polaris dark. Signature: dashboard density, status dots,
+utilitarian rows, squarer corners.
+
+**F1 — Design tokens**:
+
+```css
+:root {
+  --bg: #141516; --surface: #1b1d1e; --surface-2: #212425;
+  --fg: #e3e5e7; --muted: #9aa5ad;
+  --border: #2e3335; --border-strong: #4a5257;
+  --accent: #ffb35c; --accent-fg: #211302;
+  --status-success: #45d07b; --status-warning: #ffb35c;
+  --status-critical: #f36b5d; --status-neutral: #9aa5ad;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Inter, sans-serif;
+  --font-mono: ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  --text-12: 0.75rem; --text-13: 0.8125rem; --text-16: 1rem; --text-20: 1.25rem;
+  --text-25: 1.5625rem; --text-31: 1.9375rem;
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px; --space-24: 96px;
+  --radius-tile: 6px; --radius-featured: 8px; --radius-chip: 4px;
+  --duration: 120ms; --ease: ease-out;
+}
+```
+
+*Acceptance check*: `npm test` green; canvas `#141516`; zero `prefers-color-scheme`.
+
+**F2 — Base/reset** **(shared, S-F2)** — no deltas. *Acceptance check*: as S-F2.
+
+**F3 — Nav**: dense 48px bar, `--surface` bg, 1px hairline bottom; brand plus a
+status line (`.site-nav__status`): a `--status-success` dot AND the text label
+`11 apps live` — never color alone; links sans 13px uppercase 0.04em.
+
+*Acceptance check*: nav matches treatment on all three pages; the status label is
+real text next to the dot; S-F3-markup checks pass; `npm test` green.
+
+**F4 — Hero**: console header, not a marketing hero — single row: title at
+`--text-31` left with the one-liner in `--muted` under it; availability line on
+the right (`● Live 11 · ● Soon 1` using `--status-success` / `--status-neutral`,
+each dot paired with a text label); portrait as a small bordered square (64px,
+radius 6px) beside the title; CTAs compact (accent-filled + hairline ghost, 36px
+height).
+
+*Acceptance check*: hero has name, one-liner (1.5 copy), portrait, both CTAs, and
+a status line where every dot has adjacent text; `npm test` green.
+
+**F5 — Featured bento**: utilitarian 3-tile row, 1px `--border`, radius 8px; each
+tile header row = mono index + category chip + status dot; blurb at `--text-13`;
+hover = border brightens to `--border-strong` + background lifts to `--surface-2`.
+Grocery tile href EXACTLY `./grocery/`.
+
+*Acceptance check*: exactly 3 `.tile--featured`; third `href="./grocery/"`; zero
+`https://dashinja.github.io/grocery/`; `npm test` green.
+
+**F6 — App gallery**: dashboard-density rows — 1×1 tiles with category column and
+a status dot + `Live` text per app; portfolio groups by status/category with mono
+group headings. Tetris (if present) = non-link tile labeled `Coming soon` with a
+`--status-neutral` dot + text.
+
+*Acceptance check*: ≥ 11 linking tiles; every status dot paired with text; every
+`target="_blank"` carries `rel="noopener noreferrer"`; `npm test` green.
+
+**F7 — About strip**: dense strip on `--surface` with hairlines; chips 13px,
+radius 4px, 1px `--border`.
+
+*Acceptance check*: ≥ 10 `.chip` items; `npm test` green.
+
+**F8 — Footer**: `--surface`, hairline top; year span per 1.4.
+
+*Acceptance check*: no `fixed-bottom`; socials carry `rel="noopener noreferrer"`;
+`npm test` green.
+
+**F9 — navbar-toggle.js** **(shared, S-F9)**. *Acceptance check*: as S-F9.
+
+**F10 — Breakpoints** **(shared, S-F10)** — no deltas. *Acceptance check*: as S-F10.
+
+**F11 — A11y floor** **(shared, S-F11)**. Pairs (pre-checked): `--fg` on `--bg`
+≈ 13.5:1; `--muted #9aa5ad` on `--bg` ≈ 6:1; `--accent #ffb35c` on `--bg` ≈ 9.5:1;
+`--accent-fg` on `--accent` ≈ 10:1; status colors on `--surface` ≥ 3:1 (UI use)
+with text labels always present.
+
+*Acceptance check*: as S-F11.
+
+**F12 — Demo mock** **(shared, S-F12)** →
+`~/code/homeApps/.atomic/redesign-evidence/variant-3/demo.html`.
+
+---
+
+#### Variant 4 — Deep Ocean (Radix slateDark + cyan)
+
+Grounded in: the Radix dark scale (read from radix-ui/colors `dark.ts`) with a
+cyan accent. Signature: calm blue-tinted ramp, soft tonal depth.
+
+**F1 — Design tokens**:
+
+```css
+:root {
+  --bg: #111113;              /* slateDark page step */
+  --surface: #1b1c1f;         /* ~slateDark3 */
+  --surface-2: #232428;       /* ~slateDark4 */
+  --fg: #eceef0;              /* slateDark12 */
+  --muted: #9ba1a6;           /* slateDark11 */
+  --border: #2b2c31;          /* ~slateDark6 — one hairline draw */
+  --border-strong: #45484f;   /* ~slateDark8 */
+  --accent: #67e8f9; --accent-fg: #062a30;
+  --accent-soft: #16333a;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Inter, sans-serif;
+  --font-mono: ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  --text-13: 0.8125rem; --text-16: 1rem; --text-20: 1.25rem; --text-25: 1.5625rem;
+  --text-31: 1.9375rem; --text-39: 2.4375rem; --text-49: 3.0625rem;
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px; --space-24: 96px;
+  --radius-tile: 10px; --radius-featured: 14px; --radius-chip: 999px;
+  --duration: 180ms; --ease: ease-out;
+}
+```
+
+*Acceptance check*: `npm test` green; canvas `#111113`; zero `prefers-color-scheme`.
+
+**F2 — Base/reset** **(shared, S-F2)** — no deltas. *Acceptance check*: as S-F2.
+
+**F3 — Nav**: sticky; `background: color-mix(in srgb, var(--bg) 85%, transparent)`
++ `backdrop-filter: blur(8px)`; hairline bottom; links sans 14px; active link
+`--accent` cyan.
+
+*Acceptance check*: nav matches treatment on all three pages; S-F3-markup checks
+pass; `npm test` green.
+
+**F4 — Hero**: left-aligned, softer than A: title at `--text-39`; tagline in
+`--muted`; portrait in a rounded square (1px `--border`, radius 14px) with a 1px
+`--accent-soft` inner ring; CTAs accent-filled + ghost.
+
+*Acceptance check*: hero has name, one-liner, portrait, two CTAs; `npm test` green.
+
+**F5 — Featured bento**: featured tiles on `--surface`, hairline, radius 14;
+hover lifts to `--surface-2` + border brightens to `--border-strong`; category
+chips `--accent-soft` bg / `--accent` text. Grocery href EXACTLY `./grocery/`.
+
+*Acceptance check*: exactly 3 `.tile--featured`; third `href="./grocery/"`; zero
+`https://dashinja.github.io/grocery/`; `npm test` green.
+
+**F6 — App gallery**: 1×1 tiles with quiet sans index numerals `04`–`11` (not
+mono — calmer than A); external hrefs annotated. Tetris optional non-link tile.
+
+*Acceptance check*: ≥ 11 linking tiles; `target="_blank"` anchors all carry
+`rel="noopener noreferrer"`; `npm test` green.
+
+**F7 — About strip**: strip on `--surface` with hairlines; chips
+`--accent-soft`/`--accent` pills.
+
+*Acceptance check*: ≥ 10 `.chip` items; `npm test` green.
+
+**F8 — Footer**: `--bg` + hairline top.
+
+*Acceptance check*: no `fixed-bottom`; socials carry `rel="noopener noreferrer"`;
+`npm test` green.
+
+**F9 — navbar-toggle.js** **(shared, S-F9)**. *Acceptance check*: as S-F9.
+
+**F10 — Breakpoints** **(shared, S-F10)** — no deltas. *Acceptance check*: as S-F10.
+
+**F11 — A11y floor** **(shared, S-F11)**. Pairs (pre-checked): `--fg` on `--bg`
+≈ 16:1; `--muted #9ba1a6` on `--bg` ≈ 6.9:1; `--accent #67e8f9` on `--bg` ≈ 10.5:1;
+`--accent-fg` on `--accent` ≈ 11:1; `--accent` text on `--accent-soft` ≥ 4.5:1.
+
+*Acceptance check*: as S-F11.
+
+**F12 — Demo mock** **(shared, S-F12)** →
+`~/code/homeApps/.atomic/redesign-evidence/variant-4/demo.html`.
+
+---
+
+#### Variant 5 — Midnight Editorial (Swiss + serif on ink)
+
+Grounded in: the rejected B's editorial structure re-grounded on dark ink.
+Signature: serif display, big numerals, hairline rules, warm-gold accent.
+
+**F1 — Design tokens**:
+
+```css
+:root {
+  --bg: #0d0d10; --surface: #151519; --surface-2: #1b1b20;
+  --fg: #e8e8ea; --muted: #9a9aa0;
+  --border: #26262c; --border-strong: #3d3d45;
+  --accent: #d4b483; --accent-fg: #1d1409;
+  --font-display: 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --font-sans: ui-sans-serif, system-ui, 'Helvetica Neue', Arial, sans-serif;
+  --text-14: 0.875rem; --text-16: 1rem; --text-19: 1.1875rem; --text-24: 1.5rem;
+  --text-34: 2.125rem; --text-48: 3rem; --text-68: 4.25rem;
+  --space-1: 8px; --space-2: 16px; --space-3: 24px; --space-4: 32px;
+  --space-6: 48px; --space-8: 64px; --space-12: 96px; --space-16: 128px;
+  --maxw-text: 68ch; --maxw-site: 1200px;
+  --radius-tile: 2px; --radius-chip: 999px;
+  --duration: 200ms; --ease: ease;
+}
+```
+
+*Acceptance check*: `npm test` green; canvas `#0d0d10`; zero `prefers-color-scheme`.
+
+**F2 — Base/reset** **(shared, S-F2)** — no deltas. *Acceptance check*: as S-F2.
+
+**F3 — Nav**: plain `var(--bg)` bar, hairline bottom; brand in `--font-display`;
+links sans 14px with generous spacing; active link underlined in `--accent`.
+
+*Acceptance check*: nav matches treatment on all three pages; S-F3-markup checks
+pass; `npm test` green.
+
+**F4 — Hero**: two-column (portrait left ~360px, headline right); headline serif
+at `--text-68` in `--fg`; an italic serif deck line under it in `--muted`; CTAs
+are underlined text links with arrows in `--accent`.
+
+*Acceptance check*: hero has name, one-liner, portrait, two CTAs; `npm test` green.
+
+**F5 — Featured bento**: serif pull-quote intro line above the row; 3 tiles on
+`--surface`, radius 2px, serif gold numerals `01`–`03`; hairline rules between
+rows; hover = title underline draw (linear-gradient background-size 0 → 100%) +
+background lifts to `--surface-2`. Grocery href EXACTLY `./grocery/`.
+
+*Acceptance check*: exactly 3 `.tile--featured`; third `href="./grocery/"`; zero
+`https://dashinja.github.io/grocery/`; `npm test` green.
+
+**F6 — App gallery**: editorial index list — `ol.gallery__list` of
+`li.gallery__row`: big light serif numeral, name (serif `--text-24`), category in
+muted small caps, one-liner, arrow that fades in on hover; hairline
+`border-top: 1px solid var(--border)` between rows; hover = row background tint +
+underline draw. Portfolio groups rows by category with serif category headings +
+status badges (`Live` for all 11; Tetris as a non-link row `Coming soon`).
+
+*Acceptance check*: ≥ 11 linking rows; every `target="_blank"` carries
+`rel="noopener noreferrer"`; Tetris row (if present) has no `href`; `npm test`
+green.
+
+**F7 — About strip**: strip on `--bg` with hairline rules; chips as outlined
+pills (1px `--border`, `--fg` text; hover border `--accent`).
+
+*Acceptance check*: ≥ 10 `.chip` items; `npm test` green.
+
+**F8 — Footer**: `--bg` + hairline rule; year span per 1.4.
+
+*Acceptance check*: no `fixed-bottom`; socials carry `rel="noopener noreferrer"`;
+`npm test` green.
+
+**F9 — navbar-toggle.js** **(shared, S-F9)**. *Acceptance check*: as S-F9.
+
+**F10 — Breakpoints** **(shared, S-F10)** with deltas: gallery rows stack
+vertically below 768px (numeral shrinks, arrow hidden), two-line rows at ≥768px;
+the two-column hero collapses to portrait-on-top below 768px; site max-width
+`--maxw-site: 1200px` centered. *Acceptance check*: as S-F10 plus both deltas
+verified at 1440×900 and 390×844.
+
+**F11 — A11y floor** **(shared, S-F11)**. Pairs (pre-checked): `--fg` on `--bg`
+≈ 15.5:1; `--muted #9a9aa0` on `--bg` ≈ 6.8:1; `--accent #d4b483` on `--bg`
+≈ 9.4:1; `--accent-fg` on `--accent` ≈ 8.5:1.
+
+*Acceptance check*: as S-F11.
+
+**F12 — Demo mock** **(shared, S-F12)** →
+`~/code/homeApps/.atomic/redesign-evidence/variant-5/demo.html`.
+
+---
+
+#### Variant 6 — Phosphor (retro CRT terminal)
+
+Grounded in: retro CRT terminal aesthetics. Signature: mono-first typography,
+faint static scanline texture (reduced-motion safe — no flicker ever).
+
+**F1 — Design tokens**:
+
+```css
+:root {
+  --bg: #101410; --surface: #161c16; --surface-2: #1c241c;
+  --fg: #d9e8d9; --muted: #8fa08f;
+  --border: #243024; --border-strong: #3a4a3a;
+  --accent: #4ade80; --accent-fg: #04170a;
+  --scanline: rgba(0, 0, 0, 0.14);
+  --font-mono: ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  --font-sans: var(--font-mono);
+  --text-13: 0.8125rem; --text-16: 1rem; --text-20: 1.25rem; --text-25: 1.5625rem;
+  --text-31: 1.9375rem;
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px; --space-24: 96px;
+  --radius-tile: 4px; --radius-featured: 6px; --radius-chip: 999px;
+  --duration: 120ms; --ease: linear;
+}
+```
+
+*Acceptance check*: `npm test` green; canvas `#101410`; zero `prefers-color-scheme`.
+
+**F2 — Base/reset** **(shared, S-F2)** with one delta — the STATIC scanline
+texture, appended after the reset:
+
+```css
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent 0 2px, var(--scanline) 2px 4px);
+}
+```
+
+STATIC — no flicker, no animation, ever; it must never animate even with
+reduced-motion off. *Acceptance check*: as S-F2 plus: texture is visible, static,
+and ignores pointer events.
+
+**F3 — Nav**: sticky bar, `background: color-mix(in srgb, var(--bg) 90%,
+transparent)` + `backdrop-filter: blur(8px)`, hairline bottom; brand prefixed
+`$ ` in `--accent`; links mono 12px uppercase.
+
+*Acceptance check*: nav matches treatment on all three pages; S-F3-markup checks
+pass; `npm test` green.
+
+**F4 — Hero**: terminal prompt: kicker line `~/byron-miller $ whoami` in
+`--muted` mono; title at `--text-31` mono uppercase; tagline in `--muted`; CTAs
+accent-filled + ghost; portrait bordered square (radius 4px, 1px `--border`,
+`--accent` border on hover).
+
+*Acceptance check*: hero has name, one-liner, portrait, two CTAs; `npm test` green.
+
+**F5 — Featured bento**: tiles like A but squarer (radius 4/6px); mono index
+`01`–`03`; hover = border brightens to `--border-strong` + background lifts to
+`--surface-2` + arrow nudges. Grocery href EXACTLY `./grocery/`.
+
+*Acceptance check*: exactly 3 `.tile--featured`; third `href="./grocery/"`; zero
+`https://dashinja.github.io/grocery/`; `npm test` green.
+
+**F6 — App gallery**: 1×1 mono tiles `04`–`11`; hover shows a `→` prefix on the
+tile name instead of a nudging arrow (terminal affordance).
+
+*Acceptance check*: ≥ 11 linking tiles; `target="_blank"` anchors all carry
+`rel="noopener noreferrer"`; `npm test` green.
+
+**F7 — About strip**: chips as `[MONGODB]`-style bracketed mono labels, 1px
+`--border`, radius 999px.
+
+*Acceptance check*: ≥ 10 `.chip` items; `npm test` green.
+
+**F8 — Footer**: `--surface`, hairline top; copyright line in mono.
+
+*Acceptance check*: no `fixed-bottom`; socials carry `rel="noopener noreferrer"`;
+`npm test` green.
+
+**F9 — navbar-toggle.js** **(shared, S-F9)**. *Acceptance check*: as S-F9.
+
+**F10 — Breakpoints** **(shared, S-F10)** — no deltas (mono type is wide; verify
+the title fits at 320px). *Acceptance check*: as S-F10.
+
+**F11 — A11y floor** **(shared, S-F11)**. Pairs (pre-checked, measured WITH the
+scanline overlay on): `--fg` on `--bg` ≈ 14:1; `--muted #8fa08f` on `--bg`
+≈ 5.6:1; `--accent #4ade80` on `--bg` ≈ 10:1; `--accent-fg` on `--accent` ≈ 12:1;
+the overlay must not push any pair below 4.5:1.
+
+*Acceptance check*: as S-F11.
+
+**F12 — Demo mock** **(shared, S-F12)** →
+`~/code/homeApps/.atomic/redesign-evidence/variant-6/demo.html` (scanlines are a
+CSS gradient — no external image).
+
+---
+
+#### Variant 7 — Dusk Bento (M3 dark; rework of rejected C, dark-only)
+
+Grounded in: Material 3 dark scheme — the dark half of the rejected C, promoted
+to the ONLY theme, with a violet primary and desaturated category colors.
+
+**F1 — Design tokens**:
+
+```css
+:root {
+  --bg: #131417;
+  --surface: #1a1c21;
+  --surface-container: #22242b;
+  --surface-container-high: #2b2e36;
+  --on-surface: #e4e6eb; --on-surface-variant: #a2a6b0;
+  --outline: #3f424a; --outline-strong: #5b5f6a;
+  --primary: #b6a6ff; --on-primary: #241653; --primary-container: #3a2e6e;
+  --cat-apps: #a5b4ff; --cat-games: #ffb3ab; --cat-ai: #d8baff;
+  --cat-cli: #7cd6cb; --cat-tools: #ffd166;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Inter, sans-serif;
+  --type-display: 3.5625rem; --type-headline: 1.75rem; --type-title-lg: 1.375rem;
+  --type-body: 1rem; --type-label: 0.875rem;
+  --radius-tile: 16px; --radius-featured: 24px; --radius-chip: 999px;
+  --duration: 200ms; --ease: ease-out;
+}
+```
+
+Differences from rejected C: NO `@media (prefers-color-scheme: dark)` block (dark
+is the only theme), fixed type steps instead of `clamp()`, primary re-tuned to
+violet for the dusk mood, category colors desaturated and dark-tuned (hard rule
+2), elevation strictly tonal via the `--surface-container` steps.
+
+*Acceptance check*: `npm test` green; canvas `#131417`; zero `prefers-color-scheme`.
+
+**F2 — Base/reset** **(shared, S-F2)** — no deltas. *Acceptance check*: as S-F2.
+
+**F3 — Nav**: `background: var(--surface)`; active link gets a **pill** state
+(`background: var(--primary-container); border-radius: var(--radius-chip);
+padding: var(--space-1) var(--space-2); color: var(--on-surface)`).
+
+*Acceptance check*: nav matches treatment on all three pages; S-F3-markup checks
+pass; `npm test` green.
+
+**F4 — Hero**: hero as a large `--radius-featured` `--surface-container` card;
+title at `--type-display`; portrait rounded; CTAs filled (`--primary` bg /
+`--on-primary` text) + tonal (`--primary-container` bg / `--on-surface` text).
+
+*Acceptance check*: hero has name, one-liner, portrait, two CTAs; `npm test` green.
+
+**F5 — Featured bento**: featured tiles span 2×2, `--surface-container` bg,
+radius 24; category color dot (`.tile__dot`) + chip on every tile. Grocery href
+EXACTLY `./grocery/`.
+
+*Acceptance check*: exactly 3 `.tile--featured`; third `href="./grocery/"`; zero
+`https://dashinja.github.io/grocery/`; `npm test` green.
+
+**F6 — App gallery**: true bento with varied spans (featured 2×2; others 1×1 or
+2×1); each tile `--surface-container` with category dot + chip; portfolio groups
+tiles under category headings with status badges. Tetris optional non-link tile.
+
+*Acceptance check*: ≥ 11 linking tiles; `target="_blank"` anchors all carry
+`rel="noopener noreferrer"`; `npm test` green.
+
+**F7 — About strip**: strip as a `--surface-container` rounded (16px) band;
+chips `--primary-container` bg / `--on-surface` text.
+
+*Acceptance check*: ≥ 10 `.chip` items; `npm test` green.
+
+**F8 — Footer**: `--surface-container` background; year span per 1.4.
+
+*Acceptance check*: no `fixed-bottom`; socials carry `rel="noopener noreferrer"`;
+`npm test` green.
+
+**F9 — navbar-toggle.js** **(shared, S-F9)**. *Acceptance check*: as S-F9.
+
+**F10 — Breakpoints** **(shared, S-F10)** with deltas: bento spans collapse per
+the shared skeleton (featured full-width below 1024px); content max-width 1200px.
+*Acceptance check*: as S-F10.
+
+**F11 — A11y floor** **(shared, S-F11)**. Pairs (pre-checked): `--on-surface-variant`
+on `--surface` ≈ 6:1; `--primary #b6a6ff` on `--surface` ≈ 8:1; `--on-primary` on
+`--primary` ≥ 4.5:1; each `--cat-*` color on `--surface-container` ≥ 4.5:1
+(re-verify with a contrast calculator if any value is adjusted).
+
+*Acceptance check*: as S-F11.
+
+**F12 — Demo mock** **(shared, S-F12)** →
+`~/code/homeApps/.atomic/redesign-evidence/variant-7/demo.html`.
+
+---
+
+#### Variant 8 — Ember (warm-dark / low-blue)
+
+Grounded in: warm-dark / low-blue night themes. Signature: warm charcoal, cozy
+night reading; no cool-blue grays anywhere.
+
+**F1 — Design tokens**:
+
+```css
+:root {
+  --bg: #16130f; --surface: #1e1a15; --surface-2: #262019;
+  --fg: #ece7de; --muted: #a89f92;
+  --border: #2e2a23; --border-strong: #4a4438;
+  --accent: #f59e0b; --accent-fg: #1d1201;
+  --accent-soft: #2b2013;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Inter, sans-serif;
+  --font-mono: ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  --text-13: 0.8125rem; --text-16: 1rem; --text-20: 1.25rem; --text-25: 1.5625rem;
+  --text-31: 1.9375rem; --text-39: 2.4375rem; --text-49: 3.0625rem;
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px; --space-24: 96px;
+  --radius-tile: 10px; --radius-featured: 14px; --radius-chip: 999px;
+  --duration: 180ms; --ease: ease-out;
+}
+```
+
+*Acceptance check*: `npm test` green; canvas `#16130f`; zero `prefers-color-scheme`.
+
+**F2 — Base/reset** **(shared, S-F2)** — no deltas. *Acceptance check*: as S-F2.
+
+**F3 — Nav**: sticky; `background: color-mix(in srgb, var(--bg) 85%, transparent)`
++ `backdrop-filter: blur(8px)`; hairline bottom; links sans 14px in warm tones;
+active link `--accent` ember.
+
+*Acceptance check*: nav matches treatment on all three pages; S-F3-markup checks
+pass; `npm test` green.
+
+**F4 — Hero**: left-aligned, cozy: title at `--text-39`; tagline in `--muted`;
+portrait in a warm frame (1px `--border`, radius 14px, 1px `--accent-soft` inner
+ring); CTAs ember-filled (`--accent`/`--accent-fg`) + ghost; hover tints use
+warm `--accent-soft` — never cool blue.
+
+*Acceptance check*: hero has name, one-liner, portrait, two CTAs; `npm test` green.
+
+**F5 — Featured bento**: tiles on `--surface`, radius 14; mono index `01`–`03`;
+hover = border brightens to `--border-strong` + lift to `--surface-2` + arrow
+nudges. Grocery href EXACTLY `./grocery/`.
+
+*Acceptance check*: exactly 3 `.tile--featured`; third `href="./grocery/"`; zero
+`https://dashinja.github.io/grocery/`; `npm test` green.
+
+**F6 — App gallery**: 1×1 tiles `04`–`11`, same hover; chips `--accent-soft` bg /
+`--accent` text.
+
+*Acceptance check*: ≥ 11 linking tiles; `target="_blank"` anchors all carry
+`rel="noopener noreferrer"`; `npm test` green.
+
+**F7 — About strip**: strip on `--surface` with hairlines; chips
+`--accent-soft`/`--accent` pills.
+
+*Acceptance check*: ≥ 10 `.chip` items; `npm test` green.
+
+**F8 — Footer**: `--surface` + hairline top.
+
+*Acceptance check*: no `fixed-bottom`; socials carry `rel="noopener noreferrer"`;
+`npm test` green.
+
+**F9 — navbar-toggle.js** **(shared, S-F9)**. *Acceptance check*: as S-F9.
+
+**F10 — Breakpoints** **(shared, S-F10)** — no deltas. *Acceptance check*: as S-F10.
+
+**F11 — A11y floor** **(shared, S-F11)**. Pairs (pre-checked): `--fg` on `--bg`
+≈ 14.5:1; `--muted #a89f92` on `--bg` ≈ 6.5:1; `--accent #f59e0b` on `--bg`
+≈ 9.7:1; `--accent-fg` on `--accent` ≈ 10.5:1; `--accent` text on `--accent-soft`
+≥ 4.5:1.
+
+*Acceptance check*: as S-F11.
+
+**F12 — Demo mock** **(shared, S-F12)** →
+`~/code/homeApps/.atomic/redesign-evidence/variant-8/demo.html`.
+
+---
+
+### 2.5 Variant 1 (Terminal Noir) — already built
+
+Candidate A is BUILT on its branch (issue #20) and implements Parts 0, 1, and the
+shared functions above with its own tokens. It is NOT re-specified here; treat it
+as the structural reference when a variant's step above says "like A".
+
 ---
 
 ## Part 3 — Rollout mechanics
@@ -615,30 +1128,29 @@ pages visually complete at both viewports; no console errors in the browser.
 
 ```bash
 cd ~/code/homeApps/dashinja.github.io
-git branch design/candidate-a master   # repeat for candidate-b, candidate-c
-git worktree add ~/code/dashinja-redesign-worktrees/candidate-a design/candidate-a
+git branch design/variant-2 master   # repeat for variant-3 … variant-8
+git worktree add ~/code/dashinja-redesign-worktrees/variant-2 design/variant-2
 # (spec branch/worktree already exists: design/redesign-spec at ~/code/dashinja-redesign-worktrees/spec)
 ln -s ~/code/homeApps/dashinja.github.io/node_modules \
-      ~/code/dashinja-redesign-worktrees/candidate-a/node_modules
+      ~/code/dashinja-redesign-worktrees/variant-2/node_modules
 ```
 
 The spec itself lives at `redesign/REDESIGN-SPEC.md` on branch
 `design/redesign-spec` in `~/code/dashinja-redesign-worktrees/spec`
 (`docs/` is gitignored — only `redesign/` is tracked for docs).
 
-### 3.2 Commit and push steps (per candidate)
-
-1. Work ONLY inside the candidate worktree; `git status` must show no stray edits
+### 3.2 Commit and push steps (per variant)
+1. Work ONLY inside the variant worktree; `git status` must show no stray edits
    outside `index.html`, `portfolio.html`, `contact.html`, `assets/css/**`,
    `assets/js/navbar-toggle.js`.
-2. Commit with message `Redesign candidate X — <name> (proposal, do not merge)` plus
+2. Commit with message `Redesign variant N — <name> (proposal, do not merge)` plus
    trailers:
    - `Assistant-workflow: <workflow name> (run <runId>)` or `Assistant-workflow: inline`
    - `Assistant-duration: <elapsed> <converged|blocked|abandoned>, estimated <estimate>`
    - `Assistant-verification: vitest static-site passed: npm test` (plus one line per
      screenshot/demo check actually run)
    - `Co-authored-by: Byron Miller <email from git config user.email>`
-3. `git push -u origin design/candidate-X`
+3. `git push -u origin design/variant-N`
 
 ### 3.3 npm test gate
 
@@ -651,13 +1163,13 @@ screenshots, (c) before issue/PR creation. A red gate blocks everything downstre
 Tool: agent-browser against a local server.
 
 ```bash
-cd ~/code/dashinja-redesign-worktrees/candidate-X
+cd ~/code/dashinja-redesign-worktrees/variant-N
 python3 -m http.server 8080 &
 # agent-browser: navigate to http://localhost:8080/index.html and /portfolio.html
 # viewports: desktop 1440×900, mobile 390×844; capture FULL PAGE
 ```
 
-Outputs to `~/code/homeApps/.atomic/redesign-evidence/candidate-X/`:
+Outputs to `~/code/homeApps/.atomic/redesign-evidence/variant-N/`:
 - `after-home-desktop.png`, `after-home-mobile.png`,
   `after-portfolio-desktop.png`, `after-portfolio-mobile.png`
 - Each must be > 20 KB. (Before-shots `before/before-{home,portfolio}-{desktop,mobile}.png`
@@ -671,29 +1183,30 @@ anchors `href="#"`; interactions work per F12.
 
 ### 3.6 Issue authoring (gh ≥ 2.102.0, repeatable `--attach`)
 
-Repo: `dashinja/dashinja.github.io`. Four issues, all as PROPOSALS:
-1. **Master tracking issue** — "Redesign dashinja.github.io: modern app-hub — 3
-   candidates + spec (no merges)". Body: goal, before montage (`--attach
-   before-home-desktop.png --attach before-portfolio-desktop.png`), links to the 3
-   candidate issues + spec PR + 3 candidate PRs, explicit "all proposals, nothing
-   merged, awaiting review".
-2–4. **Candidate A/B/C issues** — concept summary, token table, 4 before + 4 after
-   screenshots attached, demo.html attached, comparison table row, link to its PR.
+Repo: `dashinja/dashinja.github.io`. One issue per variant, all as PROPOSALS:
+1. **Master tracking issue** — "Redesign dashinja.github.io: modern app-hub —
+   dark-only program, 8 variants (no merges)". Body: goal, the 2026-10-27 ruling
+   (B and C rejected), before montage (`--attach before-home-desktop.png --attach
+   before-portfolio-desktop.png`), links to the variant issues + spec PR + variant
+   PRs, explicit "all proposals, nothing merged, awaiting review".
+2–8. **Variant issues (one per variant 2–8)** — concept summary, token table,
+   4 before + 4 after screenshots attached, demo.html attached, comparison table
+   row, link to its PR. (Candidate A / variant 1 already filed: issue #20.)
 Body trailers: `Assistant-workflow:`, `Assistant-duration:`,
 `Assistant-verification:` lines. NEVER use `Closes` in any body.
 
 ### 3.7 PR authoring
 
-- One PR per candidate branch → `master`, title
-  `Redesign candidate X — <name> (proposal, do not merge)`.
+- One PR per variant branch → `master`, title
+  `Redesign variant N — <name> (proposal, do not merge)`.
 - Body: linked issue reference (no `Closes` — "decision pending"), evidence summary
   with screenshots named next to the scenario they prove, verification lines
   (vitest, screenshots, demo check), `Assistant-workflow:` / `Assistant-duration:` /
   `Assistant-verification:` trailers, and `User-preference: user wants candidates
   reviewed before any merge`.
 - Spec PR from `design/redesign-spec` → `master` (docs only).
-- **NEVER-MERGE RULE: no PR is merged. No issue is closed via `Closes`. All four
-  PRs stay open as proposals awaiting human review.**
+- **NEVER-MERGE RULE: no PR is merged. No issue is closed via `Closes`. Every
+  variant PR and the spec PR stay open as proposals awaiting human review.**
 
 ---
 
@@ -705,7 +1218,7 @@ Body trailers: `Assistant-workflow:`, `Assistant-duration:`,
 | 2 | No `https://dashinja.github.io/grocery/` in any of the three pages | Grocery tile/row uses `./grocery/` (index featured, portfolio gallery) |
 | 3 | No `BKocery` string anywhere in the three pages | grep all three pages; also check alt text and comments |
 | 4 | `grocery/index.html` keeps refresh+canonical to `bk_grocery`, no `/grocery/assets/` | File untouched — `git diff master -- grocery/` must be EMPTY |
-| 5 | No `data-theme-toggle`, `data-target="#siteHelpModal"`, `id="siteHelpModal"`, `How this site works` | Nav and footer markup on all three pages; especially Candidate C's theme story (media query only) |
+| 5 | No `data-theme-toggle`, `data-target="#siteHelpModal"`, `id="siteHelpModal"`, `How this site works` | Nav and footer markup on all three pages; no variant ships a theme toggle — dark-only stylesheets |
 | 6 | Every `target="_blank"` anchor has `rel="noopener noreferrer"` in ALL sourceFiles (3 html + 3 untouched Next files) | Social links (nav+footer) and app tiles on all pages; `git diff master -- src/ portfolio-next/` EMPTY |
 | 7 | Exact tag `<script src="./assets/js/navbar-toggle.js"></script>` present | Last line inside `<body>` of each of the three pages |
 | 8 | No `<script src="https://...">`, `jquery`, `popper`, `bootstrap.min.js` | Head of each page: no CDN script tags; grep each forbidden string |
@@ -714,6 +1227,6 @@ Body trailers: `Assistant-workflow:`, `Assistant-duration:`,
 | 11 | `assets/documents/` contains exactly the one resume docx, no `/obsolete/`, no `:` filenames | `git diff master -- assets/documents/` EMPTY; `ls assets/documents` → 1 file |
 | 12 | Every external `<img src="https://...">` in portfolio.html has `referrerpolicy="no-referrer"` | Portfolio gallery: preferred outcome is zero external images; if the Giphy GIF is kept, the attribute is on the `<img>` tag and `https://media0.giphy.com` is in the CSP `img-src` |
 
-Final reviewer pass per candidate: `npm test` green in the worktree, 4 after-
+Final reviewer pass per variant: `npm test` green in the worktree, 4 after-
 screenshots > 20 KB present, demo.html passes F12 checks, commit present on the
 pushed branch, PR open and UNMERGED.
