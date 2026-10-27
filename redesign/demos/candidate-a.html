@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive demo — Terminal Noir (Candidate A)</title>
+    <style>
+      :root {
+        --bg: #0a0a0a;
+        --surface: #111111;
+        --surface-2: #161616;
+        --fg: #ededed;
+        --muted: #a1a1a1;
+        --border: #262626;
+        --border-strong: #3f3f3f;
+        --accent: #5ee6a8;
+        --accent-fg: #05130d;
+        --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, sans-serif;
+        --font-mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, monospace;
+        --speed: 150ms;
+        --ease: ease-out;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { color-scheme: dark; }
+      body {
+        background-color: var(--bg);
+        background-image:
+          linear-gradient(to right, rgba(237, 237, 237, 0.025) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(237, 237, 237, 0.025) 1px, transparent 1px);
+        background-size: 48px 48px;
+        color: var(--fg);
+        font-family: var(--font-sans);
+        font-size: 16px;
+        line-height: 1.6;
+        padding-top: 40px;
+      }
+      a { color: inherit; text-decoration: none; }
+      ul { list-style: none; }
+      h1, h2, h3 { line-height: 1.15; letter-spacing: -0.02em; }
+      h1 { font-size: 49px; }
+      h2 { font-size: 31px; }
+      :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      ::selection { background: var(--accent); color: var(--accent-fg); }
+
+      .demo-banner {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 100;
+        background: var(--accent);
+        color: var(--accent-fg);
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 700;
+        text-align: center;
+        padding: 8px 16px;
+      }
+      .container { max-width: 1120px; margin-inline: auto; padding-inline: 16px; }
+      .section-label {
+        font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--muted); margin-bottom: 24px;
+      }
+      .section-label::before { content: "// "; color: var(--accent); }
+
+      .site-header {
+        position: sticky; top: 0; z-index: 50;
+        background: rgba(10, 10, 10, 0.85);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--border);
+        margin-top: 40px;
+      }
+      .site-nav {
+        max-width: 1120px; margin-inline: auto; padding: 12px 16px;
+        display: flex; align-items: center; gap: 24px;
+      }
+      .brand { font-family: var(--font-mono); font-size: 16px; font-weight: 700; white-space: nowrap; }
+      .brand em { font-style: normal; color: var(--accent); }
+      .nav-menu { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-left: auto; }
+      .nav-menu a {
+        font-family: var(--font-mono); font-size: 13px; color: var(--muted);
+        border-bottom: 1px solid transparent;
+        transition: color var(--speed) var(--ease), border-color var(--speed) var(--ease);
+      }
+      .nav-menu a:hover { color: var(--fg); border-bottom-color: var(--border-strong); }
+      .nav-menu a[aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); }
+      .nav-toggle {
+        display: none; margin-left: auto; background: transparent;
+        border: 1px solid var(--border-strong); border-radius: 8px; color: var(--fg);
+        font-family: var(--font-mono); font-size: 13px; padding: 8px 12px; cursor: pointer;
+      }
+
+      .hero {
+        display: grid; grid-template-columns: 1fr auto; align-items: center;
+        gap: 48px; padding-block: 96px 0;
+      }
+      .hero-kicker { font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin-bottom: 16px; }
+      .hero-deck { font-size: 20px; color: var(--muted); max-width: 32em; margin-bottom: 32px; }
+      .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+      .btn {
+        display: inline-block; font-family: var(--font-mono); font-size: 13px;
+        padding: 12px 24px; border-radius: 8px; border: 1px solid transparent; cursor: pointer;
+        transition: background var(--speed) var(--ease), border-color var(--speed) var(--ease), color var(--speed) var(--ease);
+      }
+      .btn-primary { background: var(--accent); color: var(--accent-fg); font-weight: 700; }
+      .btn-primary:hover { background: #7cefb9; }
+      .btn-ghost { border-color: var(--border-strong); color: var(--fg); }
+      .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+      .portrait {
+        width: 280px; height: 280px; border: 1px solid var(--border-strong);
+        border-radius: 12px; background: var(--surface);
+        display: flex; align-items: center; justify-content: center;
+        font-family: var(--font-mono); font-size: 64px; color: var(--accent);
+      }
+
+      .section { padding-block: 64px 0; }
+      .bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      .bento .span-2 { grid-column: span 2; }
+      .bento .span-all { grid-column: 1 / -1; }
+      .tile {
+        position: relative; display: flex; flex-direction: column; gap: 8px;
+        background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+        padding: 24px; cursor: pointer;
+        transition: border-color var(--speed) var(--ease), background var(--speed) var(--ease);
+      }
+      .tile-featured { border-radius: 12px; padding: 32px; }
+      .tile:hover, .tile:focus-visible { border-color: var(--border-strong); background: var(--surface-2); }
+      .tile-index {
+        position: absolute; top: 12px; right: 16px;
+        font-family: var(--font-mono); font-size: 13px; color: var(--muted); opacity: 0.7;
+      }
+      .tile:hover .tile-index { color: var(--accent); opacity: 1; }
+      .tile-name { font-size: 20px; font-weight: 650; letter-spacing: -0.02em; }
+      .tile-featured .tile-name { font-size: 25px; }
+      .tile-blurb { color: var(--muted); font-size: 16px; }
+      .tile-foot { margin-top: auto; padding-top: 16px; display: flex; align-items: center; gap: 8px; }
+      .tile-arrow {
+        margin-left: auto; font-family: var(--font-mono); color: var(--muted);
+        transition: color var(--speed) var(--ease), transform var(--speed) var(--ease);
+      }
+      .tile:hover .tile-arrow, .tile:focus-visible .tile-arrow { color: var(--accent); transform: translateX(4px); }
+      .chip {
+        display: inline-block; font-family: var(--font-mono); font-size: 11px;
+        letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+        border: 1px solid var(--border); border-radius: 999px; padding: 2px 12px; width: fit-content;
+        transition: border-color var(--speed) var(--ease);
+      }
+      .tile:hover .chip { border-color: var(--border-strong); }
+      .badge {
+        display: inline-block; font-family: var(--font-mono); font-size: 11px;
+        letter-spacing: 0.08em; text-transform: uppercase;
+        border: 1px solid rgba(94, 230, 168, 0.4); border-radius: 999px; padding: 2px 12px;
+        color: var(--accent); width: fit-content;
+      }
+
+      .site-footer { margin-top: 96px; border-top: 1px solid var(--border); padding: 32px 0 48px; }
+      .site-footer .container {
+        display: flex; flex-wrap: wrap; gap: 16px;
+        font-family: var(--font-mono); font-size: 13px; color: var(--muted);
+      }
+      .footer-links { margin-left: auto; display: flex; gap: 16px; }
+      .site-footer a { transition: color var(--speed) var(--ease); }
+      .site-footer a:hover { color: var(--accent); }
+
+      @media (max-width: 900px) {
+        h1 { font-size: 39px; }
+        .hero { grid-template-columns: 1fr; padding-block-start: 64px; }
+        .bento { grid-template-columns: 1fr; }
+        .bento .span-2, .bento .span-all { grid-column: auto; }
+      }
+      @media (max-width: 760px) {
+        .nav-toggle { display: inline-block; }
+        .js .nav-menu {
+          display: none; position: absolute; top: 100%; left: 0; right: 0;
+          flex-direction: column; align-items: stretch; gap: 0;
+          background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px;
+        }
+        .js .nav-menu.open { display: flex; }
+        .js .nav-menu a { display: block; padding: 12px 8px; border-bottom: 1px solid var(--border); }
+        .js .nav-menu li:last-child a { border-bottom: none; }
+        .section { padding-block-start: 48px; }
+        .hero { padding-block-start: 48px; }
+        .portrait { width: 200px; height: 200px; font-size: 48px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { transition-duration: 0.01ms !important; animation: none !important; }
+        .tile:hover .tile-arrow, .tile:focus-visible .tile-arrow { transform: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo-banner" role="note">Interactive demo — all links intentionally inert</div>
+
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Primary">
+        <a class="brand" href="#">byron<em>.</em>miller</a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">menu</button>
+        <ul id="nav-menu" class="nav-menu">
+          <li><a href="#" aria-current="page">index</a></li>
+          <li><a href="#">portfolio</a></li>
+          <li><a href="#">contact</a></li>
+          <li><a href="#">github</a></li>
+          <li><a href="#">linkedin</a></li>
+          <li><a href="#" class="brand" style="border-bottom: 1px solid var(--border-strong); border-radius: 999px; padding: 4px 12px;">resume ↓</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <div>
+          <p class="hero-kicker">$ whoami</p>
+          <h1>Byron Miller</h1>
+          <p class="hero-deck">
+            Full-stack developer and former theatrical master electrician.
+            I build web apps, CLIs, and odd little tools — and I ship them.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#">view portfolio →</a>
+            <a class="btn btn-ghost" href="#">get in touch</a>
+          </div>
+        </div>
+        <div class="portrait" aria-hidden="true">BM</div>
+      </section>
+
+      <section class="section">
+        <p class="section-label">Featured</p>
+        <div class="bento">
+          <a class="tile tile-featured span-2" href="#">
+            <span class="tile-index" aria-hidden="true">01</span>
+            <span class="chip">Flagship app</span>
+            <span class="tile-name">Auntie Kim Dates</span>
+            <span class="tile-blurb">A community dating and social-events brand — events, vibes, and connections, run with heart.</span>
+            <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+          </a>
+          <a class="tile tile-featured" href="#">
+            <span class="tile-index" aria-hidden="true">02</span>
+            <span class="chip">AI</span>
+            <span class="tile-name">AI Agent</span>
+            <span class="tile-blurb">Agentic control deck — the agent doorway.</span>
+            <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+          </a>
+          <a class="tile tile-featured span-all" href="#">
+            <span class="tile-index" aria-hidden="true">03</span>
+            <span class="chip">Web app</span>
+            <span class="tile-name">Atelier Grocery</span>
+            <span class="tile-blurb">Grocery product sync and a storefront theme — inventory in, storefront out.</span>
+            <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="section-label">App gallery</p>
+        <div class="bento" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));">
+          <a class="tile" href="#">
+            <span class="tile-index" aria-hidden="true">04</span>
+            <span class="chip">Web app</span>
+            <span class="tile-name">RecipeCiprocity</span>
+            <span class="tile-blurb">Find a recipe, share it forward.</span>
+            <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+          </a>
+          <a class="tile" href="#">
+            <span class="tile-index" aria-hidden="true">05</span>
+            <span class="chip">Tool</span>
+            <span class="tile-name">Train Scheduler Deluxe</span>
+            <span class="tile-blurb">Timetable math for commuters.</span>
+            <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+          </a>
+          <a class="tile" href="#">
+            <span class="tile-index" aria-hidden="true">06</span>
+            <span class="chip">Web app</span>
+            <span class="tile-name">Notes Node</span>
+            <span class="tile-blurb">A scrappy notes app that remembers.</span>
+            <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+          </a>
+          <a class="tile" href="#">
+            <span class="tile-index" aria-hidden="true">07</span>
+            <span class="chip">CLI</span>
+            <span class="tile-name">Liri Bot</span>
+            <span class="tile-blurb">A Node CLI assistant that takes commands.</span>
+            <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+          </a>
+          <a class="tile" href="#">
+            <span class="tile-index" aria-hidden="true">08</span>
+            <span class="chip">Game</span>
+            <span class="tile-name">Las Horcas</span>
+            <span class="tile-blurb">Hangman with a Spanish accent.</span>
+            <span class="tile-foot"><span class="badge">Live</span><span class="tile-arrow" aria-hidden="true">→</span></span>
+          </a>
+          <a class="tile" href="#">
+            <span class="tile-index" aria-hidden="true">09</span>
+            <span class="chip">CLI</span>
+            <span class="tile-name">Bamazonathon</span>
+            <span class="tile-blurb">CLI storefront, cart to checkout.</span>
+            <span class="tile-foot"><span class="tile-arrow" aria-hidden="true">→</span></span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <span>© 2026 Byron Miller</span>
+        <div class="footer-links">
+          <a href="#">LinkedIn</a>
+          <a href="#">GitHub</a>
+          <a href="#">Resume ↓</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        document.documentElement.classList.add('js');
+        document.addEventListener('click', function (event) {
+          var anchor = event.target instanceof Element ? event.target.closest('a') : null;
+          if (anchor) event.preventDefault();
+        });
+        var toggle = document.querySelector('.nav-toggle');
+        var menu = document.getElementById('nav-menu');
+        if (toggle && menu) {
+          toggle.addEventListener('click', function () {
+            var open = toggle.getAttribute('aria-expanded') !== 'true';
+            toggle.setAttribute('aria-expanded', String(open));
+            menu.classList.toggle('open', open);
+          });
+        }
+      }());
+    </script>
+  </body>
+</html>
