@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ember — Variant 8 interactive demo</title>
+<style>
+  :root {
+    --bg: #16130f;
+    --raised: #1d1a15;
+    --high: #241f18;
+    --band: #201812;
+    --text: #ece5d8;
+    --muted: #b3a894;
+    --accent: #f59e0b;
+    --accent-bright: #fbbf24;
+    --accent-ink: #1c1409;
+    --accent-dim: #7a4f10;
+    --border: #2e2820;
+    --border-strong: #4a3d28;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+  .demo-banner {
+    background: var(--accent);
+    color: var(--accent-ink);
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+  .site-header {
+    position: sticky;
+    top: 0;
+    background: rgba(29, 26, 21, 0.94);
+    border-bottom: 1px solid var(--border);
+  }
+  .site-nav {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .brand { color: var(--text); text-decoration: none; font-size: 1.35rem; font-weight: 700; margin-right: auto; }
+  .brand:hover { color: var(--accent-bright); }
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--raised);
+    color: var(--text);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 0.45rem 0.85rem;
+    font: inherit;
+    cursor: pointer;
+  }
+  .nav-toggle:hover { border-color: var(--accent-dim); }
+  .nav-toggle-bars { display: inline-flex; flex-direction: column; gap: 3px; }
+  .nav-toggle-bars span { width: 18px; height: 2px; background: var(--accent); border-radius: 1px; }
+  .nav-menu { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+  .nav-links { list-style: none; display: flex; align-items: center; gap: 0.5rem; margin: 0; padding: 0; }
+  .nav-pill {
+    display: inline-block;
+    padding: 0.3rem 0.95rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
+  }
+  .nav-pill:hover { color: var(--text); border-color: var(--border-strong); }
+  .nav-pill[aria-current="page"] {
+    color: var(--accent-bright);
+    border-color: var(--accent-dim);
+    background: rgba(245, 158, 11, 0.12);
+  }
+  .nav-pill--accent { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+  .nav-pill--accent:hover { background: var(--accent-bright); border-color: var(--accent-bright); color: var(--accent-ink); }
+  main { max-width: 1080px; margin: 0 auto; padding: 2.5rem 1.25rem 3.5rem; }
+  .kicker { color: var(--accent); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 0.5rem; }
+  h1 { margin: 0 0 0.5rem; font-size: 2.3rem; line-height: 1.2; }
+  .lede { color: var(--muted); margin: 0 0 2rem; }
+  .section-heading { font-size: 1.35rem; margin: 2.5rem 0 1rem; }
+  .tile-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin: 1.25rem 0; }
+  .tile {
+    display: block;
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.4rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: border-color 150ms ease, background-color 150ms ease;
+  }
+  .tile:hover { border-color: var(--border-strong); background: var(--high); }
+  .tile--featured { border-color: var(--accent-dim); }
+  .tile--featured:hover { border-color: var(--accent); }
+  .tile-category { color: var(--accent); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 0.35rem; }
+  .tile-title { margin: 0 0 0.35rem; font-size: 1.15rem; }
+  .tile-blurb { color: var(--muted); margin: 0; font-size: 0.98rem; }
+  .app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin: 1.25rem 0; }
+  .app-card {
+    display: block;
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: border-color 150ms ease, background-color 150ms ease;
+  }
+  .app-card:hover { border-color: var(--border-strong); background: var(--high); }
+  .app-tile--soon { background: transparent; border-style: dashed; }
+  .soon-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent-dim);
+    border-radius: 999px;
+    padding: 0.1rem 0.6rem;
+    margin-bottom: 0.5rem;
+  }
+  .footer-band {
+    background: linear-gradient(180deg, var(--raised) 0%, var(--band) 100%);
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 1.75rem 1.25rem 2rem;
+  }
+  .footer-label { color: var(--accent); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 0.6rem; }
+  .footer-links { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5rem 1.75rem; margin: 0; padding: 0; }
+  .footer-links a { color: var(--muted); text-decoration: none; border-bottom: 1px solid transparent; transition: color 150ms ease, border-color 150ms ease; }
+  .footer-links a:hover { color: var(--text); border-color: var(--accent-dim); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+  @media (max-width: 820px) {
+    .nav-toggle { display: inline-flex; }
+    .nav-menu { display: none; width: 100%; flex-direction: column; align-items: flex-start; gap: 1rem; padding: 0.75rem 0 0.5rem; }
+    .nav-menu.is-open { display: flex; }
+    .nav-links { flex-direction: column; align-items: flex-start; gap: 0.4rem; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="demo-banner" role="note">Interactive demo — all links intentionally inert</div>
+
+<header class="site-header">
+  <nav class="site-nav" aria-label="Primary">
+    <a class="brand" href="#">Byron Miller</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
+      <span class="nav-toggle-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+      Menu
+    </button>
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-links">
+        <li><a class="nav-pill" aria-current="page" href="#">About</a></li>
+        <li><a class="nav-pill" href="#">Portfolio</a></li>
+        <li><a class="nav-pill" href="#">Contact</a></li>
+        <li><a class="nav-pill nav-pill--accent" href="#">Resume</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <p class="kicker">Ember — variant 8</p>
+  <h1>Warm charcoal, cozy night reading</h1>
+  <p class="lede">A warm-dark hub: #16130f ground, #1d1a15 containers, ember #f59e0b on the featured edge, tonal elevation, hairline borders.</p>
+
+  <h2 class="section-heading">Featured</h2>
+  <div class="tile-row">
+    <a class="tile tile--featured" href="#">
+      <p class="tile-category">Flagship app</p>
+      <h3 class="tile-title">Auntie Kim Dates</h3>
+      <p class="tile-blurb">Community dating &amp; social events brand.</p>
+    </a>
+    <a class="tile tile--featured" href="#">
+      <p class="tile-category">AI</p>
+      <h3 class="tile-title">AI Agent</h3>
+      <p class="tile-blurb">Agentic control deck doorway.</p>
+    </a>
+    <a class="tile tile--featured" href="#">
+      <p class="tile-category">Web app</p>
+      <h3 class="tile-title">Atelier Grocery</h3>
+      <p class="tile-blurb">Grocery product sync &amp; storefront theme.</p>
+    </a>
+  </div>
+
+  <h2 class="section-heading">The workshop</h2>
+  <div class="app-grid">
+    <a class="app-card" href="#"><p class="tile-category">Recipe finder</p><h3 class="tile-title">RecipeCiprocity</h3></a>
+    <a class="app-card" href="#"><p class="tile-category">Scheduling tool</p><h3 class="tile-title">Train Scheduler Deluxe</h3></a>
+    <a class="app-card" href="#"><p class="tile-category">Notes app</p><h3 class="tile-title">Notes Node</h3></a>
+    <a class="app-card" href="#"><p class="tile-category">CLI assistant</p><h3 class="tile-title">Liri Bot</h3></a>
+    <a class="app-card" href="#"><p class="tile-category">Game</p><h3 class="tile-title">Las Horcas</h3></a>
+    <a class="app-card" href="#"><p class="tile-category">CLI storefront</p><h3 class="tile-title">Bamazonathon</h3></a>
+    <a class="app-card" href="#"><p class="tile-category">GIF search</p><h3 class="tile-title">Giphy Fun</h3></a>
+    <a class="app-card" href="#"><p class="tile-category">Ordering demo</p><h3 class="tile-title">Them Burgerz Tho</h3></a>
+    <div class="app-card app-tile--soon">
+      <span class="soon-badge">Coming soon</span>
+      <h3 class="tile-title">Tetris</h3>
+      <p class="tile-blurb">In the workshop — not deployed yet.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="footer-band">
+  <p class="footer-label">Featured</p>
+  <ul class="footer-links">
+    <li><a href="#">Auntie Kim Dates</a></li>
+    <li><a href="#">AI Agent</a></li>
+    <li><a href="#">Atelier Grocery</a></li>
+  </ul>
+</footer>
+
+<script>
+  (function () {
+    var anchors = document.querySelectorAll('a[href="#"]');
+    anchors.forEach(function (anchor) {
+      anchor.addEventListener('click', function (event) {
+        event.preventDefault();
+      });
+    });
+
+    var toggle = document.querySelector('.nav-toggle');
+    var menu = document.getElementById('nav-menu');
+    if (toggle && menu) {
+      toggle.addEventListener('click', function () {
+        var open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        menu.classList.toggle('is-open', !open);
+      });
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+          toggle.setAttribute('aria-expanded', 'false');
+          menu.classList.remove('is-open');
+          toggle.focus();
+        }
+      });
+      document.addEventListener('click', function (event) {
+        if (toggle.getAttribute('aria-expanded') !== 'true') return;
+        if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+          toggle.setAttribute('aria-expanded', 'false');
+          menu.classList.remove('is-open');
+        }
+      });
+    }
+  }());
+</script>
+</body>
+</html>

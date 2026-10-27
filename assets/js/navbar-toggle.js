@@ -1,15 +1,32 @@
 (function () {
-  var toggles = document.querySelectorAll('[data-toggle="collapse"][data-target]');
+  var toggle = document.querySelector('.nav-toggle');
+  var menu = document.getElementById('nav-menu');
+  if (!toggle || !menu) return;
 
-  toggles.forEach(function (toggle) {
-    var targetSelector = toggle.getAttribute('data-target');
-    var target = targetSelector ? document.querySelector(targetSelector) : null;
-    if (!target) return;
+  function isOpen() {
+    return toggle.getAttribute('aria-expanded') === 'true';
+  }
 
-    toggle.addEventListener('click', function () {
-      var expanded = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', String(!expanded));
-      target.classList.toggle('show', !expanded);
-    });
+  function setOpen(open) {
+    toggle.setAttribute('aria-expanded', String(open));
+    menu.classList.toggle('is-open', open);
+  }
+
+  toggle.addEventListener('click', function () {
+    setOpen(!isOpen());
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && isOpen()) {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+
+  document.addEventListener('click', function (event) {
+    if (!isOpen()) return;
+    if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+      setOpen(false);
+    }
   });
 }());
