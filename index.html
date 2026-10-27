@@ -1,187 +1,200 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://stackpath.bootstrapcdn.com https://use.fontawesome.com; font-src 'self' https://use.fontawesome.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="./assets/css/index.css" />
-
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; img-src 'self' data:; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <link rel="stylesheet" href="./assets/css/redesign.css" />
     <title>About - Byron Miller</title>
   </head>
-
-  <body id="index-page" class="bg-dark text-light">
-    <!-- -------Nav Bar------- -->
-  <div class="container w-100 navbar-expand-lg px-0">
-    <!--
-                      <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom">
-                    -->
-    <nav
-      class="navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom mx-md-auto">
-      <a class="navbar-brand pl-md-3 h1 mx-auto" href="./index.html">
-        <h1 class="display-3 sm-text-center">Byron Miller</h1>
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse"
-        data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end mr-2"
-        id="navbarNavAltMarkup">
-        <div class="navbar-nav mr-0">
-          <!--Social Media Icons-->
-          <ul class="list-inline text-center mx-sm-auto mt-2 mr-lg-4">
-            <li class="list-inline-item">
-              <a href="https://www.linkedin.com/in/millerbyron/" target="_blank" rel="noopener noreferrer">
-                <span class="fa-stack fa-lg">
-                  <i class="fab fa-linkedin fa-stack-2x fa-inverse"></i>
-                </span>
+  <body>
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Primary">
+        <a class="brand" href="./index.html">Byron Miller</a>
+        <button
+          class="nav-toggle"
+          type="button"
+          data-nav-toggle
+          aria-controls="primary-nav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </button>
+        <div class="nav-panel" id="primary-nav">
+          <ul class="nav-links">
+            <li><a href="./index.html" aria-current="page">About</a></li>
+            <li><a href="./portfolio.html">Portfolio</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+            <li><a class="nav-cta" href="https://dashinja.github.io/auntieKimDates/">Auntie Kim Dates</a></li>
+            <li><a href="./assets/documents/Byron_Miller_Resume_vc_techOnly_vari_ec_2024_03_18.docx" download>Resume</a></li>
+          </ul>
+          <ul class="nav-social">
+            <li>
+              <a href="https://www.linkedin.com/in/millerbyron/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.2 8h4.6v14.8H.2V8zm7.6 0h4.4v2h.06c.62-1.16 2.12-2.4 4.36-2.4 4.66 0 5.52 3.06 5.52 7.04v8.16h-4.6v-7.24c0-1.72-.04-3.94-2.4-3.94-2.4 0-2.78 1.88-2.78 3.82v7.36H7.8V8z"/></svg>
               </a>
             </li>
-  
-            <li class="list-inline-item">
-              <a href="https://github.com/dashinja" target="_blank" rel="noopener noreferrer">
-                <span class="fa-stack fa-lg">
-                  <i class="fab fa-github fa-stack-2x fa-inverse"></i>
-                </span>
+            <li>
+              <a href="https://github.com/dashinja" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.26.8-.58v-2.04c-3.34.72-4.04-1.6-4.04-1.6-.54-1.4-1.34-1.76-1.34-1.76-1.08-.74.08-.72.08-.72 1.2.08 1.84 1.24 1.84 1.24 1.07 1.84 2.8 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.66-.3-5.46-1.34-5.46-5.96 0-1.32.46-2.4 1.24-3.24-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.24a11.5 11.5 0 0 1 6 0c2.28-1.56 3.28-1.24 3.28-1.24.66 1.66.26 2.88.12 3.18.78.84 1.24 1.92 1.24 3.24 0 4.64-2.8 5.66-5.48 5.96.44.36.8 1.08.8 2.18v3.24c0 .32.2.7.82.58A12 12 0 0 0 12 .3z"/></svg>
               </a>
             </li>
           </ul>
-          <!--Internal Navigation-->
-          <div class="navbar-nav mx-auto mt-1">
-            <a class="nav-item nav-link active" href="./index.html">
-              <h3>About Me</h3>
-              <span class="sr-only">(current)</span>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <span class="eyebrow">App hub</span>
+            <h1>Byron Miller, <span class="accent">full-stack developer</span></h1>
+            <p class="hero-lede">
+              Builder of web apps, agent tooling, and community platforms. Every
+              project below is live — browse the bento and pick a door.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="./portfolio.html">View portfolio</a>
+              <a class="btn" href="./contact.html">Contact</a>
+            </div>
+          </div>
+          <div class="hero-portrait">
+            <img src="./assets/images/squaremeup.png" alt="Byron's Headshot" />
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <h2>Featured</h2>
+            <p>Flagship work, live now</p>
+          </div>
+          <div class="bento-featured">
+            <a class="tile tile-featured" href="https://dashinja.github.io/auntieKimDates/" target="_blank" rel="noopener noreferrer">
+              <div class="tile-mono"><span>AK</span></div>
+              <div class="tile-body">
+                <span class="badge badge-flagship">Flagship app</span>
+                <h3>Auntie Kim Dates</h3>
+                <p>Community dating &amp; social events brand</p>
+              </div>
             </a>
-            <a class="nav-item nav-link" href="./portfolio.html">
-              <h3>Portfolio</h3>
+            <a class="tile tile-featured" href="https://agent.dashinja.com/" target="_blank" rel="noopener noreferrer">
+              <div class="tile-mono"><span>AI</span></div>
+              <div class="tile-body">
+                <span class="badge badge-ai">AI</span>
+                <h3>AI Agent</h3>
+                <p>Agentic control deck — agent.dashinja.com doorway</p>
+              </div>
             </a>
-            <a class="nav-item nav-link" href="https://dashinja.github.io/auntieKimDates/">
-              <h3>Auntie Kim Dates</h3>
-            </a>
-            <a class="nav-item nav-link" href="https://agent.dashinja.com/">
-              <h3>AI Agent</h3>
-            </a>
-            <a class="nav-item nav-link"
-              href="./assets/documents/Byron_Miller_Resume_vc_techOnly_vari_ec_2024_03_18.docx"
-              download>
-              <h3>Resume</h3>
+            <a class="tile tile-featured" href="./grocery/">
+              <div class="tile-mono"><span>AG</span></div>
+              <div class="tile-body">
+                <span class="badge badge-web">Web app</span>
+                <h3>Atelier Grocery</h3>
+                <p>Grocery product sync &amp; storefront theme</p>
+              </div>
             </a>
           </div>
         </div>
-      </div>
-    </nav>
-  </div
+      </section>
 
-    <!-- -------Portfolio Area---------- -->
-    <div
-      class="container bg-secondary rounded mt-2 mb-5 mx-md-auto my-md-4 px-md-5 py-md-3 w-100"
-    >
-      <section class="row"><header class="font-weight-bold"></header></section>
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <h2>Full gallery</h2>
+            <p>11 apps and counting</p>
+          </div>
+          <div class="bento-grid">
+            <a class="tile" href="https://dashinja.github.io/recipeciprocity/" target="_blank" rel="noopener noreferrer">
+              <div class="tile-media"><img src="./assets/images/recipeciprocity.png" alt="Recipeciprocity" loading="lazy" /></div>
+              <div class="tile-body">
+                <span class="badge badge-web">Web app</span>
+                <h3>RecipeCiprocity</h3>
+                <p>Recipe finder</p>
+              </div>
+            </a>
+            <a class="tile" href="https://dashinja.github.io/trainSchedulerDeluxe/" target="_blank" rel="noopener noreferrer">
+              <div class="tile-media"><img src="./assets/images/train.jpg" alt="Train Scheduler Deluxe" loading="lazy" /></div>
+              <div class="tile-body">
+                <span class="badge badge-tool">Tool</span>
+                <h3>Train Scheduler Deluxe</h3>
+                <p>Scheduling tool</p>
+              </div>
+            </a>
+            <a class="tile" href="https://dashinja.github.io/notes-node/" target="_blank" rel="noopener noreferrer">
+              <div class="tile-media"><img src="./assets/images/crayon_alt.png" alt="Notes Node" loading="lazy" /></div>
+              <div class="tile-body">
+                <span class="badge badge-tool">Tool</span>
+                <h3>Notes Node</h3>
+                <p>Notes app</p>
+              </div>
+            </a>
+            <a class="tile" href="https://dashinja.github.io/liri/" target="_blank" rel="noopener noreferrer">
+              <div class="tile-media"><img src="./assets/images/housethreads.jpg" alt="Liri Bot" loading="lazy" /></div>
+              <div class="tile-body">
+                <span class="badge badge-cli">CLI</span>
+                <h3>Liri Bot</h3>
+                <p>CLI assistant (Node)</p>
+              </div>
+            </a>
+            <a class="tile" href="https://dashinja.github.io/lashorcas/" target="_blank" rel="noopener noreferrer">
+              <div class="tile-media"><img src="./assets/images/las_horcas.png" alt="Las Horcas" loading="lazy" /></div>
+              <div class="tile-body">
+                <span class="badge badge-game">Game</span>
+                <h3>Las Horcas</h3>
+                <p>Game</p>
+              </div>
+            </a>
+            <a class="tile" href="https://dashinja.github.io/bamazonathon/" target="_blank" rel="noopener noreferrer">
+              <div class="tile-media"><img src="./assets/images/bamazonathon.jpg" alt="Bamazonathon" loading="lazy" /></div>
+              <div class="tile-body">
+                <span class="badge badge-cli">CLI</span>
+                <h3>Bamazonathon</h3>
+                <p>CLI storefront</p>
+              </div>
+            </a>
+            <a class="tile" href="https://dashinja.github.io/giphy/" target="_blank" rel="noopener noreferrer">
+              <div class="tile-media"><img src="./assets/images/sapphire_PNG13.png" alt="Giphy Fun" loading="lazy" /></div>
+              <div class="tile-body">
+                <span class="badge badge-tool">Tool</span>
+                <h3>Giphy Fun</h3>
+                <p>GIF search</p>
+              </div>
+            </a>
+            <a class="tile" href="https://dashinja.github.io/themburgerztho/" target="_blank" rel="noopener noreferrer">
+              <div class="tile-media"><img src="./assets/images/burger-photo.jpg" alt="Them Burgerz Tho" loading="lazy" /></div>
+              <div class="tile-body">
+                <span class="badge badge-web">Web app</span>
+                <h3>Them Burgerz Tho</h3>
+                <p>Ordering demo</p>
+              </div>
+            </a>
+            <div class="tile tile-soon" aria-disabled="true">
+              <div class="tile-mono"><span>T</span></div>
+              <div class="tile-body">
+                <span class="badge badge-game">Coming soon</span>
+                <h3>Tetris</h3>
+                <p class="soon-note">In deploy — tile will link once live</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
 
-      <!-- -Divider- -->
-      <div class="row">
-        <hr class=" border border-light w-100 mx-md-0 mx-3" />
-      </div>
-
-      <!-- --Main Area-- -->
-      <div class="row">
-        <section class="m-md-auto mx-3">
-          <img
-            src="assets/images/squaremeup.png"
-            alt="Byron's Headshot"
-            class="img-fluid float-left mr-4 mb-3 rounded w-25 shadow-lg"
-          />
-          <article class="ml-md-2 mx-sm-2 float-none justify-conten p-2">
-            <h4>
-              The Developer Previously Known as:
-              The Master of Electricity
-            </h4>
-            <p class="lead justify-content">
-
-              I graduated from Davidson College in 2009, having majored in the
-              Art and Science of being Myself. I also left with a piece of paper
-              reading 'Spanish Literature', that is, if you could read the
-              Latin.
-            </p>
-
-            <p>
-              I've been sharpening my programming axe for 3 years, beginning
-              with Ruby, transitioning to Javascript, and most recently
-              culminating in a three month intensive bootcamp focused on a full
-              stack approach to Javascript (MERN).
-            </p>
-
-            <p>
-              As if the MERN stack wasn't enough, I drank the GraphQL Kool-Aid
-              as an alternative to RESTful APIs and am cutting my teeth in that
-              wide open landscape.
-            </p>
-            <p>
-              I enjoy learning new technologies for real-world applications that
-              manifest as improvements to quality of life for all - whether for
-              business or personal needs. I believe design and functionality
-              should engage the user and simplify decision making.
-            </p>
-            <p>
-              Coding is like water. You have to drink it everyday. ... I love
-              water.
-            </p>
-
-            <p>
-              Furthermore: I have background in the entertainment industry as a
-              master electrician (theatrical), lighting department director,
-              lighting designer, lighting console programmer, and stage manager
-              as well. Understanding a client's dream, translating that into the
-              technical language of the trade, and executing on that knowledge
-              has been common place and a daily occurrence.
-            </p>
-            <p>
-              Getting to the heart of what a client wants and needs is in my
-              blood. Delivery flows from there.
-            </p>
-
-            <p>
-              MongoDb | ExpressJS | ReactJS | NodeJS | jQuery | Semantic HTML5 |
-              CSS | Vanilla JavaScript | GraphQL | Prisma ORM | MySQL | APIs
-            </p>
-
-            <p>In addition to coding I enjoy:</p>
-            <ul>
-              <li>Learning</li>
-              <li>Thinking</li>
-              <li>Reading</li>
-              <li>Conversation</li>
-              <li>Eating</li>
-              <li>Sleeping</li>
-            </ul>
-            <p>
-              I also want to get back into Tennis one day soon!
-            </p>
-
-          </article>
-        </section>
-      </div>
-    </div>
-    <footer class="row mx-auto w-100 fixed-bottom mt-4">
-      <div class="card-footer bg-dark col text-center text-muted">
-        Copyright ©
+    <footer class="site-footer">
+      <div class="container">
+        <span>Byron Miller — app hub</span>
+        <span>Copyright ©</span>
       </div>
     </footer>
-  </body>
 
-  <script src="./assets/js/navbar-toggle.js"></script>
+    <script src="./assets/js/navbar-toggle.js"></script>
+  </body>
 </html>
